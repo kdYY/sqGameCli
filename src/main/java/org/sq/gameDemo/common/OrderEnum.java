@@ -1,29 +1,25 @@
 package org.sq.gameDemo.common;
 
-import com.google.protobuf.MessageLite;
-import org.sq.gameDemo.common.proto.MessageProto;
-import org.sq.gameDemo.common.proto.UserProto;
-
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-
 public enum OrderEnum {
-    ErrOrder("errOrder",101, MessageProto.Msg.class),
-    SvrErr("svrErr", 102, MessageProto.Msg.class),
-    Help("help", 103, MessageProto.Msg.class),
-    Register("register",104, UserProto.User.class),
-    Login("login", 105, UserProto.User.class),
-    BindRole("bindRole", 106, MessageProto.Msg.class),
-    GetRole("getRoleMsg", 107, MessageProto.Msg.class)
+    ErrOrder("errOrder",101 ),
+    SvrErr("svrErr", 102 ),
+    Help("help", 103 ),
+    Register("register",104 ),
+    Login("login", 105 ),
+    BindRole("bindRole", 106 ),
+    GetRole("getRoleMsg", 107 ),
+    CheckToken("checkToken", 108),
+    Aoi("aoi", 109),
+    Move("move",  110),
+    TalkWithNpc("talkwithnpc", 111),
     ;
 
     private String order;
     private short orderCode;
-    private Class messageLiteClazz;
-    OrderEnum(String order, int orderCode, Class messageLiteClazz) {
+    OrderEnum(String order, int orderCode) {
         this.order = order;
         this.orderCode = (short) orderCode;
-        this.messageLiteClazz = messageLiteClazz;
+        //this.messageLiteClazz = messageLiteClazz;
     }
 
     public static short getOrderCode(String order) {
@@ -49,36 +45,36 @@ public enum OrderEnum {
         return null;
     }
 
-    public Class getMessageLiteClazz() {
-        return messageLiteClazz;
-    }
+    //public Class getMessageLiteClazz() {
+//        return messageLiteClazz;
+//    }
 
     public short getOrderCode() {
         return orderCode;
     }
 
-    public static Object getMessageLiteByCode(short orderCode) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
-        for (OrderEnum orderEnum : OrderEnum.values()) {
-            if(orderEnum.getOrderCode() == orderCode) {
-                Constructor constructor = orderEnum.getMessageLiteClazz().getDeclaredConstructor();
-                constructor.setAccessible(true);
-                return constructor.newInstance();
-            }
-        }
-        return null;
-    }
+//    public static Object getMessageLiteByCode(short orderCode) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+//        for (OrderEnum orderEnum : OrderEnum.values()) {
+//            if(orderEnum.getOrderCode() == orderCode) {
+//                Constructor constructor = orderEnum.getMessageLiteClazz().getDeclaredConstructor();
+//                constructor.setAccessible(true);
+//                return constructor.newInstance();
+//            }
+//        }
+//        return null;
+//    }
 
     //    if (msg instanceof MessageProto.Msg) {
 //        messageType = 0x00;
 //    }
-    public static short getCodeByMessageLite(MessageLite msg) {
-        for (OrderEnum orderEnum : OrderEnum.values()) {
-            if(msg.getClass() == orderEnum.getMessageLiteClazz()) {
-                return orderEnum.getOrderCode();
-            }
-        }
-        return -1;
-    }
+//    public static short getCodeByMessageLite(MessageLite msg) {
+//        for (OrderEnum orderEnum : OrderEnum.values()) {
+//            if(msg.getClass() == orderEnum.getMessageLiteClazz()) {
+//                return orderEnum.getOrderCode();
+//            }
+//        }
+//        return -1;
+//    }
 
 
     public static OrderEnum getOrderEnumByOrder(String order) {

@@ -2,10 +2,10 @@ package org.sq.gameDemo.svr.common;
 
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.ss.usermodel.Row;
-import org.sq.gameDemo.common.proto.EntityProto;
-import org.sq.gameDemo.svr.game.scene.model.GameScene;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -62,7 +62,6 @@ public class PoiUtil {
                 }catch (Exception e) {
                     throw new Exception("该路径下 " + file.getPath() + " 文件内容有誤");
                 }
-
             }
             return excelData;
         } catch (IOException e) {
@@ -184,22 +183,12 @@ public class PoiUtil {
 
     private static boolean checkRow(Row row, int rowNum, Map<String, Method> setMethod) {
         int lastCellNum = row.getLastCellNum() & '\uffff'; //盗poi的...
-        if(lastCellNum != setMethod.keySet().size()) {
+        if(lastCellNum > setMethod.keySet().size()) {
             return false;
         }
         return true;
     }
 
-    public static void main(String[] args) {
-        try {
-            List<EntityProto.Entity> list = readExcel("C:\\code\\git\\src\\main\\resources\\entity.xls", 0, EntityProto.Entity.class);
-            list.forEach(sence->{
-                System.out.println(sence.getName());
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
 
 

@@ -5,6 +5,7 @@ import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Component;
 import org.sq.gameDemo.cli.service.SendOrderService;
 import org.sq.gameDemo.common.entity.MsgEntity;
 import org.sq.gameDemo.common.OrderEnum;
@@ -12,23 +13,22 @@ import org.sq.gameDemo.svr.common.PoiUtil;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Scanner;
 
-
+@Component
 public class GameCli {
 
-    private static SendOrderService sendOrderService = new SendOrderService();
-    private static final Logger log = Logger.getLogger(GameCli.class);
-    private static Bootstrap b;
-    private static ChannelFuture f;
-    private static final EventLoopGroup workerGroup = new NioEventLoopGroup();
+    private  SendOrderService sendOrderService = new SendOrderService();
+    private  final Logger log = Logger.getLogger(GameCli.class);
+    private  Bootstrap b;
+    private  ChannelFuture f;
+    private  final EventLoopGroup workerGroup = new NioEventLoopGroup();
 
-    private static String token = null;
+    private static String token;
 
     /**
      * 初始化客户端
      */
-    private static void init () {
+    public  void init() {
         try {
             b = new Bootstrap();
             b.group(workerGroup).remoteAddress("127.0.0.1", 8085);
@@ -36,33 +36,14 @@ public class GameCli {
             b.option(ChannelOption.SO_KEEPALIVE, true);
             b.handler(new CliChannelInitializer());
             f = b.connect().sync();
+            //readToken();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-
-    public static void main(String[] args) throws InterruptedException {
-        init();
-        readToken();
-        Scanner scanner = new Scanner(System.in);
-        String line = "";
-        while (scanner.hasNext()) {
-            try {
-                line = scanner.nextLine();
-                GameCli.sendMsg(line);
-               // line = "";
-            } catch (Exception e) {
-                log.error(e.getMessage());
-                e.printStackTrace();
-                //关闭连接
-                f.channel().close().sync();
-            }
-        }
-
-    }
-
-    private static void readToken() throws InterruptedException {
+    private void readToken() throws InterruptedException {
+        System.out.println("登陆校验中");
         InputStream in = PoiUtil.class.getClassLoader().getResourceAsStream("token");
         byte b[] = new byte[1024];
         int len = 0;
@@ -81,12 +62,12 @@ public class GameCli {
                 e.printStackTrace();
             }
         }
-        if(len <= 0) {
-            System.out.println("请先登录");
-        } else {
-            token = new String(b, 0, len);
-            sendMsg("checkToken token=" + token);
-        }
+//        if(len <= 0) {
+//            System.out.println("请先登录");
+//        } else {
+//            token = new String(b, 0, len);
+//            sendMsg("checkToken token=" + token);
+//        }
 
     }
 
@@ -95,54 +76,74 @@ public class GameCli {
      * @param send
      * @return
      */
-    public static void sendMsg(String send) throws InterruptedException {
+    public  void sendMsg(String send) throws Exception {
         // 传数据给服务端
+
         MsgEntity sendMsgEntity = sendMsgEntity(send);
         if(sendMsgEntity == null) {
-
             return;
         }
         f.channel().writeAndFlush(sendMsgEntity);
     }
 
-    private static MsgEntity sendMsgEntity(String request) {
-
-        //register name=kevins&password=123456
-        //login name=kevins&password=123456
-        //move sence=1
-        //
+    private MsgEntity sendMsgEntity(String request) throws Exception{
+        //eg: register name=kevins&password=123456
         if(request == null || request.equals("")) {
             return null;
         }
         String[] input = request.split(" ");
         MsgEntity msgEntity = new MsgEntity();
-        if(input == null || input.length == 0)
+        if(input == null || input.length == 0) {
             return null;
+        }
         OrderEnum orderEnum = OrderEnum.getOrderEnumByOrder(input[0]);
         msgEntity.setCmdCode(orderEnum.getOrderCode());
-
         switch (orderEnum) {
             case Register:
                 sendOrderService.register(msgEntity, input);
-                break;
+                return msgEntity;
             case Login:
                 sendOrderService.login(msgEntity, input);
-                break;
-//            case GetRole:
-//                break;
-            case BindRole:
-                sendOrderService.bindRole(msgEntity, input);
-                break;
+                return msgEntity;
             case Help:
                 sendOrderService.help();
                 return null;
             case ErrOrder:
                 System.out.println("输入指令有误");
                 return null;
+        }
+        //拦截
+        if(token == null || token.length() == 0) {
+            System.out.println("请先登录");
+            return null;
+        }
+
+        switch (orderEnum) {
+            case BindRole:
+                sendOrderService.bindRole(msgEntity, input);
+                break;
+            case Aoi:
+                sendOrderService.aoi(msgEntity);
+                break;
+            case Move:
+                sendOrderService.move(msgEntity,input);
+                break;
+            case TalkWithNpc:
+                sendOrderService.talkToNpc(msgEntity, input);
             default:break;
         }
         return msgEntity;
     }
 
+    public ChannelFuture getFuture() {
+        return f;
+    }
 
+    public static String getToken() {
+        return token;
+    }
+
+    public static void  setToken(String token1) {
+        token = token1;
+    }
 }

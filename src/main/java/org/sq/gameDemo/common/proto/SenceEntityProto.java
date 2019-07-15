@@ -3,8 +3,8 @@
 
 package org.sq.gameDemo.common.proto;
 
-public final class EntityProto {
-  private EntityProto() {}
+public final class SenceEntityProto {
+  private SenceEntityProto() {}
   public static void registerAllExtensions(
       com.google.protobuf.ExtensionRegistryLite registry) {
   }
@@ -43,28 +43,28 @@ public final class EntityProto {
     int getState();
 
     /**
-     * <code>repeated .EntityType type = 5;</code>
+     * <code>int32 typeId = 5;</code>
      */
-    java.util.List<EntityTypeProto.EntityType>
-        getTypeList();
+    int getTypeId();
+
     /**
-     * <code>repeated .EntityType type = 5;</code>
+     * <code>repeated string npcWord = 6;</code>
      */
-    org.sq.gameDemo.common.proto.EntityTypeProto.EntityType getType(int index);
+    java.util.List<String>
+        getNpcWordList();
     /**
-     * <code>repeated .EntityType type = 5;</code>
+     * <code>repeated string npcWord = 6;</code>
      */
-    int getTypeCount();
+    int getNpcWordCount();
     /**
-     * <code>repeated .EntityType type = 5;</code>
+     * <code>repeated string npcWord = 6;</code>
      */
-    java.util.List<? extends EntityTypeProto.EntityTypeOrBuilder>
-        getTypeOrBuilderList();
+    String getNpcWord(int index);
     /**
-     * <code>repeated .EntityType type = 5;</code>
+     * <code>repeated string npcWord = 6;</code>
      */
-    org.sq.gameDemo.common.proto.EntityTypeProto.EntityTypeOrBuilder getTypeOrBuilder(
-            int index);
+    com.google.protobuf.ByteString
+        getNpcWordBytes(int index);
   }
   /**
    * <pre>
@@ -83,7 +83,7 @@ public final class EntityProto {
       super(builder);
     }
     private SenceEntity() {
-      type_ = java.util.Collections.emptyList();
+      npcWord_ = com.google.protobuf.LazyStringArrayList.EMPTY;
     }
 
     @Override
@@ -137,13 +137,18 @@ public final class EntityProto {
               state_ = input.readInt32();
               break;
             }
-            case 42: {
+            case 40: {
+
+              typeId_ = input.readInt32();
+              break;
+            }
+            case 50: {
+              String s = input.readStringRequireUtf8();
               if (!((mutable_bitField0_ & 0x00000001) != 0)) {
-                type_ = new java.util.ArrayList<EntityTypeProto.EntityType>();
+                npcWord_ = new com.google.protobuf.LazyStringArrayList();
                 mutable_bitField0_ |= 0x00000001;
               }
-              type_.add(
-                  input.readMessage(org.sq.gameDemo.common.proto.EntityTypeProto.EntityType.parser(), extensionRegistry));
+              npcWord_.add(s);
               break;
             }
             default: {
@@ -162,7 +167,7 @@ public final class EntityProto {
             e).setUnfinishedMessage(this);
       } finally {
         if (((mutable_bitField0_ & 0x00000001) != 0)) {
-          type_ = java.util.Collections.unmodifiableList(type_);
+          npcWord_ = npcWord_.getUnmodifiableView();
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -170,13 +175,13 @@ public final class EntityProto {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return EntityProto.internal_static_SenceEntity_descriptor;
+      return SenceEntityProto.internal_static_SenceEntity_descriptor;
     }
 
     @Override
     protected FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return EntityProto.internal_static_SenceEntity_fieldAccessorTable
+      return SenceEntityProto.internal_static_SenceEntity_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               SenceEntity.class, Builder.class);
     }
@@ -221,39 +226,42 @@ public final class EntityProto {
       return state_;
     }
 
-    public static final int TYPE_FIELD_NUMBER = 5;
-    private java.util.List<EntityTypeProto.EntityType> type_;
+    public static final int TYPEID_FIELD_NUMBER = 5;
+    private int typeId_;
     /**
-     * <code>repeated .EntityType type = 5;</code>
+     * <code>int32 typeId = 5;</code>
      */
-    public java.util.List<EntityTypeProto.EntityType> getTypeList() {
-      return type_;
+    public int getTypeId() {
+      return typeId_;
+    }
+
+    public static final int NPCWORD_FIELD_NUMBER = 6;
+    private com.google.protobuf.LazyStringList npcWord_;
+    /**
+     * <code>repeated string npcWord = 6;</code>
+     */
+    public com.google.protobuf.ProtocolStringList
+        getNpcWordList() {
+      return npcWord_;
     }
     /**
-     * <code>repeated .EntityType type = 5;</code>
+     * <code>repeated string npcWord = 6;</code>
      */
-    public java.util.List<? extends EntityTypeProto.EntityTypeOrBuilder>
-        getTypeOrBuilderList() {
-      return type_;
+    public int getNpcWordCount() {
+      return npcWord_.size();
     }
     /**
-     * <code>repeated .EntityType type = 5;</code>
+     * <code>repeated string npcWord = 6;</code>
      */
-    public int getTypeCount() {
-      return type_.size();
+    public String getNpcWord(int index) {
+      return npcWord_.get(index);
     }
     /**
-     * <code>repeated .EntityType type = 5;</code>
+     * <code>repeated string npcWord = 6;</code>
      */
-    public org.sq.gameDemo.common.proto.EntityTypeProto.EntityType getType(int index) {
-      return type_.get(index);
-    }
-    /**
-     * <code>repeated .EntityType type = 5;</code>
-     */
-    public org.sq.gameDemo.common.proto.EntityTypeProto.EntityTypeOrBuilder getTypeOrBuilder(
-        int index) {
-      return type_.get(index);
+    public com.google.protobuf.ByteString
+        getNpcWordBytes(int index) {
+      return npcWord_.getByteString(index);
     }
 
     private byte memoizedIsInitialized = -1;
@@ -282,8 +290,11 @@ public final class EntityProto {
       if (state_ != 0) {
         output.writeInt32(4, state_);
       }
-      for (int i = 0; i < type_.size(); i++) {
-        output.writeMessage(5, type_.get(i));
+      if (typeId_ != 0) {
+        output.writeInt32(5, typeId_);
+      }
+      for (int i = 0; i < npcWord_.size(); i++) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 6, npcWord_.getRaw(i));
       }
       unknownFields.writeTo(output);
     }
@@ -310,9 +321,17 @@ public final class EntityProto {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(4, state_);
       }
-      for (int i = 0; i < type_.size(); i++) {
+      if (typeId_ != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(5, type_.get(i));
+          .computeInt32Size(5, typeId_);
+      }
+      {
+        int dataSize = 0;
+        for (int i = 0; i < npcWord_.size(); i++) {
+          dataSize += computeStringSizeNoTag(npcWord_.getRaw(i));
+        }
+        size += dataSize;
+        size += 1 * getNpcWordList().size();
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -337,8 +356,10 @@ public final class EntityProto {
           != other.getNum()) return false;
       if (getState()
           != other.getState()) return false;
-      if (!getTypeList()
-          .equals(other.getTypeList())) return false;
+      if (getTypeId()
+          != other.getTypeId()) return false;
+      if (!getNpcWordList()
+          .equals(other.getNpcWordList())) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -358,9 +379,11 @@ public final class EntityProto {
       hash = (53 * hash) + getNum();
       hash = (37 * hash) + STATE_FIELD_NUMBER;
       hash = (53 * hash) + getState();
-      if (getTypeCount() > 0) {
-        hash = (37 * hash) + TYPE_FIELD_NUMBER;
-        hash = (53 * hash) + getTypeList().hashCode();
+      hash = (37 * hash) + TYPEID_FIELD_NUMBER;
+      hash = (53 * hash) + getTypeId();
+      if (getNpcWordCount() > 0) {
+        hash = (37 * hash) + NPCWORD_FIELD_NUMBER;
+        hash = (53 * hash) + getNpcWordList().hashCode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -470,18 +493,18 @@ public final class EntityProto {
         SenceEntityOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return EntityProto.internal_static_SenceEntity_descriptor;
+        return SenceEntityProto.internal_static_SenceEntity_descriptor;
       }
 
       @Override
       protected FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return EntityProto.internal_static_SenceEntity_fieldAccessorTable
+        return SenceEntityProto.internal_static_SenceEntity_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
                 SenceEntity.class, Builder.class);
       }
 
-      // Construct using org.sq.gameDemo.common.proto.EntityProto.SenceEntity.newBuilder()
+      // Construct using org.sq.gameDemo.common.proto.SenceEntityProto.SenceEntity.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -494,7 +517,6 @@ public final class EntityProto {
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessageV3
                 .alwaysUseFieldBuilders) {
-          getTypeFieldBuilder();
         }
       }
       @Override
@@ -508,19 +530,17 @@ public final class EntityProto {
 
         state_ = 0;
 
-        if (typeBuilder_ == null) {
-          type_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000001);
-        } else {
-          typeBuilder_.clear();
-        }
+        typeId_ = 0;
+
+        npcWord_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000001);
         return this;
       }
 
       @Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return EntityProto.internal_static_SenceEntity_descriptor;
+        return SenceEntityProto.internal_static_SenceEntity_descriptor;
       }
 
       @Override
@@ -545,15 +565,12 @@ public final class EntityProto {
         result.senceId_ = senceId_;
         result.num_ = num_;
         result.state_ = state_;
-        if (typeBuilder_ == null) {
-          if (((bitField0_ & 0x00000001) != 0)) {
-            type_ = java.util.Collections.unmodifiableList(type_);
-            bitField0_ = (bitField0_ & ~0x00000001);
-          }
-          result.type_ = type_;
-        } else {
-          result.type_ = typeBuilder_.build();
+        result.typeId_ = typeId_;
+        if (((bitField0_ & 0x00000001) != 0)) {
+          npcWord_ = npcWord_.getUnmodifiableView();
+          bitField0_ = (bitField0_ & ~0x00000001);
         }
+        result.npcWord_ = npcWord_;
         onBuilt();
         return result;
       }
@@ -614,31 +631,18 @@ public final class EntityProto {
         if (other.getState() != 0) {
           setState(other.getState());
         }
-        if (typeBuilder_ == null) {
-          if (!other.type_.isEmpty()) {
-            if (type_.isEmpty()) {
-              type_ = other.type_;
-              bitField0_ = (bitField0_ & ~0x00000001);
-            } else {
-              ensureTypeIsMutable();
-              type_.addAll(other.type_);
-            }
-            onChanged();
+        if (other.getTypeId() != 0) {
+          setTypeId(other.getTypeId());
+        }
+        if (!other.npcWord_.isEmpty()) {
+          if (npcWord_.isEmpty()) {
+            npcWord_ = other.npcWord_;
+            bitField0_ = (bitField0_ & ~0x00000001);
+          } else {
+            ensureNpcWordIsMutable();
+            npcWord_.addAll(other.npcWord_);
           }
-        } else {
-          if (!other.type_.isEmpty()) {
-            if (typeBuilder_.isEmpty()) {
-              typeBuilder_.dispose();
-              typeBuilder_ = null;
-              type_ = other.type_;
-              bitField0_ = (bitField0_ & ~0x00000001);
-              typeBuilder_ =
-                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
-                   getTypeFieldBuilder() : null;
-            } else {
-              typeBuilder_.addAllMessages(other.type_);
-            }
-          }
+          onChanged();
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -681,7 +685,7 @@ public final class EntityProto {
        * <code>int32 id = 1;</code>
        */
       public Builder setId(int value) {
-
+        
         id_ = value;
         onChanged();
         return this;
@@ -690,7 +694,7 @@ public final class EntityProto {
        * <code>int32 id = 1;</code>
        */
       public Builder clearId() {
-
+        
         id_ = 0;
         onChanged();
         return this;
@@ -707,7 +711,7 @@ public final class EntityProto {
        * <code>int32 senceId = 2;</code>
        */
       public Builder setSenceId(int value) {
-
+        
         senceId_ = value;
         onChanged();
         return this;
@@ -716,7 +720,7 @@ public final class EntityProto {
        * <code>int32 senceId = 2;</code>
        */
       public Builder clearSenceId() {
-
+        
         senceId_ = 0;
         onChanged();
         return this;
@@ -741,7 +745,7 @@ public final class EntityProto {
        * <code>int32 num = 3;</code>
        */
       public Builder setNum(int value) {
-
+        
         num_ = value;
         onChanged();
         return this;
@@ -754,7 +758,7 @@ public final class EntityProto {
        * <code>int32 num = 3;</code>
        */
       public Builder clearNum() {
-
+        
         num_ = 0;
         onChanged();
         return this;
@@ -771,7 +775,7 @@ public final class EntityProto {
        * <code>int32 state = 4;</code>
        */
       public Builder setState(int value) {
-
+        
         state_ = value;
         onChanged();
         return this;
@@ -780,250 +784,130 @@ public final class EntityProto {
        * <code>int32 state = 4;</code>
        */
       public Builder clearState() {
-
+        
         state_ = 0;
         onChanged();
         return this;
       }
 
-      private java.util.List<EntityTypeProto.EntityType> type_ =
-        java.util.Collections.emptyList();
-      private void ensureTypeIsMutable() {
+      private int typeId_ ;
+      /**
+       * <code>int32 typeId = 5;</code>
+       */
+      public int getTypeId() {
+        return typeId_;
+      }
+      /**
+       * <code>int32 typeId = 5;</code>
+       */
+      public Builder setTypeId(int value) {
+        
+        typeId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 typeId = 5;</code>
+       */
+      public Builder clearTypeId() {
+        
+        typeId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private com.google.protobuf.LazyStringList npcWord_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      private void ensureNpcWordIsMutable() {
         if (!((bitField0_ & 0x00000001) != 0)) {
-          type_ = new java.util.ArrayList<EntityTypeProto.EntityType>(type_);
+          npcWord_ = new com.google.protobuf.LazyStringArrayList(npcWord_);
           bitField0_ |= 0x00000001;
          }
       }
-
-      private com.google.protobuf.RepeatedFieldBuilderV3<
-          EntityTypeProto.EntityType, EntityTypeProto.EntityType.Builder, EntityTypeProto.EntityTypeOrBuilder> typeBuilder_;
-
       /**
-       * <code>repeated .EntityType type = 5;</code>
+       * <code>repeated string npcWord = 6;</code>
        */
-      public java.util.List<EntityTypeProto.EntityType> getTypeList() {
-        if (typeBuilder_ == null) {
-          return java.util.Collections.unmodifiableList(type_);
-        } else {
-          return typeBuilder_.getMessageList();
-        }
+      public com.google.protobuf.ProtocolStringList
+          getNpcWordList() {
+        return npcWord_.getUnmodifiableView();
       }
       /**
-       * <code>repeated .EntityType type = 5;</code>
+       * <code>repeated string npcWord = 6;</code>
        */
-      public int getTypeCount() {
-        if (typeBuilder_ == null) {
-          return type_.size();
-        } else {
-          return typeBuilder_.getCount();
-        }
+      public int getNpcWordCount() {
+        return npcWord_.size();
       }
       /**
-       * <code>repeated .EntityType type = 5;</code>
+       * <code>repeated string npcWord = 6;</code>
        */
-      public org.sq.gameDemo.common.proto.EntityTypeProto.EntityType getType(int index) {
-        if (typeBuilder_ == null) {
-          return type_.get(index);
-        } else {
-          return typeBuilder_.getMessage(index);
-        }
+      public String getNpcWord(int index) {
+        return npcWord_.get(index);
       }
       /**
-       * <code>repeated .EntityType type = 5;</code>
+       * <code>repeated string npcWord = 6;</code>
        */
-      public Builder setType(
-          int index, org.sq.gameDemo.common.proto.EntityTypeProto.EntityType value) {
-        if (typeBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureTypeIsMutable();
-          type_.set(index, value);
-          onChanged();
-        } else {
-          typeBuilder_.setMessage(index, value);
-        }
+      public com.google.protobuf.ByteString
+          getNpcWordBytes(int index) {
+        return npcWord_.getByteString(index);
+      }
+      /**
+       * <code>repeated string npcWord = 6;</code>
+       */
+      public Builder setNpcWord(
+          int index, String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureNpcWordIsMutable();
+        npcWord_.set(index, value);
+        onChanged();
         return this;
       }
       /**
-       * <code>repeated .EntityType type = 5;</code>
+       * <code>repeated string npcWord = 6;</code>
        */
-      public Builder setType(
-          int index, org.sq.gameDemo.common.proto.EntityTypeProto.EntityType.Builder builderForValue) {
-        if (typeBuilder_ == null) {
-          ensureTypeIsMutable();
-          type_.set(index, builderForValue.build());
-          onChanged();
-        } else {
-          typeBuilder_.setMessage(index, builderForValue.build());
-        }
+      public Builder addNpcWord(
+          String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureNpcWordIsMutable();
+        npcWord_.add(value);
+        onChanged();
         return this;
       }
       /**
-       * <code>repeated .EntityType type = 5;</code>
+       * <code>repeated string npcWord = 6;</code>
        */
-      public Builder addType(org.sq.gameDemo.common.proto.EntityTypeProto.EntityType value) {
-        if (typeBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureTypeIsMutable();
-          type_.add(value);
-          onChanged();
-        } else {
-          typeBuilder_.addMessage(value);
-        }
+      public Builder addAllNpcWord(
+          Iterable<String> values) {
+        ensureNpcWordIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, npcWord_);
+        onChanged();
         return this;
       }
       /**
-       * <code>repeated .EntityType type = 5;</code>
+       * <code>repeated string npcWord = 6;</code>
        */
-      public Builder addType(
-          int index, org.sq.gameDemo.common.proto.EntityTypeProto.EntityType value) {
-        if (typeBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureTypeIsMutable();
-          type_.add(index, value);
-          onChanged();
-        } else {
-          typeBuilder_.addMessage(index, value);
-        }
+      public Builder clearNpcWord() {
+        npcWord_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        onChanged();
         return this;
       }
       /**
-       * <code>repeated .EntityType type = 5;</code>
+       * <code>repeated string npcWord = 6;</code>
        */
-      public Builder addType(
-          org.sq.gameDemo.common.proto.EntityTypeProto.EntityType.Builder builderForValue) {
-        if (typeBuilder_ == null) {
-          ensureTypeIsMutable();
-          type_.add(builderForValue.build());
-          onChanged();
-        } else {
-          typeBuilder_.addMessage(builderForValue.build());
-        }
+      public Builder addNpcWordBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        ensureNpcWordIsMutable();
+        npcWord_.add(value);
+        onChanged();
         return this;
-      }
-      /**
-       * <code>repeated .EntityType type = 5;</code>
-       */
-      public Builder addType(
-          int index, org.sq.gameDemo.common.proto.EntityTypeProto.EntityType.Builder builderForValue) {
-        if (typeBuilder_ == null) {
-          ensureTypeIsMutable();
-          type_.add(index, builderForValue.build());
-          onChanged();
-        } else {
-          typeBuilder_.addMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .EntityType type = 5;</code>
-       */
-      public Builder addAllType(
-          Iterable<? extends EntityTypeProto.EntityType> values) {
-        if (typeBuilder_ == null) {
-          ensureTypeIsMutable();
-          com.google.protobuf.AbstractMessageLite.Builder.addAll(
-              values, type_);
-          onChanged();
-        } else {
-          typeBuilder_.addAllMessages(values);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .EntityType type = 5;</code>
-       */
-      public Builder clearType() {
-        if (typeBuilder_ == null) {
-          type_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000001);
-          onChanged();
-        } else {
-          typeBuilder_.clear();
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .EntityType type = 5;</code>
-       */
-      public Builder removeType(int index) {
-        if (typeBuilder_ == null) {
-          ensureTypeIsMutable();
-          type_.remove(index);
-          onChanged();
-        } else {
-          typeBuilder_.remove(index);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .EntityType type = 5;</code>
-       */
-      public org.sq.gameDemo.common.proto.EntityTypeProto.EntityType.Builder getTypeBuilder(
-          int index) {
-        return getTypeFieldBuilder().getBuilder(index);
-      }
-      /**
-       * <code>repeated .EntityType type = 5;</code>
-       */
-      public org.sq.gameDemo.common.proto.EntityTypeProto.EntityTypeOrBuilder getTypeOrBuilder(
-          int index) {
-        if (typeBuilder_ == null) {
-          return type_.get(index);  } else {
-          return typeBuilder_.getMessageOrBuilder(index);
-        }
-      }
-      /**
-       * <code>repeated .EntityType type = 5;</code>
-       */
-      public java.util.List<? extends EntityTypeProto.EntityTypeOrBuilder>
-           getTypeOrBuilderList() {
-        if (typeBuilder_ != null) {
-          return typeBuilder_.getMessageOrBuilderList();
-        } else {
-          return java.util.Collections.unmodifiableList(type_);
-        }
-      }
-      /**
-       * <code>repeated .EntityType type = 5;</code>
-       */
-      public org.sq.gameDemo.common.proto.EntityTypeProto.EntityType.Builder addTypeBuilder() {
-        return getTypeFieldBuilder().addBuilder(
-            org.sq.gameDemo.common.proto.EntityTypeProto.EntityType.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .EntityType type = 5;</code>
-       */
-      public org.sq.gameDemo.common.proto.EntityTypeProto.EntityType.Builder addTypeBuilder(
-          int index) {
-        return getTypeFieldBuilder().addBuilder(
-            index, org.sq.gameDemo.common.proto.EntityTypeProto.EntityType.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .EntityType type = 5;</code>
-       */
-      public java.util.List<EntityTypeProto.EntityType.Builder>
-           getTypeBuilderList() {
-        return getTypeFieldBuilder().getBuilderList();
-      }
-      private com.google.protobuf.RepeatedFieldBuilderV3<
-          EntityTypeProto.EntityType, EntityTypeProto.EntityType.Builder, EntityTypeProto.EntityTypeOrBuilder>
-          getTypeFieldBuilder() {
-        if (typeBuilder_ == null) {
-          typeBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
-              EntityTypeProto.EntityType, EntityTypeProto.EntityType.Builder, EntityTypeProto.EntityTypeOrBuilder>(
-                  type_,
-                  ((bitField0_ & 0x00000001) != 0),
-                  getParentForChildren(),
-                  isClean());
-          type_ = null;
-        }
-        return typeBuilder_;
       }
       @Override
       public final Builder setUnknownFields(
@@ -1101,12 +985,17 @@ public final class EntityProto {
     long getTime();
 
     /**
-     * <code>int32 typeId = 3;</code>
+     * <code>int32 id = 3;</code>
+     */
+    int getId();
+
+    /**
+     * <code>int32 typeId = 4;</code>
      */
     int getTypeId();
 
     /**
-     * <code>int32 senceId = 4;</code>
+     * <code>int32 senceId = 5;</code>
      */
     int getSenceId();
   }
@@ -1171,10 +1060,15 @@ public final class EntityProto {
             }
             case 24: {
 
-              typeId_ = input.readInt32();
+              id_ = input.readInt32();
               break;
             }
             case 32: {
+
+              typeId_ = input.readInt32();
+              break;
+            }
+            case 40: {
 
               senceId_ = input.readInt32();
               break;
@@ -1200,13 +1094,13 @@ public final class EntityProto {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return EntityProto.internal_static_RequestInfo_descriptor;
+      return SenceEntityProto.internal_static_RequestInfo_descriptor;
     }
 
     @Override
     protected FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return EntityProto.internal_static_RequestInfo_fieldAccessorTable
+      return SenceEntityProto.internal_static_RequestInfo_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               RequestInfo.class, Builder.class);
     }
@@ -1237,19 +1131,28 @@ public final class EntityProto {
       return time_;
     }
 
-    public static final int TYPEID_FIELD_NUMBER = 3;
+    public static final int ID_FIELD_NUMBER = 3;
+    private int id_;
+    /**
+     * <code>int32 id = 3;</code>
+     */
+    public int getId() {
+      return id_;
+    }
+
+    public static final int TYPEID_FIELD_NUMBER = 4;
     private int typeId_;
     /**
-     * <code>int32 typeId = 3;</code>
+     * <code>int32 typeId = 4;</code>
      */
     public int getTypeId() {
       return typeId_;
     }
 
-    public static final int SENCEID_FIELD_NUMBER = 4;
+    public static final int SENCEID_FIELD_NUMBER = 5;
     private int senceId_;
     /**
-     * <code>int32 senceId = 4;</code>
+     * <code>int32 senceId = 5;</code>
      */
     public int getSenceId() {
       return senceId_;
@@ -1275,11 +1178,14 @@ public final class EntityProto {
       if (time_ != 0L) {
         output.writeUInt64(2, time_);
       }
+      if (id_ != 0) {
+        output.writeInt32(3, id_);
+      }
       if (typeId_ != 0) {
-        output.writeInt32(3, typeId_);
+        output.writeInt32(4, typeId_);
       }
       if (senceId_ != 0) {
-        output.writeInt32(4, senceId_);
+        output.writeInt32(5, senceId_);
       }
       unknownFields.writeTo(output);
     }
@@ -1298,13 +1204,17 @@ public final class EntityProto {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt64Size(2, time_);
       }
+      if (id_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(3, id_);
+      }
       if (typeId_ != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(3, typeId_);
+          .computeInt32Size(4, typeId_);
       }
       if (senceId_ != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(4, senceId_);
+          .computeInt32Size(5, senceId_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -1325,6 +1235,8 @@ public final class EntityProto {
           != other.getMsgId()) return false;
       if (getTime()
           != other.getTime()) return false;
+      if (getId()
+          != other.getId()) return false;
       if (getTypeId()
           != other.getTypeId()) return false;
       if (getSenceId()
@@ -1346,6 +1258,8 @@ public final class EntityProto {
       hash = (37 * hash) + TIME_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           getTime());
+      hash = (37 * hash) + ID_FIELD_NUMBER;
+      hash = (53 * hash) + getId();
       hash = (37 * hash) + TYPEID_FIELD_NUMBER;
       hash = (53 * hash) + getTypeId();
       hash = (37 * hash) + SENCEID_FIELD_NUMBER;
@@ -1458,18 +1372,18 @@ public final class EntityProto {
         RequestInfoOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return EntityProto.internal_static_RequestInfo_descriptor;
+        return SenceEntityProto.internal_static_RequestInfo_descriptor;
       }
 
       @Override
       protected FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return EntityProto.internal_static_RequestInfo_fieldAccessorTable
+        return SenceEntityProto.internal_static_RequestInfo_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
                 RequestInfo.class, Builder.class);
       }
 
-      // Construct using org.sq.gameDemo.common.proto.EntityProto.RequestInfo.newBuilder()
+      // Construct using org.sq.gameDemo.common.proto.SenceEntityProto.RequestInfo.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -1491,6 +1405,8 @@ public final class EntityProto {
 
         time_ = 0L;
 
+        id_ = 0;
+
         typeId_ = 0;
 
         senceId_ = 0;
@@ -1501,7 +1417,7 @@ public final class EntityProto {
       @Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return EntityProto.internal_static_RequestInfo_descriptor;
+        return SenceEntityProto.internal_static_RequestInfo_descriptor;
       }
 
       @Override
@@ -1523,6 +1439,7 @@ public final class EntityProto {
         RequestInfo result = new RequestInfo(this);
         result.msgId_ = msgId_;
         result.time_ = time_;
+        result.id_ = id_;
         result.typeId_ = typeId_;
         result.senceId_ = senceId_;
         onBuilt();
@@ -1579,6 +1496,9 @@ public final class EntityProto {
         if (other.getTime() != 0L) {
           setTime(other.getTime());
         }
+        if (other.getId() != 0) {
+          setId(other.getId());
+        }
         if (other.getTypeId() != 0) {
           setTypeId(other.getTypeId());
         }
@@ -1633,7 +1553,7 @@ public final class EntityProto {
        * <code>uint64 msg_id = 1;</code>
        */
       public Builder setMsgId(long value) {
-
+        
         msgId_ = value;
         onChanged();
         return this;
@@ -1646,7 +1566,7 @@ public final class EntityProto {
        * <code>uint64 msg_id = 1;</code>
        */
       public Builder clearMsgId() {
-
+        
         msgId_ = 0L;
         onChanged();
         return this;
@@ -1671,7 +1591,7 @@ public final class EntityProto {
        * <code>uint64 time = 2;</code>
        */
       public Builder setTime(long value) {
-
+        
         time_ = value;
         onChanged();
         return this;
@@ -1684,33 +1604,59 @@ public final class EntityProto {
        * <code>uint64 time = 2;</code>
        */
       public Builder clearTime() {
-
+        
         time_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private int id_ ;
+      /**
+       * <code>int32 id = 3;</code>
+       */
+      public int getId() {
+        return id_;
+      }
+      /**
+       * <code>int32 id = 3;</code>
+       */
+      public Builder setId(int value) {
+        
+        id_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 id = 3;</code>
+       */
+      public Builder clearId() {
+        
+        id_ = 0;
         onChanged();
         return this;
       }
 
       private int typeId_ ;
       /**
-       * <code>int32 typeId = 3;</code>
+       * <code>int32 typeId = 4;</code>
        */
       public int getTypeId() {
         return typeId_;
       }
       /**
-       * <code>int32 typeId = 3;</code>
+       * <code>int32 typeId = 4;</code>
        */
       public Builder setTypeId(int value) {
-
+        
         typeId_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>int32 typeId = 3;</code>
+       * <code>int32 typeId = 4;</code>
        */
       public Builder clearTypeId() {
-
+        
         typeId_ = 0;
         onChanged();
         return this;
@@ -1718,25 +1664,25 @@ public final class EntityProto {
 
       private int senceId_ ;
       /**
-       * <code>int32 senceId = 4;</code>
+       * <code>int32 senceId = 5;</code>
        */
       public int getSenceId() {
         return senceId_;
       }
       /**
-       * <code>int32 senceId = 4;</code>
+       * <code>int32 senceId = 5;</code>
        */
       public Builder setSenceId(int value) {
-
+        
         senceId_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>int32 senceId = 4;</code>
+       * <code>int32 senceId = 5;</code>
        */
       public Builder clearSenceId() {
-
+        
         senceId_ = 0;
         onChanged();
         return this;
@@ -1832,25 +1778,49 @@ public final class EntityProto {
         getContentBytes();
 
     /**
-     * <code>repeated .SenceEntity SenceEntity = 5;</code>
+     * <code>repeated .EntityType type = 5;</code>
+     */
+    java.util.List<EntityTypeProto.EntityType>
+        getTypeList();
+    /**
+     * <code>repeated .EntityType type = 5;</code>
+     */
+    EntityTypeProto.EntityType getType(int index);
+    /**
+     * <code>repeated .EntityType type = 5;</code>
+     */
+    int getTypeCount();
+    /**
+     * <code>repeated .EntityType type = 5;</code>
+     */
+    java.util.List<? extends EntityTypeProto.EntityTypeOrBuilder>
+        getTypeOrBuilderList();
+    /**
+     * <code>repeated .EntityType type = 5;</code>
+     */
+    EntityTypeProto.EntityTypeOrBuilder getTypeOrBuilder(
+            int index);
+
+    /**
+     * <code>repeated .SenceEntity SenceEntity = 6;</code>
      */
     java.util.List<SenceEntity>
         getSenceEntityList();
     /**
-     * <code>repeated .SenceEntity SenceEntity = 5;</code>
+     * <code>repeated .SenceEntity SenceEntity = 6;</code>
      */
     SenceEntity getSenceEntity(int index);
     /**
-     * <code>repeated .SenceEntity SenceEntity = 5;</code>
+     * <code>repeated .SenceEntity SenceEntity = 6;</code>
      */
     int getSenceEntityCount();
     /**
-     * <code>repeated .SenceEntity SenceEntity = 5;</code>
+     * <code>repeated .SenceEntity SenceEntity = 6;</code>
      */
     java.util.List<? extends SenceEntityOrBuilder>
         getSenceEntityOrBuilderList();
     /**
-     * <code>repeated .SenceEntity SenceEntity = 5;</code>
+     * <code>repeated .SenceEntity SenceEntity = 6;</code>
      */
     SenceEntityOrBuilder getSenceEntityOrBuilder(
             int index);
@@ -1873,6 +1843,7 @@ public final class EntityProto {
     }
     private ResponseInfo() {
       content_ = "";
+      type_ = java.util.Collections.emptyList();
       senceEntity_ = java.util.Collections.emptyList();
     }
 
@@ -1930,8 +1901,17 @@ public final class EntityProto {
             }
             case 42: {
               if (!((mutable_bitField0_ & 0x00000001) != 0)) {
-                senceEntity_ = new java.util.ArrayList<SenceEntity>();
+                type_ = new java.util.ArrayList<EntityTypeProto.EntityType>();
                 mutable_bitField0_ |= 0x00000001;
+              }
+              type_.add(
+                  input.readMessage(EntityTypeProto.EntityType.parser(), extensionRegistry));
+              break;
+            }
+            case 50: {
+              if (!((mutable_bitField0_ & 0x00000002) != 0)) {
+                senceEntity_ = new java.util.ArrayList<SenceEntity>();
+                mutable_bitField0_ |= 0x00000002;
               }
               senceEntity_.add(
                   input.readMessage(SenceEntity.parser(), extensionRegistry));
@@ -1953,6 +1933,9 @@ public final class EntityProto {
             e).setUnfinishedMessage(this);
       } finally {
         if (((mutable_bitField0_ & 0x00000001) != 0)) {
+          type_ = java.util.Collections.unmodifiableList(type_);
+        }
+        if (((mutable_bitField0_ & 0x00000002) != 0)) {
           senceEntity_ = java.util.Collections.unmodifiableList(senceEntity_);
         }
         this.unknownFields = unknownFields.build();
@@ -1961,13 +1944,13 @@ public final class EntityProto {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return EntityProto.internal_static_ResponseInfo_descriptor;
+      return SenceEntityProto.internal_static_ResponseInfo_descriptor;
     }
 
     @Override
     protected FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return EntityProto.internal_static_ResponseInfo_fieldAccessorTable
+      return SenceEntityProto.internal_static_ResponseInfo_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               ResponseInfo.class, Builder.class);
     }
@@ -2017,7 +2000,7 @@ public final class EntityProto {
       if (ref instanceof String) {
         return (String) ref;
       } else {
-        com.google.protobuf.ByteString bs =
+        com.google.protobuf.ByteString bs = 
             (com.google.protobuf.ByteString) ref;
         String s = bs.toStringUtf8();
         content_ = s;
@@ -2031,7 +2014,7 @@ public final class EntityProto {
         getContentBytes() {
       Object ref = content_;
       if (ref instanceof String) {
-        com.google.protobuf.ByteString b =
+        com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (String) ref);
         content_ = b;
@@ -2041,35 +2024,70 @@ public final class EntityProto {
       }
     }
 
-    public static final int SENCEENTITY_FIELD_NUMBER = 5;
+    public static final int TYPE_FIELD_NUMBER = 5;
+    private java.util.List<EntityTypeProto.EntityType> type_;
+    /**
+     * <code>repeated .EntityType type = 5;</code>
+     */
+    public java.util.List<EntityTypeProto.EntityType> getTypeList() {
+      return type_;
+    }
+    /**
+     * <code>repeated .EntityType type = 5;</code>
+     */
+    public java.util.List<? extends EntityTypeProto.EntityTypeOrBuilder>
+        getTypeOrBuilderList() {
+      return type_;
+    }
+    /**
+     * <code>repeated .EntityType type = 5;</code>
+     */
+    public int getTypeCount() {
+      return type_.size();
+    }
+    /**
+     * <code>repeated .EntityType type = 5;</code>
+     */
+    public EntityTypeProto.EntityType getType(int index) {
+      return type_.get(index);
+    }
+    /**
+     * <code>repeated .EntityType type = 5;</code>
+     */
+    public EntityTypeProto.EntityTypeOrBuilder getTypeOrBuilder(
+        int index) {
+      return type_.get(index);
+    }
+
+    public static final int SENCEENTITY_FIELD_NUMBER = 6;
     private java.util.List<SenceEntity> senceEntity_;
     /**
-     * <code>repeated .SenceEntity SenceEntity = 5;</code>
+     * <code>repeated .SenceEntity SenceEntity = 6;</code>
      */
     public java.util.List<SenceEntity> getSenceEntityList() {
       return senceEntity_;
     }
     /**
-     * <code>repeated .SenceEntity SenceEntity = 5;</code>
+     * <code>repeated .SenceEntity SenceEntity = 6;</code>
      */
     public java.util.List<? extends SenceEntityOrBuilder>
         getSenceEntityOrBuilderList() {
       return senceEntity_;
     }
     /**
-     * <code>repeated .SenceEntity SenceEntity = 5;</code>
+     * <code>repeated .SenceEntity SenceEntity = 6;</code>
      */
     public int getSenceEntityCount() {
       return senceEntity_.size();
     }
     /**
-     * <code>repeated .SenceEntity SenceEntity = 5;</code>
+     * <code>repeated .SenceEntity SenceEntity = 6;</code>
      */
     public SenceEntity getSenceEntity(int index) {
       return senceEntity_.get(index);
     }
     /**
-     * <code>repeated .SenceEntity SenceEntity = 5;</code>
+     * <code>repeated .SenceEntity SenceEntity = 6;</code>
      */
     public SenceEntityOrBuilder getSenceEntityOrBuilder(
         int index) {
@@ -2102,8 +2120,11 @@ public final class EntityProto {
       if (!getContentBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 4, content_);
       }
+      for (int i = 0; i < type_.size(); i++) {
+        output.writeMessage(5, type_.get(i));
+      }
       for (int i = 0; i < senceEntity_.size(); i++) {
-        output.writeMessage(5, senceEntity_.get(i));
+        output.writeMessage(6, senceEntity_.get(i));
       }
       unknownFields.writeTo(output);
     }
@@ -2129,9 +2150,13 @@ public final class EntityProto {
       if (!getContentBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, content_);
       }
+      for (int i = 0; i < type_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(5, type_.get(i));
+      }
       for (int i = 0; i < senceEntity_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(5, senceEntity_.get(i));
+          .computeMessageSize(6, senceEntity_.get(i));
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -2156,6 +2181,8 @@ public final class EntityProto {
           != other.getTime()) return false;
       if (!getContent()
           .equals(other.getContent())) return false;
+      if (!getTypeList()
+          .equals(other.getTypeList())) return false;
       if (!getSenceEntityList()
           .equals(other.getSenceEntityList())) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
@@ -2179,6 +2206,10 @@ public final class EntityProto {
           getTime());
       hash = (37 * hash) + CONTENT_FIELD_NUMBER;
       hash = (53 * hash) + getContent().hashCode();
+      if (getTypeCount() > 0) {
+        hash = (37 * hash) + TYPE_FIELD_NUMBER;
+        hash = (53 * hash) + getTypeList().hashCode();
+      }
       if (getSenceEntityCount() > 0) {
         hash = (37 * hash) + SENCEENTITY_FIELD_NUMBER;
         hash = (53 * hash) + getSenceEntityList().hashCode();
@@ -2291,18 +2322,18 @@ public final class EntityProto {
         ResponseInfoOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return EntityProto.internal_static_ResponseInfo_descriptor;
+        return SenceEntityProto.internal_static_ResponseInfo_descriptor;
       }
 
       @Override
       protected FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return EntityProto.internal_static_ResponseInfo_fieldAccessorTable
+        return SenceEntityProto.internal_static_ResponseInfo_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
                 ResponseInfo.class, Builder.class);
       }
 
-      // Construct using org.sq.gameDemo.common.proto.EntityProto.ResponseInfo.newBuilder()
+      // Construct using org.sq.gameDemo.common.proto.SenceEntityProto.ResponseInfo.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -2315,6 +2346,7 @@ public final class EntityProto {
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessageV3
                 .alwaysUseFieldBuilders) {
+          getTypeFieldBuilder();
           getSenceEntityFieldBuilder();
         }
       }
@@ -2329,9 +2361,15 @@ public final class EntityProto {
 
         content_ = "";
 
+        if (typeBuilder_ == null) {
+          type_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+        } else {
+          typeBuilder_.clear();
+        }
         if (senceEntityBuilder_ == null) {
           senceEntity_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000001);
+          bitField0_ = (bitField0_ & ~0x00000002);
         } else {
           senceEntityBuilder_.clear();
         }
@@ -2341,7 +2379,7 @@ public final class EntityProto {
       @Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return EntityProto.internal_static_ResponseInfo_descriptor;
+        return SenceEntityProto.internal_static_ResponseInfo_descriptor;
       }
 
       @Override
@@ -2366,10 +2404,19 @@ public final class EntityProto {
         result.result_ = result_;
         result.time_ = time_;
         result.content_ = content_;
-        if (senceEntityBuilder_ == null) {
+        if (typeBuilder_ == null) {
           if (((bitField0_ & 0x00000001) != 0)) {
-            senceEntity_ = java.util.Collections.unmodifiableList(senceEntity_);
+            type_ = java.util.Collections.unmodifiableList(type_);
             bitField0_ = (bitField0_ & ~0x00000001);
+          }
+          result.type_ = type_;
+        } else {
+          result.type_ = typeBuilder_.build();
+        }
+        if (senceEntityBuilder_ == null) {
+          if (((bitField0_ & 0x00000002) != 0)) {
+            senceEntity_ = java.util.Collections.unmodifiableList(senceEntity_);
+            bitField0_ = (bitField0_ & ~0x00000002);
           }
           result.senceEntity_ = senceEntity_;
         } else {
@@ -2436,11 +2483,37 @@ public final class EntityProto {
           content_ = other.content_;
           onChanged();
         }
+        if (typeBuilder_ == null) {
+          if (!other.type_.isEmpty()) {
+            if (type_.isEmpty()) {
+              type_ = other.type_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+            } else {
+              ensureTypeIsMutable();
+              type_.addAll(other.type_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.type_.isEmpty()) {
+            if (typeBuilder_.isEmpty()) {
+              typeBuilder_.dispose();
+              typeBuilder_ = null;
+              type_ = other.type_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+              typeBuilder_ = 
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                   getTypeFieldBuilder() : null;
+            } else {
+              typeBuilder_.addAllMessages(other.type_);
+            }
+          }
+        }
         if (senceEntityBuilder_ == null) {
           if (!other.senceEntity_.isEmpty()) {
             if (senceEntity_.isEmpty()) {
               senceEntity_ = other.senceEntity_;
-              bitField0_ = (bitField0_ & ~0x00000001);
+              bitField0_ = (bitField0_ & ~0x00000002);
             } else {
               ensureSenceEntityIsMutable();
               senceEntity_.addAll(other.senceEntity_);
@@ -2453,8 +2526,8 @@ public final class EntityProto {
               senceEntityBuilder_.dispose();
               senceEntityBuilder_ = null;
               senceEntity_ = other.senceEntity_;
-              bitField0_ = (bitField0_ & ~0x00000001);
-              senceEntityBuilder_ =
+              bitField0_ = (bitField0_ & ~0x00000002);
+              senceEntityBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getSenceEntityFieldBuilder() : null;
             } else {
@@ -2511,7 +2584,7 @@ public final class EntityProto {
        * <code>uint64 msg_id = 1;</code>
        */
       public Builder setMsgId(long value) {
-
+        
         msgId_ = value;
         onChanged();
         return this;
@@ -2524,7 +2597,7 @@ public final class EntityProto {
        * <code>uint64 msg_id = 1;</code>
        */
       public Builder clearMsgId() {
-
+        
         msgId_ = 0L;
         onChanged();
         return this;
@@ -2541,7 +2614,7 @@ public final class EntityProto {
        * <code>int32 result = 2;</code>
        */
       public Builder setResult(int value) {
-
+        
         result_ = value;
         onChanged();
         return this;
@@ -2550,7 +2623,7 @@ public final class EntityProto {
        * <code>int32 result = 2;</code>
        */
       public Builder clearResult() {
-
+        
         result_ = 0;
         onChanged();
         return this;
@@ -2575,7 +2648,7 @@ public final class EntityProto {
        * <code>uint64 time = 3;</code>
        */
       public Builder setTime(long value) {
-
+        
         time_ = value;
         onChanged();
         return this;
@@ -2588,7 +2661,7 @@ public final class EntityProto {
        * <code>uint64 time = 3;</code>
        */
       public Builder clearTime() {
-
+        
         time_ = 0L;
         onChanged();
         return this;
@@ -2617,7 +2690,7 @@ public final class EntityProto {
           getContentBytes() {
         Object ref = content_;
         if (ref instanceof String) {
-          com.google.protobuf.ByteString b =
+          com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (String) ref);
           content_ = b;
@@ -2634,7 +2707,7 @@ public final class EntityProto {
         if (value == null) {
     throw new NullPointerException();
   }
-
+  
         content_ = value;
         onChanged();
         return this;
@@ -2643,7 +2716,7 @@ public final class EntityProto {
        * <code>string content = 4;</code>
        */
       public Builder clearContent() {
-
+        
         content_ = getDefaultInstance().getContent();
         onChanged();
         return this;
@@ -2657,18 +2730,258 @@ public final class EntityProto {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
-
+        
         content_ = value;
         onChanged();
         return this;
       }
 
+      private java.util.List<EntityTypeProto.EntityType> type_ =
+        java.util.Collections.emptyList();
+      private void ensureTypeIsMutable() {
+        if (!((bitField0_ & 0x00000001) != 0)) {
+          type_ = new java.util.ArrayList<EntityTypeProto.EntityType>(type_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          EntityTypeProto.EntityType, EntityTypeProto.EntityType.Builder, EntityTypeProto.EntityTypeOrBuilder> typeBuilder_;
+
+      /**
+       * <code>repeated .EntityType type = 5;</code>
+       */
+      public java.util.List<EntityTypeProto.EntityType> getTypeList() {
+        if (typeBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(type_);
+        } else {
+          return typeBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .EntityType type = 5;</code>
+       */
+      public int getTypeCount() {
+        if (typeBuilder_ == null) {
+          return type_.size();
+        } else {
+          return typeBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .EntityType type = 5;</code>
+       */
+      public EntityTypeProto.EntityType getType(int index) {
+        if (typeBuilder_ == null) {
+          return type_.get(index);
+        } else {
+          return typeBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .EntityType type = 5;</code>
+       */
+      public Builder setType(
+          int index, EntityTypeProto.EntityType value) {
+        if (typeBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureTypeIsMutable();
+          type_.set(index, value);
+          onChanged();
+        } else {
+          typeBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .EntityType type = 5;</code>
+       */
+      public Builder setType(
+          int index, EntityTypeProto.EntityType.Builder builderForValue) {
+        if (typeBuilder_ == null) {
+          ensureTypeIsMutable();
+          type_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          typeBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .EntityType type = 5;</code>
+       */
+      public Builder addType(EntityTypeProto.EntityType value) {
+        if (typeBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureTypeIsMutable();
+          type_.add(value);
+          onChanged();
+        } else {
+          typeBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .EntityType type = 5;</code>
+       */
+      public Builder addType(
+          int index, EntityTypeProto.EntityType value) {
+        if (typeBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureTypeIsMutable();
+          type_.add(index, value);
+          onChanged();
+        } else {
+          typeBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .EntityType type = 5;</code>
+       */
+      public Builder addType(
+          EntityTypeProto.EntityType.Builder builderForValue) {
+        if (typeBuilder_ == null) {
+          ensureTypeIsMutable();
+          type_.add(builderForValue.build());
+          onChanged();
+        } else {
+          typeBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .EntityType type = 5;</code>
+       */
+      public Builder addType(
+          int index, EntityTypeProto.EntityType.Builder builderForValue) {
+        if (typeBuilder_ == null) {
+          ensureTypeIsMutable();
+          type_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          typeBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .EntityType type = 5;</code>
+       */
+      public Builder addAllType(
+          Iterable<? extends EntityTypeProto.EntityType> values) {
+        if (typeBuilder_ == null) {
+          ensureTypeIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, type_);
+          onChanged();
+        } else {
+          typeBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .EntityType type = 5;</code>
+       */
+      public Builder clearType() {
+        if (typeBuilder_ == null) {
+          type_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          onChanged();
+        } else {
+          typeBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .EntityType type = 5;</code>
+       */
+      public Builder removeType(int index) {
+        if (typeBuilder_ == null) {
+          ensureTypeIsMutable();
+          type_.remove(index);
+          onChanged();
+        } else {
+          typeBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .EntityType type = 5;</code>
+       */
+      public EntityTypeProto.EntityType.Builder getTypeBuilder(
+          int index) {
+        return getTypeFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .EntityType type = 5;</code>
+       */
+      public EntityTypeProto.EntityTypeOrBuilder getTypeOrBuilder(
+          int index) {
+        if (typeBuilder_ == null) {
+          return type_.get(index);  } else {
+          return typeBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .EntityType type = 5;</code>
+       */
+      public java.util.List<? extends EntityTypeProto.EntityTypeOrBuilder>
+           getTypeOrBuilderList() {
+        if (typeBuilder_ != null) {
+          return typeBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(type_);
+        }
+      }
+      /**
+       * <code>repeated .EntityType type = 5;</code>
+       */
+      public EntityTypeProto.EntityType.Builder addTypeBuilder() {
+        return getTypeFieldBuilder().addBuilder(
+            EntityTypeProto.EntityType.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .EntityType type = 5;</code>
+       */
+      public EntityTypeProto.EntityType.Builder addTypeBuilder(
+          int index) {
+        return getTypeFieldBuilder().addBuilder(
+            index, EntityTypeProto.EntityType.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .EntityType type = 5;</code>
+       */
+      public java.util.List<EntityTypeProto.EntityType.Builder>
+           getTypeBuilderList() {
+        return getTypeFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          EntityTypeProto.EntityType, EntityTypeProto.EntityType.Builder, EntityTypeProto.EntityTypeOrBuilder>
+          getTypeFieldBuilder() {
+        if (typeBuilder_ == null) {
+          typeBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+              EntityTypeProto.EntityType, EntityTypeProto.EntityType.Builder, EntityTypeProto.EntityTypeOrBuilder>(
+                  type_,
+                  ((bitField0_ & 0x00000001) != 0),
+                  getParentForChildren(),
+                  isClean());
+          type_ = null;
+        }
+        return typeBuilder_;
+      }
+
       private java.util.List<SenceEntity> senceEntity_ =
         java.util.Collections.emptyList();
       private void ensureSenceEntityIsMutable() {
-        if (!((bitField0_ & 0x00000001) != 0)) {
+        if (!((bitField0_ & 0x00000002) != 0)) {
           senceEntity_ = new java.util.ArrayList<SenceEntity>(senceEntity_);
-          bitField0_ |= 0x00000001;
+          bitField0_ |= 0x00000002;
          }
       }
 
@@ -2676,7 +2989,7 @@ public final class EntityProto {
           SenceEntity, SenceEntity.Builder, SenceEntityOrBuilder> senceEntityBuilder_;
 
       /**
-       * <code>repeated .SenceEntity SenceEntity = 5;</code>
+       * <code>repeated .SenceEntity SenceEntity = 6;</code>
        */
       public java.util.List<SenceEntity> getSenceEntityList() {
         if (senceEntityBuilder_ == null) {
@@ -2686,7 +2999,7 @@ public final class EntityProto {
         }
       }
       /**
-       * <code>repeated .SenceEntity SenceEntity = 5;</code>
+       * <code>repeated .SenceEntity SenceEntity = 6;</code>
        */
       public int getSenceEntityCount() {
         if (senceEntityBuilder_ == null) {
@@ -2696,7 +3009,7 @@ public final class EntityProto {
         }
       }
       /**
-       * <code>repeated .SenceEntity SenceEntity = 5;</code>
+       * <code>repeated .SenceEntity SenceEntity = 6;</code>
        */
       public SenceEntity getSenceEntity(int index) {
         if (senceEntityBuilder_ == null) {
@@ -2706,7 +3019,7 @@ public final class EntityProto {
         }
       }
       /**
-       * <code>repeated .SenceEntity SenceEntity = 5;</code>
+       * <code>repeated .SenceEntity SenceEntity = 6;</code>
        */
       public Builder setSenceEntity(
           int index, SenceEntity value) {
@@ -2723,7 +3036,7 @@ public final class EntityProto {
         return this;
       }
       /**
-       * <code>repeated .SenceEntity SenceEntity = 5;</code>
+       * <code>repeated .SenceEntity SenceEntity = 6;</code>
        */
       public Builder setSenceEntity(
           int index, SenceEntity.Builder builderForValue) {
@@ -2737,7 +3050,7 @@ public final class EntityProto {
         return this;
       }
       /**
-       * <code>repeated .SenceEntity SenceEntity = 5;</code>
+       * <code>repeated .SenceEntity SenceEntity = 6;</code>
        */
       public Builder addSenceEntity(SenceEntity value) {
         if (senceEntityBuilder_ == null) {
@@ -2753,7 +3066,7 @@ public final class EntityProto {
         return this;
       }
       /**
-       * <code>repeated .SenceEntity SenceEntity = 5;</code>
+       * <code>repeated .SenceEntity SenceEntity = 6;</code>
        */
       public Builder addSenceEntity(
           int index, SenceEntity value) {
@@ -2770,7 +3083,7 @@ public final class EntityProto {
         return this;
       }
       /**
-       * <code>repeated .SenceEntity SenceEntity = 5;</code>
+       * <code>repeated .SenceEntity SenceEntity = 6;</code>
        */
       public Builder addSenceEntity(
           SenceEntity.Builder builderForValue) {
@@ -2784,7 +3097,7 @@ public final class EntityProto {
         return this;
       }
       /**
-       * <code>repeated .SenceEntity SenceEntity = 5;</code>
+       * <code>repeated .SenceEntity SenceEntity = 6;</code>
        */
       public Builder addSenceEntity(
           int index, SenceEntity.Builder builderForValue) {
@@ -2798,7 +3111,7 @@ public final class EntityProto {
         return this;
       }
       /**
-       * <code>repeated .SenceEntity SenceEntity = 5;</code>
+       * <code>repeated .SenceEntity SenceEntity = 6;</code>
        */
       public Builder addAllSenceEntity(
           Iterable<? extends SenceEntity> values) {
@@ -2813,12 +3126,12 @@ public final class EntityProto {
         return this;
       }
       /**
-       * <code>repeated .SenceEntity SenceEntity = 5;</code>
+       * <code>repeated .SenceEntity SenceEntity = 6;</code>
        */
       public Builder clearSenceEntity() {
         if (senceEntityBuilder_ == null) {
           senceEntity_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000001);
+          bitField0_ = (bitField0_ & ~0x00000002);
           onChanged();
         } else {
           senceEntityBuilder_.clear();
@@ -2826,7 +3139,7 @@ public final class EntityProto {
         return this;
       }
       /**
-       * <code>repeated .SenceEntity SenceEntity = 5;</code>
+       * <code>repeated .SenceEntity SenceEntity = 6;</code>
        */
       public Builder removeSenceEntity(int index) {
         if (senceEntityBuilder_ == null) {
@@ -2839,14 +3152,14 @@ public final class EntityProto {
         return this;
       }
       /**
-       * <code>repeated .SenceEntity SenceEntity = 5;</code>
+       * <code>repeated .SenceEntity SenceEntity = 6;</code>
        */
       public SenceEntity.Builder getSenceEntityBuilder(
           int index) {
         return getSenceEntityFieldBuilder().getBuilder(index);
       }
       /**
-       * <code>repeated .SenceEntity SenceEntity = 5;</code>
+       * <code>repeated .SenceEntity SenceEntity = 6;</code>
        */
       public SenceEntityOrBuilder getSenceEntityOrBuilder(
           int index) {
@@ -2856,7 +3169,7 @@ public final class EntityProto {
         }
       }
       /**
-       * <code>repeated .SenceEntity SenceEntity = 5;</code>
+       * <code>repeated .SenceEntity SenceEntity = 6;</code>
        */
       public java.util.List<? extends SenceEntityOrBuilder>
            getSenceEntityOrBuilderList() {
@@ -2867,14 +3180,14 @@ public final class EntityProto {
         }
       }
       /**
-       * <code>repeated .SenceEntity SenceEntity = 5;</code>
+       * <code>repeated .SenceEntity SenceEntity = 6;</code>
        */
       public SenceEntity.Builder addSenceEntityBuilder() {
         return getSenceEntityFieldBuilder().addBuilder(
             SenceEntity.getDefaultInstance());
       }
       /**
-       * <code>repeated .SenceEntity SenceEntity = 5;</code>
+       * <code>repeated .SenceEntity SenceEntity = 6;</code>
        */
       public SenceEntity.Builder addSenceEntityBuilder(
           int index) {
@@ -2882,7 +3195,7 @@ public final class EntityProto {
             index, SenceEntity.getDefaultInstance());
       }
       /**
-       * <code>repeated .SenceEntity SenceEntity = 5;</code>
+       * <code>repeated .SenceEntity SenceEntity = 6;</code>
        */
       public java.util.List<SenceEntity.Builder>
            getSenceEntityBuilderList() {
@@ -2895,7 +3208,7 @@ public final class EntityProto {
           senceEntityBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               SenceEntity, SenceEntity.Builder, SenceEntityOrBuilder>(
                   senceEntity_,
-                  ((bitField0_ & 0x00000001) != 0),
+                  ((bitField0_ & 0x00000002) != 0),
                   getParentForChildren(),
                   isClean());
           senceEntity_ = null;
@@ -2957,17 +3270,17 @@ public final class EntityProto {
 
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_SenceEntity_descriptor;
-  private static final
+  private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_SenceEntity_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_RequestInfo_descriptor;
-  private static final
+  private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_RequestInfo_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_ResponseInfo_descriptor;
-  private static final
+  private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_ResponseInfo_fieldAccessorTable;
 
@@ -2979,41 +3292,42 @@ public final class EntityProto {
       descriptor;
   static {
     String[] descriptorData = {
-      "\n\021SenceEntity.proto\032\020EntityType.proto\"a\n" +
+      "\n\021SenceEntity.proto\032\020EntityType.proto\"g\n" +
       "\013SenceEntity\022\n\n\002id\030\001 \001(\005\022\017\n\007senceId\030\002 \001(" +
-      "\005\022\013\n\003num\030\003 \001(\005\022\r\n\005state\030\004 \001(\005\022\031\n\004type\030\005 " +
-      "\003(\0132\013.EntityType\"L\n\013RequestInfo\022\016\n\006msg_i" +
-      "d\030\001 \001(\004\022\014\n\004time\030\002 \001(\004\022\016\n\006typeId\030\003 \001(\005\022\017\n" +
-      "\007senceId\030\004 \001(\005\"p\n\014ResponseInfo\022\016\n\006msg_id" +
-      "\030\001 \001(\004\022\016\n\006result\030\002 \001(\005\022\014\n\004time\030\003 \001(\004\022\017\n\007" +
-      "content\030\004 \001(\t\022!\n\013SenceEntity\030\005 \003(\0132\014.Sen" +
-      "ceEntityB+\n\034org.sq.gameDemo.common.proto" +
-      "B\013EntityProtob\006proto3"
+      "\005\022\013\n\003num\030\003 \001(\005\022\r\n\005state\030\004 \001(\005\022\016\n\006typeId\030" +
+      "\005 \001(\005\022\017\n\007npcWord\030\006 \003(\t\"X\n\013RequestInfo\022\016\n" +
+      "\006msg_id\030\001 \001(\004\022\014\n\004time\030\002 \001(\004\022\n\n\002id\030\003 \001(\005\022" +
+      "\016\n\006typeId\030\004 \001(\005\022\017\n\007senceId\030\005 \001(\005\"\213\001\n\014Res" +
+      "ponseInfo\022\016\n\006msg_id\030\001 \001(\004\022\016\n\006result\030\002 \001(" +
+      "\005\022\014\n\004time\030\003 \001(\004\022\017\n\007content\030\004 \001(\t\022\031\n\004type" +
+      "\030\005 \003(\0132\013.EntityType\022!\n\013SenceEntity\030\006 \003(\013" +
+      "2\014.SenceEntityB0\n\034org.sq.gameDemo.common" +
+      ".protoB\020SenceEntityProtob\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
-          org.sq.gameDemo.common.proto.EntityTypeProto.getDescriptor(),
+          EntityTypeProto.getDescriptor(),
         });
     internal_static_SenceEntity_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_SenceEntity_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_SenceEntity_descriptor,
-        new String[] { "Id", "SenceId", "Num", "State", "Type", });
+        new String[] { "Id", "SenceId", "Num", "State", "TypeId", "NpcWord", });
     internal_static_RequestInfo_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_RequestInfo_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_RequestInfo_descriptor,
-        new String[] { "MsgId", "Time", "TypeId", "SenceId", });
+        new String[] { "MsgId", "Time", "Id", "TypeId", "SenceId", });
     internal_static_ResponseInfo_descriptor =
       getDescriptor().getMessageTypes().get(2);
     internal_static_ResponseInfo_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_ResponseInfo_descriptor,
-        new String[] { "MsgId", "Result", "Time", "Content", "SenceEntity", });
-    org.sq.gameDemo.common.proto.EntityTypeProto.getDescriptor();
+        new String[] { "MsgId", "Result", "Time", "Content", "Type", "SenceEntity", });
+    EntityTypeProto.getDescriptor();
   }
 
   // @@protoc_insertion_point(outer_class_scope)

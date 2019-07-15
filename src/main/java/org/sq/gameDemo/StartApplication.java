@@ -6,31 +6,24 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.sq.gameDemo.cli.GameCli;
 import org.sq.gameDemo.svr.common.SpringUtil;
 import org.sq.gameDemo.svr.common.dispatch.DispatchRequest;
-import org.sq.gameDemo.svr.net.GameSvr;
 
-import java.net.InetSocketAddress;
+import java.util.Scanner;
 
 @SpringBootApplication
 public class StartApplication implements CommandLineRunner {
 
-
-	@Value("${netty.port}")
-	private int port;
-
-	@Value("${netty.url}")
-	private String url;
-
 	@Autowired
-	private GameSvr gameSvr;
+	private GameCli gameCli;
 
 	public static void main(String[] args) {
 		SpringApplication.run(StartApplication.class, args);
 	}
 
 	@Override
-	public void run(String... strings) {
+	public void run(String... strings) throws InterruptedException {
 		DispatchRequest dispatchRequest = (DispatchRequest) SpringUtil.getBean("dispatchRequest");
 		try {
 			//初始化指令映射
@@ -40,20 +33,21 @@ public class StartApplication implements CommandLineRunner {
 		}
 		System.out.println("启动netty中");
 
-		try {
-			InetSocketAddress address = new InetSocketAddress(url, port);
-			ChannelFuture future = null;
-			future = gameSvr.run(address);
-			Runtime.getRuntime().addShutdownHook(new Thread(){
-				@Override
-				public void run() {
-					gameSvr.destroy();
-				}
-			});
-			future.channel().closeFuture().syncUninterruptibly();
-		}catch (Exception e) {
-			gameSvr.destroy();
+		gameCli.init();
+		ChannelFuture f = gameCli.getFuture();
+		Scanner scanner = new Scanner(System.in);
+		String line = "";
+		while (scanner.hasNext()) {
+			try {
+				line = scanner.nextLine();
+				gameCli.sendMsg(line);
+				// line = "";
+			} catch (Exception e) {
+				e.printStackTrace();
+				//关闭连接
+				//f.channel().close().sync();
+			}
 		}
-		System.out.println("启动结束");
+		System.out.println("客户端结束");
 	}
 }

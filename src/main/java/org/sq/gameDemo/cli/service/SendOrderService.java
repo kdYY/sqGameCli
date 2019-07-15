@@ -1,9 +1,9 @@
 package org.sq.gameDemo.cli.service;
 
 import org.springframework.stereotype.Component;
+import org.sq.gameDemo.cli.GameCli;
 import org.sq.gameDemo.common.entity.MsgEntity;
-import org.sq.gameDemo.common.proto.MessageProto;
-import org.sq.gameDemo.common.proto.UserProto;
+import org.sq.gameDemo.common.proto.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,22 +12,29 @@ import java.util.UUID;
 @Component
 public class SendOrderService {
 
+
     /**
      * 注册
      * @param msgEntity
      * @param input
      */
-    public void register(MsgEntity msgEntity, String[] input) {
+    public void register(MsgEntity msgEntity, String[] input) throws Exception {
         if(input.length >= 2) {
-            Map<String,Object> map = splitCmdString(input);
-            UserProto.User data = UserProto.User.newBuilder()
-                    .setMsgId(UUID.randomUUID().hashCode())
-                    .setName((String) map.get("name"))
-                    .setPassword((String) map.get("password"))
-                    .setTime(System.currentTimeMillis())
-                    .build();
+            UserProto.RequestUserInfo data = getRequestUserInfo(input);
             msgEntity.setData(data.toByteArray());
         }
+    }
+
+    private UserProto.RequestUserInfo getRequestUserInfo(String[] input) throws Exception {
+        Map<String,Object> map = splitCmdString(input);
+        return UserProto.RequestUserInfo.newBuilder()
+                .setMsgId(UUID.randomUUID().hashCode())
+                .setTime(System.currentTimeMillis())
+                .setUser(UserProto.User.newBuilder()
+                        .setName((String) map.get("name"))
+                        .setPassword((String) map.get("password"))
+                        .build())
+                .build();
     }
 
     /**
@@ -35,15 +42,9 @@ public class SendOrderService {
      * @param msgEntity
      * @param input
      */
-    public void login(MsgEntity msgEntity, String[] input) {
+    public void login(MsgEntity msgEntity, String[] input) throws Exception {
         if(input.length >= 2) {
-            Map<String,Object> map = splitCmdString(input);
-            UserProto.User data = UserProto.User.newBuilder()
-                    .setMsgId(UUID.randomUUID().hashCode())
-                    .setName((String) map.get("name"))
-                    .setPassword((String) map.get("password"))
-                    .setTime(System.currentTimeMillis())
-                    .build();
+            UserProto.RequestUserInfo data = getRequestUserInfo(input);
             msgEntity.setData(data.toByteArray());
         }
     }
@@ -55,10 +56,25 @@ public class SendOrderService {
     public void help() {
         System.out.println(
                 "注册: register name=test&password=123456\r\n"
-                + "登陆: login name=test&password=123456\r\n"
+                + "登陆: login name=kevins&password=123\r\n"
                         + "查看可创建角色: getRoleMsg\r\n"
-                + "绑定角色: bindRole name=剑圣\r\n"
+                + "创建角色: bindRole id=3\r\n"
+                + "跟指定npc讲话 talkwithnpc id=0"
         );
+    }
+
+    //移动
+    public void talkToNpc(MsgEntity msgEntity, String[] input) throws Exception {
+        if(input.length >= 2) {
+            Map<String,Object> map = splitCmdString(input);
+            SenceEntityProto.RequestInfo data = SenceEntityProto.RequestInfo.newBuilder()
+                    .setMsgId(UUID.randomUUID().hashCode())
+                    .setId(Integer.valueOf((String) map.get("id")))
+                    .setTime(System.currentTimeMillis())
+                    .build();
+            msgEntity.setData(data.toByteArray());
+        }
+
     }
 
     /**
@@ -66,21 +82,61 @@ public class SendOrderService {
      * @param msgEntity
      * @param input
      */
-    public void bindRole(MsgEntity msgEntity, String[] input) {
+    public void bindRole(MsgEntity msgEntity, String[] input) throws Exception {
+        if(input.length >= 2) {
+            Map<String,Object> map = splitCmdString(input);
+            UserEntityProto.UserEntityRequestInfo data = UserEntityProto.UserEntityRequestInfo.newBuilder()
+                    .setMsgId(UUID.randomUUID().hashCode())
+                    .setTypeId(Integer.valueOf((String) map.get("id")))
+                    .setTime(System.currentTimeMillis())
+                    .build();
+            msgEntity.setData(data.toByteArray());
+        }
 
+    }
+
+    public void aoi(MsgEntity msgEntity) {
+        SenceMsgProto.SenceMsgRequestInfo data = SenceMsgProto.SenceMsgRequestInfo.newBuilder()
+                .setMsgId(UUID.randomUUID().hashCode())
+                .setTime(System.currentTimeMillis())
+                .build();
+        msgEntity.setData(data.toByteArray());
+
+    }
+
+    //移动
+    public void move(MsgEntity msgEntity, String[] input) throws Exception {
+        if(input.length >= 2) {
+            Map<String,Object> map = splitCmdString(input);
+            SenceProto.RequestSenceInfo data = SenceProto.RequestSenceInfo.newBuilder()
+                    .setMsgId(UUID.randomUUID().hashCode())
+                    .setSenceId(Integer.valueOf((String) map.get("id")))
+                    .setTime(System.currentTimeMillis())
+                    .build();
+            msgEntity.setData(data.toByteArray());
+        }
 
     }
 
     // name=adfa&password=123456
-    private Map splitCmdString(String[] input) {
+    //map{name,adfa},{password,123456}
+    private Map splitCmdString(String[] input) throws Exception{
         Map<String, Object> map = new HashMap<>();
         if(input.length >= 2) {
-            String[] split = input[1].split("&");
-            for (String s : split) {
-                String[] split1 = s.split("=");
-                map.put(split1[0], split1[1]);
+            try {
+                String[] split = input[1].split("&");
+                for (String s : split) {
+                    String[] split1 = s.split("=");
+                    map.put(split1[0], split1[1]);
+                }
+            } catch (Exception e) {
+                System.out.println("参数有误");
+                throw e;
             }
         }
         return map;
     }
+
+
+
 }

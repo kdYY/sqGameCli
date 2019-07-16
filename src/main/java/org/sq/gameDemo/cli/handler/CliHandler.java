@@ -1,11 +1,18 @@
 package org.sq.gameDemo.cli.handler;
 
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.EventLoop;
 import io.netty.channel.SimpleChannelInboundHandler;
+import org.sq.gameDemo.cli.GameCli;
 import org.sq.gameDemo.common.entity.MsgEntity;
 import org.sq.gameDemo.common.proto.MessageProto;
 import org.sq.gameDemo.svr.common.dispatch.DispatchRequest;
 
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
+
+@ChannelHandler.Sharable
 public class CliHandler extends SimpleChannelInboundHandler<MsgEntity> {
 
 
@@ -25,11 +32,25 @@ public class CliHandler extends SimpleChannelInboundHandler<MsgEntity> {
         }
 
     }
-
-
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
+        System.out.println("激活时间是："+new Date());
+        //System.out.println("HeartBeatClientHandler channelActive");
+        ctx.fireChannelActive();
 
-        super.channelActive(ctx);
     }
+
+    @Override
+    public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+        System.out.println("停止时间是："+new Date());
+        final EventLoop eventLoop = ctx.channel().eventLoop();
+        eventLoop.schedule(new Runnable() {
+            @Override
+            public void run() {
+                GameCli.init();
+            }
+        }, 1L, TimeUnit.SECONDS);
+        super.channelInactive(ctx);
+    }
+
 }

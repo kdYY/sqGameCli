@@ -31,23 +31,10 @@ public class StartApplication implements CommandLineRunner {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println("启动netty中");
+		System.out.println("启动netty客户端中");
 
 		gameCli.init();
-		ChannelFuture f = gameCli.getFuture();
-		Scanner scanner = new Scanner(System.in);
-		String line = "";
-		while (scanner.hasNext()) {
-			try {
-				line = scanner.nextLine();
-				gameCli.sendMsg(line);
-				// line = "";
-			} catch (Exception e) {
-				e.printStackTrace();
-				//关闭连接
-				//f.channel().close().sync();
-			}
-		}
+		GameCli.input();
 		System.out.println("客户端结束");
 	}
 }

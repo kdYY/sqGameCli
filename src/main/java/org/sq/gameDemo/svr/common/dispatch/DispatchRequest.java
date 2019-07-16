@@ -64,10 +64,6 @@ public class DispatchRequest{
      * @param msgEntity 请求实体
      */
     public void dispatch(ChannelHandlerContext ctx, MsgEntity msgEntity) throws InvocationTargetException, IllegalAccessException {
-        short cmdCode = msgEntity.getCmdCode();
-            Object response = null;
-            ChannelFuture future = null;
-            OrderBean orderBean = null;
             getResponse(msgEntity);
 
     }

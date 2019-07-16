@@ -18,7 +18,9 @@ public class ReadService {
     @OrderMapping(OrderEnum.Login)
     public void loginReturn(MsgEntity msgEntity) throws InvalidProtocolBufferException {
         UserProto.ResponseUserInfo msg = UserProto.ResponseUserInfo.parseFrom(msgEntity.getData());
-        if(msg.getResult() != 500) {
+        if(msg.getResult() == 404) {
+            System.out.println(msg.getContent());
+        } else if(msg.getResult() != 500) {
             GameCli.setToken(msg.getToken());
             System.out.println("\r\nlogin success, \r\nnow enter getRoleMsg to get role message~");
 //            for (int i = 0; i < msg.getEntityTypesCount(); i++) {
@@ -126,11 +128,13 @@ public class ReadService {
     public void talkNpcReturn(MsgEntity msgEntity) throws InvalidProtocolBufferException {
         SenceEntityProto.ResponseInfo responseInfo = SenceEntityProto.ResponseInfo.parseFrom(msgEntity.getData());
         SenceEntityProto.SenceEntity senceEntity = responseInfo.getSenceEntity(0);
-        Scanner scanner = new Scanner(System.in);
         for (String word : senceEntity.getNpcWordList()) {
-            if(scanner.next() != null) {
-                System.out.println(word);
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
+            System.out.println(word);
         }
        // aoi(msgEntity);
     }

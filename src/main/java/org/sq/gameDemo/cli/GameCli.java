@@ -4,41 +4,102 @@ import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
-import org.apache.log4j.Logger;
+import io.netty.handler.timeout.IdleStateHandler;
+import io.netty.util.HashedWheelTimer;
+import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.sq.gameDemo.cli.handler.CliHandler;
+import org.sq.gameDemo.cli.handler.ConnectionWatchdog;
+import org.sq.gameDemo.cli.handler.ConnectorIdleStateTrigger;
 import org.sq.gameDemo.cli.service.SendOrderService;
+import org.sq.gameDemo.common.MsgDecoder;
+import org.sq.gameDemo.common.MsgEncoder;
 import org.sq.gameDemo.common.entity.MsgEntity;
 import org.sq.gameDemo.common.OrderEnum;
 import org.sq.gameDemo.svr.common.PoiUtil;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
+@Data
+@Slf4j
 @Component
 public class GameCli {
 
-    private  SendOrderService sendOrderService = new SendOrderService();
-    private  final Logger log = Logger.getLogger(GameCli.class);
-    private  Bootstrap b;
-    private  ChannelFuture f;
-    private  final EventLoopGroup workerGroup = new NioEventLoopGroup();
+    private static   SendOrderService sendOrderService = new SendOrderService();
+    private static Scanner scanner = new Scanner(System.in);
+    private static   Bootstrap b;
+    private static Channel channel;
+    private static final EventLoopGroup workerGroup;
 
     private static String token;
 
+    public static void setChannel(Channel channel) {
+        GameCli.channel = channel;
+    }
+
+    public static Channel getChannel() {
+        return channel;
+    }
+
+    static {
+        b = new Bootstrap();
+        workerGroup = new NioEventLoopGroup();
+        b.group(workerGroup).remoteAddress("127.0.0.1", 8085);
+        b.channel(NioSocketChannel.class);
+        b.option(ChannelOption.SO_KEEPALIVE, true);
+        b.handler(new CliChannelInitializer());
+    }
     /**
      * 初始化客户端
      */
-    public  void init() {
+    public static void init() {
+        ChannelFuture future = null;
         try {
-            b = new Bootstrap();
-            b.group(workerGroup).remoteAddress("127.0.0.1", 8085);
-            b.channel(NioSocketChannel.class);
-            b.option(ChannelOption.SO_KEEPALIVE, true);
-            b.handler(new CliChannelInitializer());
-            f = b.connect().sync();
+
+            future = b.connect();
+            future.addListener(new ChannelFutureListener() {
+                public void operationComplete(ChannelFuture channelFuture) throws Exception {
+                    boolean succeed = channelFuture.isSuccess();
+                    //如果重连失败，则调用ChannelInactive方法，再次出发重连事件，一直尝试12次，如果失败则不再重连
+                    if (!succeed) {
+                        final EventLoop loop = channelFuture.channel().eventLoop();
+                        loop.schedule(new Runnable() {
+                            @Override
+                            public void run() {
+                                System.err.println("服务端链接不上，开始重连操作...");
+                                init();
+                            }
+                        }, 1L, TimeUnit.SECONDS);
+                    }else{
+                        System.out.println("重连成功");
+                    }
+                }
+            });
+            channel = future.channel();
             //readToken();
         } catch (Exception e) {
+            //---做反应
             e.printStackTrace();
+            future.channel().pipeline().fireChannelInactive();
+        }
+    }
+
+    public static void input() {
+        String line = "";
+        while (scanner.hasNext()) {
+            try {
+                line = scanner.nextLine();
+                sendMsg(line);
+                // line = "";
+            } catch (Exception e) {
+                e.printStackTrace();
+                //关闭连接
+                //future.channel().close().sync();
+            }
         }
     }
 
@@ -62,12 +123,6 @@ public class GameCli {
                 e.printStackTrace();
             }
         }
-//        if(len <= 0) {
-//            System.out.println("请先登录");
-//        } else {
-//            token = new String(b, 0, len);
-//            sendMsg("checkToken token=" + token);
-//        }
 
     }
 
@@ -76,17 +131,16 @@ public class GameCli {
      * @param send
      * @return
      */
-    public  void sendMsg(String send) throws Exception {
+    public static void sendMsg(String send) throws Exception {
         // 传数据给服务端
-
         MsgEntity sendMsgEntity = sendMsgEntity(send);
         if(sendMsgEntity == null) {
             return;
         }
-        f.channel().writeAndFlush(sendMsgEntity);
+        channel.writeAndFlush(sendMsgEntity);
     }
 
-    private MsgEntity sendMsgEntity(String request) throws Exception{
+    private  static MsgEntity sendMsgEntity(String request) throws Exception{
         //eg: register name=kevins&password=123456
         if(request == null || request.equals("")) {
             return null;
@@ -135,15 +189,8 @@ public class GameCli {
         return msgEntity;
     }
 
-    public ChannelFuture getFuture() {
-        return f;
-    }
 
-    public static String getToken() {
-        return token;
-    }
-
-    public static void  setToken(String token1) {
-        token = token1;
+    public static void setToken(String token) {
+        GameCli.token = token;
     }
 }

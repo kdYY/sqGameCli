@@ -1,19 +1,20 @@
 package org.sq.gameDemo.cli;
 
 import io.netty.channel.ChannelInitializer;
-import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.socket.SocketChannel;
-import org.springframework.stereotype.Component;
+import io.netty.handler.timeout.IdleStateHandler;
 import org.sq.gameDemo.cli.handler.CliHandler;
+import org.sq.gameDemo.cli.handler.ConnectionWatchdog;
+import org.sq.gameDemo.cli.handler.ConnectorIdleStateTrigger;
 import org.sq.gameDemo.common.MsgDecoder;
 import org.sq.gameDemo.common.MsgEncoder;
 
-@Component
+import java.util.concurrent.TimeUnit;
+
+
 public class CliChannelInitializer extends ChannelInitializer<SocketChannel> {
 
-
-    private SimpleChannelInboundHandler simpleChannelInboundHandler;
-
+    private static final ConnectorIdleStateTrigger idleStateTrigger = new ConnectorIdleStateTrigger();
     @Override
     protected void initChannel(SocketChannel ch) throws Exception {
         /*
@@ -49,9 +50,15 @@ public class CliChannelInitializer extends ChannelInitializer<SocketChannel> {
 //        ch.pipeline().addLast(new ProtobufEncoder());
 //        ch.pipeline().addLast(new CliHandler());
 
-        ch.pipeline().addLast("decoder", new MsgDecoder());
-        ch.pipeline().addLast("encoder",new MsgEncoder());
-        ch.pipeline().addLast("handler", new CliHandler());
+//        ch.pipeline().addLast("decoder", new MsgDecoder());
+//        ch.pipeline().addLast("encoder",new MsgEncoder());
+//        ch.pipeline().addLast("handler", new CliHandler());
+        ch.pipeline().addLast(
+                new IdleStateHandler(0, 4, 0, TimeUnit.SECONDS),
+                idleStateTrigger,
+                new MsgDecoder(),
+                new MsgEncoder(),
+                new CliHandler());
 
     }
 

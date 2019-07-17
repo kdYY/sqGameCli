@@ -8,6 +8,8 @@ import io.netty.handler.timeout.IdleStateHandler;
 import io.netty.util.HashedWheelTimer;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.sq.gameDemo.cli.handler.CliHandler;
 import org.sq.gameDemo.cli.handler.ConnectionWatchdog;
@@ -29,6 +31,7 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class GameCli {
 
+    private static String tokenPath;
     private static   SendOrderService sendOrderService = new SendOrderService();
     private static Scanner scanner = new Scanner(System.in);
     private static   Bootstrap b;
@@ -56,7 +59,8 @@ public class GameCli {
     /**
      * 初始化客户端
      */
-    public static void init() {
+    public static void init(String tokenFileName) {
+        tokenPath = tokenFileName;
         ChannelFuture future = null;
         try {
 
@@ -71,20 +75,22 @@ public class GameCli {
                             @Override
                             public void run() {
                                 System.err.println("服务端链接不上，开始重连操作...");
-                                init();
+                                init(tokenPath);
                             }
                         }, 1L, TimeUnit.SECONDS);
                     }else{
-                        System.out.println("重连成功");
+                        System.out.println("连接成功");
+                        channel.writeAndFlush(sendOrderService.checkToken(tokenPath));
                     }
                 }
             });
             channel = future.channel();
+
             //readToken();
         } catch (Exception e) {
             //---做反应
             e.printStackTrace();
-            future.channel().pipeline().fireChannelInactive();
+            //------future.channel().pipeline().fireChannelInactive();
         }
     }
 
@@ -103,28 +109,10 @@ public class GameCli {
         }
     }
 
-    private void readToken() throws InterruptedException {
-        System.out.println("登陆校验中");
-        InputStream in = PoiUtil.class.getClassLoader().getResourceAsStream("token");
-        byte b[] = new byte[1024];
-        int len = 0;
-        int temp=0;          //全部读取的内容都使用temp接收
-        try {
-            while((temp = in.read()) != -1) {    //当没有读取完时，继续读取
-                b[len] = (byte)temp;
-                len++;
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                in.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
+    public static String getTokenPath() {
+        return tokenPath;
     }
+
 
     /**
      * 发送请求

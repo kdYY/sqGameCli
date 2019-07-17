@@ -1,6 +1,7 @@
 package org.sq.gameDemo.cli.service;
 
 import com.google.protobuf.InvalidProtocolBufferException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.sq.gameDemo.cli.GameCli;
 import org.sq.gameDemo.common.OrderEnum;
@@ -8,12 +9,15 @@ import org.sq.gameDemo.common.entity.MsgEntity;
 import org.sq.gameDemo.common.proto.*;
 import org.sq.gameDemo.svr.common.OrderMapping;
 
+import java.io.*;
 import java.util.List;
 import java.util.Scanner;
 
 @Component
 public class ReadService {
 
+    @Value("${token.filePath}")
+    private String tokenFileName;
 
     @OrderMapping(OrderEnum.Login)
     public void loginReturn(MsgEntity msgEntity) throws InvalidProtocolBufferException {
@@ -22,17 +26,42 @@ public class ReadService {
             System.out.println(msg.getContent());
         } else if(msg.getResult() != 500) {
             GameCli.setToken(msg.getToken());
-            System.out.println("\r\nlogin success, \r\nnow enter getRoleMsg to get role message~");
-//            for (int i = 0; i < msg.getEntityTypesCount(); i++) {
-//                EntityProto.EntityType entityTypes = msg.getEntityTypes(i);
-//                System.out.println("id=" + entityTypes.getId() + ",name=" +entityTypes.getName());
-//            }
+            //写入文件
+            writeToTokenFile(msg.getToken());
+            System.out.println("\r\nlogin success, \r\nwelcome back to ->" + msg.getContent() + "!!");
         } else {
             System.out.println("服务端异常");
         }
 
     }
-//
+
+    private void writeToTokenFile(String taken) {
+        //清空文件，写入文件
+        File file = new File(SendOrderService.class.getClassLoader().getResource(tokenFileName).getFile());
+        //
+        FileWriter fileWriter = null;
+        try {
+            fileWriter = new FileWriter(file);
+            fileWriter.write("");
+            fileWriter.flush();
+            fileWriter.write(taken);
+            fileWriter.flush();
+            fileWriter.close();
+            System.out.println("写入文件成功");
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("写入token文件失败");
+        } finally {
+            try {
+                fileWriter.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+    //
     @OrderMapping(OrderEnum.GetRole)
     public void getRoleReturn(MsgEntity msgEntity) throws InvalidProtocolBufferException {
 
@@ -137,6 +166,26 @@ public class ReadService {
             System.out.println(word);
         }
        // aoi(msgEntity);
+    }
+
+    @OrderMapping(OrderEnum.CheckToken)
+    public void checkToken(MsgEntity msgEntity) throws InvalidProtocolBufferException {
+        UserProto.ResponseUserInfo msg = UserProto.ResponseUserInfo.parseFrom(msgEntity.getData());
+        if(msg.getResult() == 404) {
+            System.out.println(msg.getContent());
+        } else if(msg.getResult() != 500) {
+            GameCli.setToken(msg.getToken());
+            System.out.println("\r\nlogin success, \r\nwelcome back to ->" + msg.getContent() + "!!");
+        } else {
+            System.out.println("服务端异常");
+        }
+
+    }
+
+    @OrderMapping(OrderEnum.BroadCast)
+    public void broadCast(MsgEntity msgEntity) throws InvalidProtocolBufferException {
+        MessageProto.Msg msg = MessageProto.Msg.parseFrom(msgEntity.getData());
+        System.out.println("广播 -> " + msg.getContent());
     }
 
 }

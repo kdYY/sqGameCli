@@ -5,12 +5,14 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.EventLoop;
 import io.netty.channel.SimpleChannelInboundHandler;
 import org.sq.gameDemo.cli.GameCli;
+import org.sq.gameDemo.cli.service.SendOrderService;
 import org.sq.gameDemo.common.entity.MsgEntity;
 import org.sq.gameDemo.common.proto.MessageProto;
 import org.sq.gameDemo.svr.common.dispatch.DispatchRequest;
 
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
+
 
 @ChannelHandler.Sharable
 public class CliHandler extends SimpleChannelInboundHandler<MsgEntity> {
@@ -47,7 +49,7 @@ public class CliHandler extends SimpleChannelInboundHandler<MsgEntity> {
         eventLoop.schedule(new Runnable() {
             @Override
             public void run() {
-                GameCli.init();
+                GameCli.init(GameCli.getTokenPath());
             }
         }, 1L, TimeUnit.SECONDS);
         super.channelInactive(ctx);

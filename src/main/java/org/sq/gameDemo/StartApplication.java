@@ -14,7 +14,8 @@ import java.util.Scanner;
 
 @SpringBootApplication
 public class StartApplication implements CommandLineRunner {
-
+	@Value("${token.filePath}")
+	private String tokenFileName;
 	@Autowired
 	private GameCli gameCli;
 
@@ -33,7 +34,7 @@ public class StartApplication implements CommandLineRunner {
 		}
 		System.out.println("启动netty客户端中");
 
-		gameCli.init();
+		gameCli.init(tokenFileName);
 		GameCli.input();
 		System.out.println("客户端结束");
 	}

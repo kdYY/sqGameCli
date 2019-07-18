@@ -149,27 +149,44 @@ public class SendOrderService {
         UserProto.RequestUserInfo.Builder builder = UserProto.RequestUserInfo.newBuilder();
         InputStream resourceAsStream = SendOrderService.class.getClassLoader().getResourceAsStream(tokenFileName);
         //
-        BufferedReader reader = new BufferedReader(new InputStreamReader(resourceAsStream));
-        StringBuilder str = new StringBuilder();
-
-        String line = null;
-        try {
-            while ((line = reader.readLine()) != null) {
-                str.append(line);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                resourceAsStream.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        builder.setToken(str.toString())
+        String token = readFileByChars();
+        builder.setToken(token)
                 .setMsgId(UUID.randomUUID().hashCode())
                 .setTime(System.currentTimeMillis());
         msgEntity.setData(builder.build().toByteArray());
         return msgEntity;
     }
+
+    public static String readFileByChars() {
+        String token = "";
+        String filePath = System.getProperty("user.dir")
+                + "/conf/token.txt";
+        File file = new File(filePath);
+        if(!file.exists()) {
+            System.out.println("token文件不存在");
+            return "";
+        }
+        Reader reader = null;
+        try {
+            reader = new InputStreamReader(new FileInputStream(filePath));
+            int tempchar;
+            while ((tempchar = reader.read()) != -1) {
+                if (((char) tempchar) != '\r') {
+                    // System.out.print((char) tempchar);
+                    token += (char) tempchar + "";
+                }
+            }
+            reader.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                reader.close();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+        }
+        return token;
+    }
+
 }

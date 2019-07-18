@@ -37,23 +37,31 @@ public class ReadService {
 
     private void writeToTokenFile(String taken) {
         //清空文件，写入文件
-        File file = new File(SendOrderService.class.getClassLoader().getResource(tokenFileName).getFile());
-        //
-        FileWriter fileWriter = null;
+        FileOutputStream fsOut = null;
+        String filePath = System.getProperty("user.dir")
+                + "/conf";
         try {
-            fileWriter = new FileWriter(file);
-            fileWriter.write("");
-            fileWriter.flush();
-            fileWriter.write(taken);
-            fileWriter.flush();
-            fileWriter.close();
-            System.out.println("写入文件成功");
-        } catch (IOException e) {
+            File file = new File(filePath);
+            if(!file.exists()) {
+                file.mkdirs();
+            }
+            System.out.println(file.getAbsolutePath() + "创建成功");
+            String tokeFilePath = filePath + File.separator + "token.txt";
+            File file1 = new File(tokeFilePath);
+            if(!file1.exists()) {
+                file1.createNewFile();
+            }
+            fsOut = new FileOutputStream(filePath + File.separator + "token.txt");
+            byte[] b = taken.getBytes();
+            fsOut.write(b);
+            fsOut.close();
+            System.out.println(taken+"写入CT成功！");
+        } catch (Exception e) {
             e.printStackTrace();
             System.out.println("写入token文件失败");
         } finally {
             try {
-                fileWriter.close();
+                fsOut.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }

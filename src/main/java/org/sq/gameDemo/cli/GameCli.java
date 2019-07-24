@@ -4,25 +4,13 @@ import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
-import io.netty.handler.timeout.IdleStateHandler;
-import io.netty.util.HashedWheelTimer;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.sq.gameDemo.cli.handler.CliHandler;
-import org.sq.gameDemo.cli.handler.ConnectionWatchdog;
-import org.sq.gameDemo.cli.handler.ConnectorIdleStateTrigger;
 import org.sq.gameDemo.cli.service.SendOrderService;
-import org.sq.gameDemo.common.MsgDecoder;
-import org.sq.gameDemo.common.MsgEncoder;
 import org.sq.gameDemo.common.entity.MsgEntity;
 import org.sq.gameDemo.common.OrderEnum;
-import org.sq.gameDemo.svr.common.PoiUtil;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 

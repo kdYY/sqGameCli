@@ -1,12 +1,9 @@
 package org.sq.gameDemo.cli.service;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.sq.gameDemo.cli.GameCli;
 import org.sq.gameDemo.common.OrderEnum;
 import org.sq.gameDemo.common.entity.MsgEntity;
 import org.sq.gameDemo.common.proto.*;
-import org.sq.gameDemo.svr.common.PoiUtil;
 
 import java.io.*;
 import java.util.HashMap;
@@ -68,11 +65,11 @@ public class SendOrderService {
         );
     }
 
-    //移动
+    //
     public void talkToNpc(MsgEntity msgEntity, String[] input) throws Exception {
         if(input.length >= 2) {
             Map<String,Object> map = splitCmdString(input);
-            SenceEntityProto.RequestInfo data = SenceEntityProto.RequestInfo.newBuilder()
+            NpcPt.NpcReqInfo data = NpcPt.NpcReqInfo.newBuilder()
                     .setMsgId(UUID.randomUUID().hashCode())
                     .setId(Integer.valueOf((String) map.get("id")))
                     .setTime(System.currentTimeMillis())

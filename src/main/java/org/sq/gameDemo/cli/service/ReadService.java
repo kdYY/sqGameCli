@@ -169,6 +169,8 @@ public class ReadService {
                     + monster.getName()
                     + ", state:"
                     + (monster.getState()==1?"live":"dead")
+                    + ", hp:"
+                    + monster.getHp()
             );
         }
         System.out.println("npc in sence:");

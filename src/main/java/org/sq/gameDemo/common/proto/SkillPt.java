@@ -73,11 +73,16 @@ public final class SkillPt {
     int getBuff();
 
     /**
-     * <code>string description = 10;</code>
+     * <code>uint64 castTime = 10;</code>
+     */
+    long getCastTime();
+
+    /**
+     * <code>string description = 11;</code>
      */
     String getDescription();
     /**
-     * <code>string description = 10;</code>
+     * <code>string description = 11;</code>
      */
     com.google.protobuf.ByteString
         getDescriptionBytes();
@@ -179,7 +184,12 @@ public final class SkillPt {
               buff_ = input.readInt32();
               break;
             }
-            case 82: {
+            case 80: {
+
+              castTime_ = input.readUInt64();
+              break;
+            }
+            case 90: {
               String s = input.readStringRequireUtf8();
 
               description_ = s;
@@ -327,10 +337,19 @@ public final class SkillPt {
       return buff_;
     }
 
-    public static final int DESCRIPTION_FIELD_NUMBER = 10;
+    public static final int CASTTIME_FIELD_NUMBER = 10;
+    private long castTime_;
+    /**
+     * <code>uint64 castTime = 10;</code>
+     */
+    public long getCastTime() {
+      return castTime_;
+    }
+
+    public static final int DESCRIPTION_FIELD_NUMBER = 11;
     private volatile Object description_;
     /**
-     * <code>string description = 10;</code>
+     * <code>string description = 11;</code>
      */
     public String getDescription() {
       Object ref = description_;
@@ -345,7 +364,7 @@ public final class SkillPt {
       }
     }
     /**
-     * <code>string description = 10;</code>
+     * <code>string description = 11;</code>
      */
     public com.google.protobuf.ByteString
         getDescriptionBytes() {
@@ -402,8 +421,11 @@ public final class SkillPt {
       if (buff_ != 0) {
         output.writeInt32(9, buff_);
       }
+      if (castTime_ != 0L) {
+        output.writeUInt64(10, castTime_);
+      }
       if (!getDescriptionBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 10, description_);
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 11, description_);
       }
       unknownFields.writeTo(output);
     }
@@ -449,8 +471,12 @@ public final class SkillPt {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(9, buff_);
       }
+      if (castTime_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt64Size(10, castTime_);
+      }
       if (!getDescriptionBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(10, description_);
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(11, description_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -485,6 +511,8 @@ public final class SkillPt {
           != other.getGrade()) return false;
       if (getBuff()
           != other.getBuff()) return false;
+      if (getCastTime()
+          != other.getCastTime()) return false;
       if (!getDescription()
           .equals(other.getDescription())) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
@@ -520,6 +548,9 @@ public final class SkillPt {
       hash = (53 * hash) + getGrade();
       hash = (37 * hash) + BUFF_FIELD_NUMBER;
       hash = (53 * hash) + getBuff();
+      hash = (37 * hash) + CASTTIME_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getCastTime());
       hash = (37 * hash) + DESCRIPTION_FIELD_NUMBER;
       hash = (53 * hash) + getDescription().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
@@ -677,6 +708,8 @@ public final class SkillPt {
 
         buff_ = 0;
 
+        castTime_ = 0L;
+
         description_ = "";
 
         return this;
@@ -714,6 +747,7 @@ public final class SkillPt {
         result.heal_ = heal_;
         result.grade_ = grade_;
         result.buff_ = buff_;
+        result.castTime_ = castTime_;
         result.description_ = description_;
         onBuilt();
         return result;
@@ -790,6 +824,9 @@ public final class SkillPt {
         }
         if (other.getBuff() != 0) {
           setBuff(other.getBuff());
+        }
+        if (other.getCastTime() != 0L) {
+          setCastTime(other.getCastTime());
         }
         if (!other.getDescription().isEmpty()) {
           description_ = other.description_;
@@ -1113,9 +1150,35 @@ public final class SkillPt {
         return this;
       }
 
+      private long castTime_ ;
+      /**
+       * <code>uint64 castTime = 10;</code>
+       */
+      public long getCastTime() {
+        return castTime_;
+      }
+      /**
+       * <code>uint64 castTime = 10;</code>
+       */
+      public Builder setCastTime(long value) {
+        
+        castTime_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>uint64 castTime = 10;</code>
+       */
+      public Builder clearCastTime() {
+        
+        castTime_ = 0L;
+        onChanged();
+        return this;
+      }
+
       private Object description_ = "";
       /**
-       * <code>string description = 10;</code>
+       * <code>string description = 11;</code>
        */
       public String getDescription() {
         Object ref = description_;
@@ -1130,7 +1193,7 @@ public final class SkillPt {
         }
       }
       /**
-       * <code>string description = 10;</code>
+       * <code>string description = 11;</code>
        */
       public com.google.protobuf.ByteString
           getDescriptionBytes() {
@@ -1146,7 +1209,7 @@ public final class SkillPt {
         }
       }
       /**
-       * <code>string description = 10;</code>
+       * <code>string description = 11;</code>
        */
       public Builder setDescription(
           String value) {
@@ -1159,7 +1222,7 @@ public final class SkillPt {
         return this;
       }
       /**
-       * <code>string description = 10;</code>
+       * <code>string description = 11;</code>
        */
       public Builder clearDescription() {
         
@@ -1168,7 +1231,7 @@ public final class SkillPt {
         return this;
       }
       /**
-       * <code>string description = 10;</code>
+       * <code>string description = 11;</code>
        */
       public Builder setDescriptionBytes(
           com.google.protobuf.ByteString value) {
@@ -1234,8 +1297,8 @@ public final class SkillPt {
 
   }
 
-  public interface EntityTypeRequestInfoOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:EntityTypeRequestInfo)
+  public interface SkillReqInfoOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:SkillReqInfo)
       com.google.protobuf.MessageOrBuilder {
 
     /**
@@ -1257,38 +1320,48 @@ public final class SkillPt {
     long getTime();
 
     /**
+     * <code>uint64 player_id = 3;</code>
+     */
+    long getPlayerId();
+
+    /**
      * <pre>
      *获取全部写-1
      * </pre>
      *
-     * <code>int32 skillId = 3;</code>
+     * <code>int32 skillId = 4;</code>
      */
     int getSkillId();
+
+    /**
+     * <code>uint64 target_id = 5;</code>
+     */
+    long getTargetId();
   }
   /**
    * <pre>
    *请求
    * </pre>
    *
-   * Protobuf type {@code EntityTypeRequestInfo}
+   * Protobuf type {@code SkillReqInfo}
    */
-  public  static final class EntityTypeRequestInfo extends
+  public  static final class SkillReqInfo extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:EntityTypeRequestInfo)
-      EntityTypeRequestInfoOrBuilder {
+      // @@protoc_insertion_point(message_implements:SkillReqInfo)
+      SkillReqInfoOrBuilder {
   private static final long serialVersionUID = 0L;
-    // Use EntityTypeRequestInfo.newBuilder() to construct.
-    private EntityTypeRequestInfo(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // Use SkillReqInfo.newBuilder() to construct.
+    private SkillReqInfo(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-    private EntityTypeRequestInfo() {
+    private SkillReqInfo() {
     }
 
     @Override
     @SuppressWarnings({"unused"})
     protected Object newInstance(
         UnusedPrivateParameter unused) {
-      return new EntityTypeRequestInfo();
+      return new SkillReqInfo();
     }
 
     @Override
@@ -1296,7 +1369,7 @@ public final class SkillPt {
     getUnknownFields() {
       return this.unknownFields;
     }
-    private EntityTypeRequestInfo(
+    private SkillReqInfo(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -1326,7 +1399,17 @@ public final class SkillPt {
             }
             case 24: {
 
+              playerId_ = input.readUInt64();
+              break;
+            }
+            case 32: {
+
               skillId_ = input.readInt32();
+              break;
+            }
+            case 40: {
+
+              targetId_ = input.readUInt64();
               break;
             }
             default: {
@@ -1350,15 +1433,15 @@ public final class SkillPt {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return SkillPt.internal_static_EntityTypeRequestInfo_descriptor;
+      return SkillPt.internal_static_SkillReqInfo_descriptor;
     }
 
     @Override
     protected FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return SkillPt.internal_static_EntityTypeRequestInfo_fieldAccessorTable
+      return SkillPt.internal_static_SkillReqInfo_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              EntityTypeRequestInfo.class, Builder.class);
+              SkillReqInfo.class, Builder.class);
     }
 
     public static final int MSG_ID_FIELD_NUMBER = 1;
@@ -1387,17 +1470,35 @@ public final class SkillPt {
       return time_;
     }
 
-    public static final int SKILLID_FIELD_NUMBER = 3;
+    public static final int PLAYER_ID_FIELD_NUMBER = 3;
+    private long playerId_;
+    /**
+     * <code>uint64 player_id = 3;</code>
+     */
+    public long getPlayerId() {
+      return playerId_;
+    }
+
+    public static final int SKILLID_FIELD_NUMBER = 4;
     private int skillId_;
     /**
      * <pre>
      *获取全部写-1
      * </pre>
      *
-     * <code>int32 skillId = 3;</code>
+     * <code>int32 skillId = 4;</code>
      */
     public int getSkillId() {
       return skillId_;
+    }
+
+    public static final int TARGET_ID_FIELD_NUMBER = 5;
+    private long targetId_;
+    /**
+     * <code>uint64 target_id = 5;</code>
+     */
+    public long getTargetId() {
+      return targetId_;
     }
 
     private byte memoizedIsInitialized = -1;
@@ -1420,8 +1521,14 @@ public final class SkillPt {
       if (time_ != 0L) {
         output.writeUInt64(2, time_);
       }
+      if (playerId_ != 0L) {
+        output.writeUInt64(3, playerId_);
+      }
       if (skillId_ != 0) {
-        output.writeInt32(3, skillId_);
+        output.writeInt32(4, skillId_);
+      }
+      if (targetId_ != 0L) {
+        output.writeUInt64(5, targetId_);
       }
       unknownFields.writeTo(output);
     }
@@ -1440,9 +1547,17 @@ public final class SkillPt {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt64Size(2, time_);
       }
+      if (playerId_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt64Size(3, playerId_);
+      }
       if (skillId_ != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(3, skillId_);
+          .computeInt32Size(4, skillId_);
+      }
+      if (targetId_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt64Size(5, targetId_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -1454,17 +1569,21 @@ public final class SkillPt {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof EntityTypeRequestInfo)) {
+      if (!(obj instanceof SkillReqInfo)) {
         return super.equals(obj);
       }
-      EntityTypeRequestInfo other = (EntityTypeRequestInfo) obj;
+      SkillReqInfo other = (SkillReqInfo) obj;
 
       if (getMsgId()
           != other.getMsgId()) return false;
       if (getTime()
           != other.getTime()) return false;
+      if (getPlayerId()
+          != other.getPlayerId()) return false;
       if (getSkillId()
           != other.getSkillId()) return false;
+      if (getTargetId()
+          != other.getTargetId()) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -1482,76 +1601,82 @@ public final class SkillPt {
       hash = (37 * hash) + TIME_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           getTime());
+      hash = (37 * hash) + PLAYER_ID_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getPlayerId());
       hash = (37 * hash) + SKILLID_FIELD_NUMBER;
       hash = (53 * hash) + getSkillId();
+      hash = (37 * hash) + TARGET_ID_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getTargetId());
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
     }
 
-    public static EntityTypeRequestInfo parseFrom(
+    public static SkillReqInfo parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static EntityTypeRequestInfo parseFrom(
+    public static SkillReqInfo parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static EntityTypeRequestInfo parseFrom(
+    public static SkillReqInfo parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static EntityTypeRequestInfo parseFrom(
+    public static SkillReqInfo parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static EntityTypeRequestInfo parseFrom(byte[] data)
+    public static SkillReqInfo parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static EntityTypeRequestInfo parseFrom(
+    public static SkillReqInfo parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static EntityTypeRequestInfo parseFrom(java.io.InputStream input)
+    public static SkillReqInfo parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static EntityTypeRequestInfo parseFrom(
+    public static SkillReqInfo parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
-    public static EntityTypeRequestInfo parseDelimitedFrom(java.io.InputStream input)
+    public static SkillReqInfo parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
-    public static EntityTypeRequestInfo parseDelimitedFrom(
+    public static SkillReqInfo parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static EntityTypeRequestInfo parseFrom(
+    public static SkillReqInfo parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static EntityTypeRequestInfo parseFrom(
+    public static SkillReqInfo parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -1564,7 +1689,7 @@ public final class SkillPt {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(EntityTypeRequestInfo prototype) {
+    public static Builder newBuilder(SkillReqInfo prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     @Override
@@ -1584,26 +1709,26 @@ public final class SkillPt {
      *请求
      * </pre>
      *
-     * Protobuf type {@code EntityTypeRequestInfo}
+     * Protobuf type {@code SkillReqInfo}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:EntityTypeRequestInfo)
-        EntityTypeRequestInfoOrBuilder {
+        // @@protoc_insertion_point(builder_implements:SkillReqInfo)
+        SkillReqInfoOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return SkillPt.internal_static_EntityTypeRequestInfo_descriptor;
+        return SkillPt.internal_static_SkillReqInfo_descriptor;
       }
 
       @Override
       protected FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return SkillPt.internal_static_EntityTypeRequestInfo_fieldAccessorTable
+        return SkillPt.internal_static_SkillReqInfo_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                EntityTypeRequestInfo.class, Builder.class);
+                SkillReqInfo.class, Builder.class);
       }
 
-      // Construct using org.sq.gameDemo.common.proto.SkillPt.EntityTypeRequestInfo.newBuilder()
+      // Construct using org.sq.gameDemo.common.proto.SkillPt.SkillReqInfo.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -1625,7 +1750,11 @@ public final class SkillPt {
 
         time_ = 0L;
 
+        playerId_ = 0L;
+
         skillId_ = 0;
+
+        targetId_ = 0L;
 
         return this;
       }
@@ -1633,17 +1762,17 @@ public final class SkillPt {
       @Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return SkillPt.internal_static_EntityTypeRequestInfo_descriptor;
+        return SkillPt.internal_static_SkillReqInfo_descriptor;
       }
 
       @Override
-      public EntityTypeRequestInfo getDefaultInstanceForType() {
-        return EntityTypeRequestInfo.getDefaultInstance();
+      public SkillReqInfo getDefaultInstanceForType() {
+        return SkillReqInfo.getDefaultInstance();
       }
 
       @Override
-      public EntityTypeRequestInfo build() {
-        EntityTypeRequestInfo result = buildPartial();
+      public SkillReqInfo build() {
+        SkillReqInfo result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
@@ -1651,11 +1780,13 @@ public final class SkillPt {
       }
 
       @Override
-      public EntityTypeRequestInfo buildPartial() {
-        EntityTypeRequestInfo result = new EntityTypeRequestInfo(this);
+      public SkillReqInfo buildPartial() {
+        SkillReqInfo result = new SkillReqInfo(this);
         result.msgId_ = msgId_;
         result.time_ = time_;
+        result.playerId_ = playerId_;
         result.skillId_ = skillId_;
+        result.targetId_ = targetId_;
         onBuilt();
         return result;
       }
@@ -1694,24 +1825,30 @@ public final class SkillPt {
       }
       @Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof EntityTypeRequestInfo) {
-          return mergeFrom((EntityTypeRequestInfo)other);
+        if (other instanceof SkillReqInfo) {
+          return mergeFrom((SkillReqInfo)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(EntityTypeRequestInfo other) {
-        if (other == EntityTypeRequestInfo.getDefaultInstance()) return this;
+      public Builder mergeFrom(SkillReqInfo other) {
+        if (other == SkillReqInfo.getDefaultInstance()) return this;
         if (other.getMsgId() != 0L) {
           setMsgId(other.getMsgId());
         }
         if (other.getTime() != 0L) {
           setTime(other.getTime());
         }
+        if (other.getPlayerId() != 0L) {
+          setPlayerId(other.getPlayerId());
+        }
         if (other.getSkillId() != 0) {
           setSkillId(other.getSkillId());
+        }
+        if (other.getTargetId() != 0L) {
+          setTargetId(other.getTargetId());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -1728,11 +1865,11 @@ public final class SkillPt {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        EntityTypeRequestInfo parsedMessage = null;
+        SkillReqInfo parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (EntityTypeRequestInfo) e.getUnfinishedMessage();
+          parsedMessage = (SkillReqInfo) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -1818,13 +1955,39 @@ public final class SkillPt {
         return this;
       }
 
+      private long playerId_ ;
+      /**
+       * <code>uint64 player_id = 3;</code>
+       */
+      public long getPlayerId() {
+        return playerId_;
+      }
+      /**
+       * <code>uint64 player_id = 3;</code>
+       */
+      public Builder setPlayerId(long value) {
+        
+        playerId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>uint64 player_id = 3;</code>
+       */
+      public Builder clearPlayerId() {
+        
+        playerId_ = 0L;
+        onChanged();
+        return this;
+      }
+
       private int skillId_ ;
       /**
        * <pre>
        *获取全部写-1
        * </pre>
        *
-       * <code>int32 skillId = 3;</code>
+       * <code>int32 skillId = 4;</code>
        */
       public int getSkillId() {
         return skillId_;
@@ -1834,7 +1997,7 @@ public final class SkillPt {
        *获取全部写-1
        * </pre>
        *
-       * <code>int32 skillId = 3;</code>
+       * <code>int32 skillId = 4;</code>
        */
       public Builder setSkillId(int value) {
         
@@ -1847,11 +2010,37 @@ public final class SkillPt {
        *获取全部写-1
        * </pre>
        *
-       * <code>int32 skillId = 3;</code>
+       * <code>int32 skillId = 4;</code>
        */
       public Builder clearSkillId() {
         
         skillId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private long targetId_ ;
+      /**
+       * <code>uint64 target_id = 5;</code>
+       */
+      public long getTargetId() {
+        return targetId_;
+      }
+      /**
+       * <code>uint64 target_id = 5;</code>
+       */
+      public Builder setTargetId(long value) {
+        
+        targetId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>uint64 target_id = 5;</code>
+       */
+      public Builder clearTargetId() {
+        
+        targetId_ = 0L;
         onChanged();
         return this;
       }
@@ -1868,48 +2057,48 @@ public final class SkillPt {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:EntityTypeRequestInfo)
+      // @@protoc_insertion_point(builder_scope:SkillReqInfo)
     }
 
-    // @@protoc_insertion_point(class_scope:EntityTypeRequestInfo)
-    private static final EntityTypeRequestInfo DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:SkillReqInfo)
+    private static final SkillReqInfo DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new EntityTypeRequestInfo();
+      DEFAULT_INSTANCE = new SkillReqInfo();
     }
 
-    public static EntityTypeRequestInfo getDefaultInstance() {
+    public static SkillReqInfo getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<EntityTypeRequestInfo>
-        PARSER = new com.google.protobuf.AbstractParser<EntityTypeRequestInfo>() {
+    private static final com.google.protobuf.Parser<SkillReqInfo>
+        PARSER = new com.google.protobuf.AbstractParser<SkillReqInfo>() {
       @Override
-      public EntityTypeRequestInfo parsePartialFrom(
+      public SkillReqInfo parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new EntityTypeRequestInfo(input, extensionRegistry);
+        return new SkillReqInfo(input, extensionRegistry);
       }
     };
 
-    public static com.google.protobuf.Parser<EntityTypeRequestInfo> parser() {
+    public static com.google.protobuf.Parser<SkillReqInfo> parser() {
       return PARSER;
     }
 
     @Override
-    public com.google.protobuf.Parser<EntityTypeRequestInfo> getParserForType() {
+    public com.google.protobuf.Parser<SkillReqInfo> getParserForType() {
       return PARSER;
     }
 
     @Override
-    public EntityTypeRequestInfo getDefaultInstanceForType() {
+    public SkillReqInfo getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
   }
 
-  public interface EntityTypeResponseInfoOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:EntityTypeResponseInfo)
+  public interface SkillRespInfoOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:SkillRespInfo)
       com.google.protobuf.MessageOrBuilder {
 
     /**
@@ -1974,18 +2163,18 @@ public final class SkillPt {
    *响应
    * </pre>
    *
-   * Protobuf type {@code EntityTypeResponseInfo}
+   * Protobuf type {@code SkillRespInfo}
    */
-  public  static final class EntityTypeResponseInfo extends
+  public  static final class SkillRespInfo extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:EntityTypeResponseInfo)
-      EntityTypeResponseInfoOrBuilder {
+      // @@protoc_insertion_point(message_implements:SkillRespInfo)
+      SkillRespInfoOrBuilder {
   private static final long serialVersionUID = 0L;
-    // Use EntityTypeResponseInfo.newBuilder() to construct.
-    private EntityTypeResponseInfo(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // Use SkillRespInfo.newBuilder() to construct.
+    private SkillRespInfo(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-    private EntityTypeResponseInfo() {
+    private SkillRespInfo() {
       content_ = "";
       skill_ = java.util.Collections.emptyList();
     }
@@ -1994,7 +2183,7 @@ public final class SkillPt {
     @SuppressWarnings({"unused"})
     protected Object newInstance(
         UnusedPrivateParameter unused) {
-      return new EntityTypeResponseInfo();
+      return new SkillRespInfo();
     }
 
     @Override
@@ -2002,7 +2191,7 @@ public final class SkillPt {
     getUnknownFields() {
       return this.unknownFields;
     }
-    private EntityTypeResponseInfo(
+    private SkillRespInfo(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -2075,15 +2264,15 @@ public final class SkillPt {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return SkillPt.internal_static_EntityTypeResponseInfo_descriptor;
+      return SkillPt.internal_static_SkillRespInfo_descriptor;
     }
 
     @Override
     protected FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return SkillPt.internal_static_EntityTypeResponseInfo_fieldAccessorTable
+      return SkillPt.internal_static_SkillRespInfo_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              EntityTypeResponseInfo.class, Builder.class);
+              SkillRespInfo.class, Builder.class);
     }
 
     public static final int MSG_ID_FIELD_NUMBER = 1;
@@ -2257,10 +2446,10 @@ public final class SkillPt {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof EntityTypeResponseInfo)) {
+      if (!(obj instanceof SkillRespInfo)) {
         return super.equals(obj);
       }
-      EntityTypeResponseInfo other = (EntityTypeResponseInfo) obj;
+      SkillRespInfo other = (SkillRespInfo) obj;
 
       if (getMsgId()
           != other.getMsgId()) return false;
@@ -2302,69 +2491,69 @@ public final class SkillPt {
       return hash;
     }
 
-    public static EntityTypeResponseInfo parseFrom(
+    public static SkillRespInfo parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static EntityTypeResponseInfo parseFrom(
+    public static SkillRespInfo parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static EntityTypeResponseInfo parseFrom(
+    public static SkillRespInfo parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static EntityTypeResponseInfo parseFrom(
+    public static SkillRespInfo parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static EntityTypeResponseInfo parseFrom(byte[] data)
+    public static SkillRespInfo parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static EntityTypeResponseInfo parseFrom(
+    public static SkillRespInfo parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static EntityTypeResponseInfo parseFrom(java.io.InputStream input)
+    public static SkillRespInfo parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static EntityTypeResponseInfo parseFrom(
+    public static SkillRespInfo parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
-    public static EntityTypeResponseInfo parseDelimitedFrom(java.io.InputStream input)
+    public static SkillRespInfo parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
-    public static EntityTypeResponseInfo parseDelimitedFrom(
+    public static SkillRespInfo parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static EntityTypeResponseInfo parseFrom(
+    public static SkillRespInfo parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static EntityTypeResponseInfo parseFrom(
+    public static SkillRespInfo parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -2377,7 +2566,7 @@ public final class SkillPt {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(EntityTypeResponseInfo prototype) {
+    public static Builder newBuilder(SkillRespInfo prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     @Override
@@ -2397,26 +2586,26 @@ public final class SkillPt {
      *响应
      * </pre>
      *
-     * Protobuf type {@code EntityTypeResponseInfo}
+     * Protobuf type {@code SkillRespInfo}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:EntityTypeResponseInfo)
-        EntityTypeResponseInfoOrBuilder {
+        // @@protoc_insertion_point(builder_implements:SkillRespInfo)
+        SkillRespInfoOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return SkillPt.internal_static_EntityTypeResponseInfo_descriptor;
+        return SkillPt.internal_static_SkillRespInfo_descriptor;
       }
 
       @Override
       protected FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return SkillPt.internal_static_EntityTypeResponseInfo_fieldAccessorTable
+        return SkillPt.internal_static_SkillRespInfo_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                EntityTypeResponseInfo.class, Builder.class);
+                SkillRespInfo.class, Builder.class);
       }
 
-      // Construct using org.sq.gameDemo.common.proto.SkillPt.EntityTypeResponseInfo.newBuilder()
+      // Construct using org.sq.gameDemo.common.proto.SkillPt.SkillRespInfo.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -2455,17 +2644,17 @@ public final class SkillPt {
       @Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return SkillPt.internal_static_EntityTypeResponseInfo_descriptor;
+        return SkillPt.internal_static_SkillRespInfo_descriptor;
       }
 
       @Override
-      public EntityTypeResponseInfo getDefaultInstanceForType() {
-        return EntityTypeResponseInfo.getDefaultInstance();
+      public SkillRespInfo getDefaultInstanceForType() {
+        return SkillRespInfo.getDefaultInstance();
       }
 
       @Override
-      public EntityTypeResponseInfo build() {
-        EntityTypeResponseInfo result = buildPartial();
+      public SkillRespInfo build() {
+        SkillRespInfo result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
@@ -2473,8 +2662,8 @@ public final class SkillPt {
       }
 
       @Override
-      public EntityTypeResponseInfo buildPartial() {
-        EntityTypeResponseInfo result = new EntityTypeResponseInfo(this);
+      public SkillRespInfo buildPartial() {
+        SkillRespInfo result = new SkillRespInfo(this);
         int from_bitField0_ = bitField0_;
         result.msgId_ = msgId_;
         result.result_ = result_;
@@ -2527,16 +2716,16 @@ public final class SkillPt {
       }
       @Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof EntityTypeResponseInfo) {
-          return mergeFrom((EntityTypeResponseInfo)other);
+        if (other instanceof SkillRespInfo) {
+          return mergeFrom((SkillRespInfo)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(EntityTypeResponseInfo other) {
-        if (other == EntityTypeResponseInfo.getDefaultInstance()) return this;
+      public Builder mergeFrom(SkillRespInfo other) {
+        if (other == SkillRespInfo.getDefaultInstance()) return this;
         if (other.getMsgId() != 0L) {
           setMsgId(other.getMsgId());
         }
@@ -2591,11 +2780,11 @@ public final class SkillPt {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        EntityTypeResponseInfo parsedMessage = null;
+        SkillRespInfo parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (EntityTypeResponseInfo) e.getUnfinishedMessage();
+          parsedMessage = (SkillRespInfo) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -3029,41 +3218,41 @@ public final class SkillPt {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:EntityTypeResponseInfo)
+      // @@protoc_insertion_point(builder_scope:SkillRespInfo)
     }
 
-    // @@protoc_insertion_point(class_scope:EntityTypeResponseInfo)
-    private static final EntityTypeResponseInfo DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:SkillRespInfo)
+    private static final SkillRespInfo DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new EntityTypeResponseInfo();
+      DEFAULT_INSTANCE = new SkillRespInfo();
     }
 
-    public static EntityTypeResponseInfo getDefaultInstance() {
+    public static SkillRespInfo getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<EntityTypeResponseInfo>
-        PARSER = new com.google.protobuf.AbstractParser<EntityTypeResponseInfo>() {
+    private static final com.google.protobuf.Parser<SkillRespInfo>
+        PARSER = new com.google.protobuf.AbstractParser<SkillRespInfo>() {
       @Override
-      public EntityTypeResponseInfo parsePartialFrom(
+      public SkillRespInfo parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new EntityTypeResponseInfo(input, extensionRegistry);
+        return new SkillRespInfo(input, extensionRegistry);
       }
     };
 
-    public static com.google.protobuf.Parser<EntityTypeResponseInfo> parser() {
+    public static com.google.protobuf.Parser<SkillRespInfo> parser() {
       return PARSER;
     }
 
     @Override
-    public com.google.protobuf.Parser<EntityTypeResponseInfo> getParserForType() {
+    public com.google.protobuf.Parser<SkillRespInfo> getParserForType() {
       return PARSER;
     }
 
     @Override
-    public EntityTypeResponseInfo getDefaultInstanceForType() {
+    public SkillRespInfo getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -3075,15 +3264,15 @@ public final class SkillPt {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_Skill_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_EntityTypeRequestInfo_descriptor;
+    internal_static_SkillReqInfo_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_EntityTypeRequestInfo_fieldAccessorTable;
+      internal_static_SkillReqInfo_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_EntityTypeResponseInfo_descriptor;
+    internal_static_SkillRespInfo_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_EntityTypeResponseInfo_fieldAccessorTable;
+      internal_static_SkillRespInfo_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -3093,17 +3282,18 @@ public final class SkillPt {
       descriptor;
   static {
     String[] descriptorData = {
-      "\n\013Skill.proto\"\237\001\n\005Skill\022\n\n\002id\030\001 \001(\005\022\014\n\004n" +
+      "\n\013Skill.proto\"\261\001\n\005Skill\022\n\n\002id\030\001 \001(\005\022\014\n\004n" +
       "ame\030\002 \001(\t\022\022\n\nskillRange\030\003 \001(\005\022\n\n\002cd\030\004 \001(" +
       "\004\022\016\n\006mpNeed\030\005 \001(\004\022\014\n\004hurt\030\006 \001(\004\022\014\n\004heal\030" +
-      "\007 \001(\004\022\r\n\005grade\030\010 \001(\005\022\014\n\004buff\030\t \001(\005\022\023\n\013de" +
-      "scription\030\n \001(\t\"F\n\025EntityTypeRequestInfo" +
-      "\022\016\n\006msg_id\030\001 \001(\004\022\014\n\004time\030\002 \001(\004\022\017\n\007skillI" +
-      "d\030\003 \001(\005\"n\n\026EntityTypeResponseInfo\022\016\n\006msg" +
-      "_id\030\001 \001(\004\022\016\n\006result\030\002 \001(\005\022\014\n\004time\030\003 \001(\004\022" +
-      "\017\n\007content\030\004 \001(\t\022\025\n\005skill\030\005 \003(\0132\006.SkillB" +
-      "\'\n\034org.sq.gameDemo.common.protoB\007SkillPt" +
-      "b\006proto3"
+      "\007 \001(\004\022\r\n\005grade\030\010 \001(\005\022\014\n\004buff\030\t \001(\005\022\020\n\010ca" +
+      "stTime\030\n \001(\004\022\023\n\013description\030\013 \001(\t\"c\n\014Ski" +
+      "llReqInfo\022\016\n\006msg_id\030\001 \001(\004\022\014\n\004time\030\002 \001(\004\022" +
+      "\021\n\tplayer_id\030\003 \001(\004\022\017\n\007skillId\030\004 \001(\005\022\021\n\tt" +
+      "arget_id\030\005 \001(\004\"e\n\rSkillRespInfo\022\016\n\006msg_i" +
+      "d\030\001 \001(\004\022\016\n\006result\030\002 \001(\005\022\014\n\004time\030\003 \001(\004\022\017\n" +
+      "\007content\030\004 \001(\t\022\025\n\005skill\030\005 \003(\0132\006.SkillB\'\n" +
+      "\034org.sq.gameDemo.common.protoB\007SkillPtb\006" +
+      "proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -3114,18 +3304,18 @@ public final class SkillPt {
     internal_static_Skill_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Skill_descriptor,
-        new String[] { "Id", "Name", "SkillRange", "Cd", "MpNeed", "Hurt", "Heal", "Grade", "Buff", "Description", });
-    internal_static_EntityTypeRequestInfo_descriptor =
+        new String[] { "Id", "Name", "SkillRange", "Cd", "MpNeed", "Hurt", "Heal", "Grade", "Buff", "CastTime", "Description", });
+    internal_static_SkillReqInfo_descriptor =
       getDescriptor().getMessageTypes().get(1);
-    internal_static_EntityTypeRequestInfo_fieldAccessorTable = new
+    internal_static_SkillReqInfo_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_EntityTypeRequestInfo_descriptor,
-        new String[] { "MsgId", "Time", "SkillId", });
-    internal_static_EntityTypeResponseInfo_descriptor =
+        internal_static_SkillReqInfo_descriptor,
+        new String[] { "MsgId", "Time", "PlayerId", "SkillId", "TargetId", });
+    internal_static_SkillRespInfo_descriptor =
       getDescriptor().getMessageTypes().get(2);
-    internal_static_EntityTypeResponseInfo_fieldAccessorTable = new
+    internal_static_SkillRespInfo_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_EntityTypeResponseInfo_descriptor,
+        internal_static_SkillRespInfo_descriptor,
         new String[] { "MsgId", "Result", "Time", "Content", "Skill", });
   }
 

@@ -83,6 +83,7 @@ public class DispatchRequest{
         } else {
             method.invoke(bean);
         }
+        System.out.println("\r\n-------------------------------------------------");
     }
 
 }

@@ -6,6 +6,7 @@ import io.netty.channel.EventLoop;
 import io.netty.channel.SimpleChannelInboundHandler;
 import org.sq.gameDemo.cli.GameCli;
 import org.sq.gameDemo.cli.service.SendOrderService;
+import org.sq.gameDemo.common.OrderEnum;
 import org.sq.gameDemo.common.entity.MsgEntity;
 import org.sq.gameDemo.common.proto.MessageProto;
 import org.sq.gameDemo.svr.common.dispatch.DispatchRequest;
@@ -28,6 +29,9 @@ public class CliHandler extends SimpleChannelInboundHandler<MsgEntity> {
                 MessageProto.Msg msg = MessageProto.Msg.parseFrom(msgEntity.getData());
                 //gameCli.setToken( msg.getToken());
                 System.out.println(msg.getContent());
+                if(msgEntity.getCmdCode() == OrderEnum.Exit.getOrderCode() && msg.getResult() == 200) {
+                    GameCli.setToken("");
+                }
              } catch (Exception e1) {
                 throw e1;
             }
@@ -44,6 +48,7 @@ public class CliHandler extends SimpleChannelInboundHandler<MsgEntity> {
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+
         System.out.println("停止时间是："+new Date());
         final EventLoop eventLoop = ctx.channel().eventLoop();
         eventLoop.schedule(new Runnable() {

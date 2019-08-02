@@ -59,19 +59,27 @@ public class SendOrderService {
         System.out.println(
                 "注册: register name=test&password=123456\r\n"
                 + "登陆: login name=kevins&password=123\r\n"
-                        + "查看可创建角色: getRoleMsg\r\n"
+                + "退出登录: exit\r\n"
+                + "查看可创建角色: getRoleMsg\r\n"
+                + "查看自身技能: ShowPlayer\r\n"
                 + "创建角色: bindRole id=3\r\n"
-                + "跟指定npc讲话 talkwithnpc id=0"
+                + "跟指定npc讲话 talkwithnpc id=0\r\n"
+                + "玩家用技能攻打怪物 skillAttack skillId=1&targetId=123028834101628942\r\n"
         );
     }
 
-    //
+    /**
+     * 跟npc对话
+     * @param msgEntity
+     * @param input
+     * @throws Exception
+     */
     public void talkToNpc(MsgEntity msgEntity, String[] input) throws Exception {
         if(input.length >= 2) {
             Map<String,Object> map = splitCmdString(input);
             NpcPt.NpcReqInfo data = NpcPt.NpcReqInfo.newBuilder()
                     .setMsgId(UUID.randomUUID().hashCode())
-                    .setId(Integer.valueOf((String) map.get("id")))
+                    .setId(Long.valueOf((String) map.get("id")))
                     .setTime(System.currentTimeMillis())
                     .build();
             msgEntity.setData(data.toByteArray());
@@ -106,13 +114,40 @@ public class SendOrderService {
 
     }
 
-    //移动
+    /**
+     * 角色移动
+     * @param msgEntity
+     * @param input
+     * @throws Exception
+     */
     public void move(MsgEntity msgEntity, String[] input) throws Exception {
         if(input.length >= 2) {
             Map<String,Object> map = splitCmdString(input);
             SenceProto.RequestSenceInfo data = SenceProto.RequestSenceInfo.newBuilder()
                     .setMsgId(UUID.randomUUID().hashCode())
                     .setSenceId(Integer.valueOf((String) map.get("id")))
+                    .setTime(System.currentTimeMillis())
+                    .build();
+            msgEntity.setData(data.toByteArray());
+        }
+
+    }
+
+
+
+    /**
+     * 角色攻击
+     * @param msgEntity
+     * @param input
+     * @throws Exception
+     */
+    public void skillAttack(MsgEntity msgEntity, String[] input) throws Exception {
+        if(input.length >= 2) {
+            Map<String,Object> map = splitCmdString(input);
+            SkillPt.SkillReqInfo data = SkillPt.SkillReqInfo.newBuilder()
+                    .setMsgId(UUID.randomUUID().hashCode())
+                    .setSkillId(Integer.valueOf((String) map.get("skillId")))
+                    .setTargetId(Long.valueOf((String) map.get("targetId")))
                     .setTime(System.currentTimeMillis())
                     .build();
             msgEntity.setData(data.toByteArray());
@@ -140,6 +175,11 @@ public class SendOrderService {
     }
 
 
+    /**
+     * 重连校验
+     * @param tokenFileName
+     * @return
+     */
     public MsgEntity checkToken(String tokenFileName) {
         MsgEntity msgEntity = new MsgEntity();
         msgEntity.setCmdCode(OrderEnum.CheckToken.getOrderCode());
@@ -154,6 +194,10 @@ public class SendOrderService {
         return msgEntity;
     }
 
+    /**
+     * 读取token文件
+     * @return
+     */
     public static String readFileByChars() {
         String token = "";
         String filePath = System.getProperty("user.dir")

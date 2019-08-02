@@ -50,7 +50,7 @@ public final class EntityProto {
     /**
      * <code>repeated .EntityType type = 5;</code>
      */
-    EntityTypeProto.EntityType getType(int index);
+    org.sq.gameDemo.common.proto.EntityTypeProto.EntityType getType(int index);
     /**
      * <code>repeated .EntityType type = 5;</code>
      */
@@ -63,7 +63,7 @@ public final class EntityProto {
     /**
      * <code>repeated .EntityType type = 5;</code>
      */
-    EntityTypeProto.EntityTypeOrBuilder getTypeOrBuilder(
+    org.sq.gameDemo.common.proto.EntityTypeProto.EntityTypeOrBuilder getTypeOrBuilder(
             int index);
   }
   /**
@@ -143,7 +143,7 @@ public final class EntityProto {
                 mutable_bitField0_ |= 0x00000001;
               }
               type_.add(
-                  input.readMessage(EntityTypeProto.EntityType.parser(), extensionRegistry));
+                  input.readMessage(org.sq.gameDemo.common.proto.EntityTypeProto.EntityType.parser(), extensionRegistry));
               break;
             }
             default: {
@@ -245,13 +245,13 @@ public final class EntityProto {
     /**
      * <code>repeated .EntityType type = 5;</code>
      */
-    public EntityTypeProto.EntityType getType(int index) {
+    public org.sq.gameDemo.common.proto.EntityTypeProto.EntityType getType(int index) {
       return type_.get(index);
     }
     /**
      * <code>repeated .EntityType type = 5;</code>
      */
-    public EntityTypeProto.EntityTypeOrBuilder getTypeOrBuilder(
+    public org.sq.gameDemo.common.proto.EntityTypeProto.EntityTypeOrBuilder getTypeOrBuilder(
         int index) {
       return type_.get(index);
     }
@@ -821,7 +821,7 @@ public final class EntityProto {
       /**
        * <code>repeated .EntityType type = 5;</code>
        */
-      public EntityTypeProto.EntityType getType(int index) {
+      public org.sq.gameDemo.common.proto.EntityTypeProto.EntityType getType(int index) {
         if (typeBuilder_ == null) {
           return type_.get(index);
         } else {
@@ -832,7 +832,7 @@ public final class EntityProto {
        * <code>repeated .EntityType type = 5;</code>
        */
       public Builder setType(
-          int index, EntityTypeProto.EntityType value) {
+          int index, org.sq.gameDemo.common.proto.EntityTypeProto.EntityType value) {
         if (typeBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -849,7 +849,7 @@ public final class EntityProto {
        * <code>repeated .EntityType type = 5;</code>
        */
       public Builder setType(
-          int index, EntityTypeProto.EntityType.Builder builderForValue) {
+          int index, org.sq.gameDemo.common.proto.EntityTypeProto.EntityType.Builder builderForValue) {
         if (typeBuilder_ == null) {
           ensureTypeIsMutable();
           type_.set(index, builderForValue.build());
@@ -862,7 +862,7 @@ public final class EntityProto {
       /**
        * <code>repeated .EntityType type = 5;</code>
        */
-      public Builder addType(EntityTypeProto.EntityType value) {
+      public Builder addType(org.sq.gameDemo.common.proto.EntityTypeProto.EntityType value) {
         if (typeBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -879,7 +879,7 @@ public final class EntityProto {
        * <code>repeated .EntityType type = 5;</code>
        */
       public Builder addType(
-          int index, EntityTypeProto.EntityType value) {
+          int index, org.sq.gameDemo.common.proto.EntityTypeProto.EntityType value) {
         if (typeBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -896,7 +896,7 @@ public final class EntityProto {
        * <code>repeated .EntityType type = 5;</code>
        */
       public Builder addType(
-          EntityTypeProto.EntityType.Builder builderForValue) {
+          org.sq.gameDemo.common.proto.EntityTypeProto.EntityType.Builder builderForValue) {
         if (typeBuilder_ == null) {
           ensureTypeIsMutable();
           type_.add(builderForValue.build());
@@ -910,7 +910,7 @@ public final class EntityProto {
        * <code>repeated .EntityType type = 5;</code>
        */
       public Builder addType(
-          int index, EntityTypeProto.EntityType.Builder builderForValue) {
+          int index, org.sq.gameDemo.common.proto.EntityTypeProto.EntityType.Builder builderForValue) {
         if (typeBuilder_ == null) {
           ensureTypeIsMutable();
           type_.add(index, builderForValue.build());
@@ -964,14 +964,14 @@ public final class EntityProto {
       /**
        * <code>repeated .EntityType type = 5;</code>
        */
-      public EntityTypeProto.EntityType.Builder getTypeBuilder(
+      public org.sq.gameDemo.common.proto.EntityTypeProto.EntityType.Builder getTypeBuilder(
           int index) {
         return getTypeFieldBuilder().getBuilder(index);
       }
       /**
        * <code>repeated .EntityType type = 5;</code>
        */
-      public EntityTypeProto.EntityTypeOrBuilder getTypeOrBuilder(
+      public org.sq.gameDemo.common.proto.EntityTypeProto.EntityTypeOrBuilder getTypeOrBuilder(
           int index) {
         if (typeBuilder_ == null) {
           return type_.get(index);  } else {
@@ -992,17 +992,17 @@ public final class EntityProto {
       /**
        * <code>repeated .EntityType type = 5;</code>
        */
-      public EntityTypeProto.EntityType.Builder addTypeBuilder() {
+      public org.sq.gameDemo.common.proto.EntityTypeProto.EntityType.Builder addTypeBuilder() {
         return getTypeFieldBuilder().addBuilder(
-            EntityTypeProto.EntityType.getDefaultInstance());
+            org.sq.gameDemo.common.proto.EntityTypeProto.EntityType.getDefaultInstance());
       }
       /**
        * <code>repeated .EntityType type = 5;</code>
        */
-      public EntityTypeProto.EntityType.Builder addTypeBuilder(
+      public org.sq.gameDemo.common.proto.EntityTypeProto.EntityType.Builder addTypeBuilder(
           int index) {
         return getTypeFieldBuilder().addBuilder(
-            index, EntityTypeProto.EntityType.getDefaultInstance());
+            index, org.sq.gameDemo.common.proto.EntityTypeProto.EntityType.getDefaultInstance());
       }
       /**
        * <code>repeated .EntityType type = 5;</code>
@@ -2993,7 +2993,7 @@ public final class EntityProto {
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
-          EntityTypeProto.getDescriptor(),
+          org.sq.gameDemo.common.proto.EntityTypeProto.getDescriptor(),
         });
     internal_static_SenceEntity_descriptor =
       getDescriptor().getMessageTypes().get(0);
@@ -3013,7 +3013,7 @@ public final class EntityProto {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_ResponseInfo_descriptor,
         new String[] { "MsgId", "Result", "Time", "Content", "SenceEntity", });
-    EntityTypeProto.getDescriptor();
+    org.sq.gameDemo.common.proto.EntityTypeProto.getDescriptor();
   }
 
   // @@protoc_insertion_point(outer_class_scope)

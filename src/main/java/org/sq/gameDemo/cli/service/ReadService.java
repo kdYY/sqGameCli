@@ -23,8 +23,12 @@ public class ReadService {
     @OrderMapping(OrderEnum.Login)
     public void loginReturn(MsgEntity msgEntity) throws InvalidProtocolBufferException {
         UserProto.ResponseUserInfo msg = UserProto.ResponseUserInfo.parseFrom(msgEntity.getData());
-        if(msg.getResult() == 404 || msg.getResult() == 222) {
+        if(msg.getResult() == 222) {
             System.out.println(msg.getContent());
+        } else if(msg.getResult() == 404) {
+            GameCli.setToken(msg.getToken());
+            //写入文件
+            writeToTokenFile(msg.getToken());
         } else if(msg.getResult() != 500) {
             GameCli.setToken(msg.getToken());
             //写入文件
@@ -87,15 +91,26 @@ public class ReadService {
         }
     }
 
+    @OrderMapping(OrderEnum.showPlayer)
+    public void showPlayerSkill(MsgEntity msgEntity) throws InvalidProtocolBufferException {
+
+        PlayerPt.PlayerRespInfo msg = PlayerPt.PlayerRespInfo.parseFrom(msgEntity.getData());
+        if(msg.getResult() != 500) {
+            printSkills(msg.getSkillList());
+        } else {
+            System.out.println("服务端异常");
+        }
+    }
+
     private void printSkills(List<SkillPt.Skill> skillList) {
         skillList.stream().forEach(skillPt -> {
-            System.out.println("--技能id"
+            System.out.println("--技能id:"
                     + skillPt.getId()
                     + ", 技能名"
                     + skillPt.getName()
-                    + ", 技能cd"
-                    + skillPt.getCd()
-                    + ", 技能描述"
+                    + ", 技能cd:"
+                    + skillPt.getCd()/1000
+                    + "秒, 技能描述"
                     + skillPt.getDescription()
             );
         });
@@ -190,11 +205,12 @@ public class ReadService {
     @OrderMapping(OrderEnum.CheckToken)
     public void checkToken(MsgEntity msgEntity) throws InvalidProtocolBufferException {
         UserProto.ResponseUserInfo msg = UserProto.ResponseUserInfo.parseFrom(msgEntity.getData());
+        String token = msg.getToken();
         if(msg.getResult() == 404) {
             System.out.println(msg.getContent());
-        } else if(msg.getResult() != 500) {
-            GameCli.setToken(msg.getToken());
-            writeToTokenFile(msg.getToken());
+        } else if(msg.getResult() != 500 && (token != null || token.equals(""))) {
+            GameCli.setToken(token);
+            writeToTokenFile(token);
             System.out.println("\r\nlogin success, \r\nwelcome back to ->" + msg.getContent() + "!!");
         } else {
             System.out.println("服务端异常");

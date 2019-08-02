@@ -1,5 +1,7 @@
 package org.sq.gameDemo.common;
 
+import org.sq.gameDemo.common.proto.EntityTypeProto;
+
 public enum OrderEnum {
     PING("ping", 100),
     ErrOrder("errOrder",101 ),
@@ -14,6 +16,9 @@ public enum OrderEnum {
     Move("move",  110),
     TalkWithNpc("talkwithnpc", 111),
     BroadCast("broadCast", 112),
+    Exit("exit", 113),
+    SkillAttack("skillAttack", 114),
+    showPlayer("showPlayer", 115)
     ;
 
     private String order;
@@ -30,6 +35,7 @@ public enum OrderEnum {
                 return orderEnum.orderCode;
             }
         }
+
         return -1;
     }
 

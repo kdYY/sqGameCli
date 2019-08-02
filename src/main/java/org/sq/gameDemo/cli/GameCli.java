@@ -160,7 +160,11 @@ public class GameCli {
                 break;
             case TalkWithNpc:
                 sendOrderService.talkToNpc(msgEntity, input);
-            default:break;
+                break;
+            case SkillAttack:
+                sendOrderService.skillAttack(msgEntity, input);
+            default:
+                break;
         }
         return msgEntity;
     }

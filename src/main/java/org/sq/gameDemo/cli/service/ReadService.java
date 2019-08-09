@@ -159,6 +159,12 @@ public class ReadService {
                     + player.getName()
                     + ", state:"
                     + (player.getState()==1?"live":"dead")
+                    + ", exp:"
+                    + player.getExp()
+                    + ", hp:"
+                    + player.getHp()
+                    + ", mp:"
+                    + player.getMp()
             );
         }
         System.out.println("monster in sence:");
@@ -168,9 +174,15 @@ public class ReadService {
                     + ", name: "
                     + monster.getName()
                     + ", state:"
-                    + (monster.getState()==1?"live":"dead")
+                    + (monster.getState()==1?"live":monster.getState()==2?"attacking":"dead")
                     + ", hp:"
                     + monster.getHp()
+                    + ", mp:"
+                    + monster.getMp()
+                    + ", exp:"
+                    + 10
+                    + ", npcWord:"
+                    + monster.getNpcWord()
             );
         }
         System.out.println("npc in sence:");

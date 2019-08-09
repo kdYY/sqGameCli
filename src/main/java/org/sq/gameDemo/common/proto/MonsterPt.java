@@ -82,6 +82,35 @@ public final class MonsterPt {
      * <code>int32 attackSpeed = 11;</code>
      */
     int getAttackSpeed();
+
+    /**
+     * <code>uint64 entityTypeId = 12;</code>
+     */
+    long getEntityTypeId();
+
+    /**
+     * <code>repeated .Buff buff = 13;</code>
+     */
+    java.util.List<BuffPt.Buff>
+        getBuffList();
+    /**
+     * <code>repeated .Buff buff = 13;</code>
+     */
+    BuffPt.Buff getBuff(int index);
+    /**
+     * <code>repeated .Buff buff = 13;</code>
+     */
+    int getBuffCount();
+    /**
+     * <code>repeated .Buff buff = 13;</code>
+     */
+    java.util.List<? extends BuffPt.BuffOrBuilder>
+        getBuffOrBuilderList();
+    /**
+     * <code>repeated .Buff buff = 13;</code>
+     */
+    BuffPt.BuffOrBuilder getBuffOrBuilder(
+            int index);
   }
   /**
    * <pre>
@@ -102,6 +131,7 @@ public final class MonsterPt {
     private Monster() {
       name_ = "";
       npcWord_ = "";
+      buff_ = java.util.Collections.emptyList();
     }
 
     @Override
@@ -124,6 +154,7 @@ public final class MonsterPt {
       if (extensionRegistry == null) {
         throw new NullPointerException();
       }
+      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -191,6 +222,20 @@ public final class MonsterPt {
               attackSpeed_ = input.readInt32();
               break;
             }
+            case 96: {
+
+              entityTypeId_ = input.readUInt64();
+              break;
+            }
+            case 106: {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
+                buff_ = new java.util.ArrayList<BuffPt.Buff>();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              buff_.add(
+                  input.readMessage(BuffPt.Buff.parser(), extensionRegistry));
+              break;
+            }
             default: {
               if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
@@ -206,6 +251,9 @@ public final class MonsterPt {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
+          buff_ = java.util.Collections.unmodifiableList(buff_);
+        }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
@@ -372,6 +420,50 @@ public final class MonsterPt {
       return attackSpeed_;
     }
 
+    public static final int ENTITYTYPEID_FIELD_NUMBER = 12;
+    private long entityTypeId_;
+    /**
+     * <code>uint64 entityTypeId = 12;</code>
+     */
+    public long getEntityTypeId() {
+      return entityTypeId_;
+    }
+
+    public static final int BUFF_FIELD_NUMBER = 13;
+    private java.util.List<BuffPt.Buff> buff_;
+    /**
+     * <code>repeated .Buff buff = 13;</code>
+     */
+    public java.util.List<BuffPt.Buff> getBuffList() {
+      return buff_;
+    }
+    /**
+     * <code>repeated .Buff buff = 13;</code>
+     */
+    public java.util.List<? extends BuffPt.BuffOrBuilder>
+        getBuffOrBuilderList() {
+      return buff_;
+    }
+    /**
+     * <code>repeated .Buff buff = 13;</code>
+     */
+    public int getBuffCount() {
+      return buff_.size();
+    }
+    /**
+     * <code>repeated .Buff buff = 13;</code>
+     */
+    public BuffPt.Buff getBuff(int index) {
+      return buff_.get(index);
+    }
+    /**
+     * <code>repeated .Buff buff = 13;</code>
+     */
+    public BuffPt.BuffOrBuilder getBuffOrBuilder(
+        int index) {
+      return buff_.get(index);
+    }
+
     private byte memoizedIsInitialized = -1;
     @Override
     public final boolean isInitialized() {
@@ -418,6 +510,12 @@ public final class MonsterPt {
       }
       if (attackSpeed_ != 0) {
         output.writeInt32(11, attackSpeed_);
+      }
+      if (entityTypeId_ != 0L) {
+        output.writeUInt64(12, entityTypeId_);
+      }
+      for (int i = 0; i < buff_.size(); i++) {
+        output.writeMessage(13, buff_.get(i));
       }
       unknownFields.writeTo(output);
     }
@@ -470,6 +568,14 @@ public final class MonsterPt {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(11, attackSpeed_);
       }
+      if (entityTypeId_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt64Size(12, entityTypeId_);
+      }
+      for (int i = 0; i < buff_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(13, buff_.get(i));
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -507,6 +613,10 @@ public final class MonsterPt {
           .equals(other.getNpcWord())) return false;
       if (getAttackSpeed()
           != other.getAttackSpeed()) return false;
+      if (getEntityTypeId()
+          != other.getEntityTypeId()) return false;
+      if (!getBuffList()
+          .equals(other.getBuffList())) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -545,6 +655,13 @@ public final class MonsterPt {
       hash = (53 * hash) + getNpcWord().hashCode();
       hash = (37 * hash) + ATTACKSPEED_FIELD_NUMBER;
       hash = (53 * hash) + getAttackSpeed();
+      hash = (37 * hash) + ENTITYTYPEID_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getEntityTypeId());
+      if (getBuffCount() > 0) {
+        hash = (37 * hash) + BUFF_FIELD_NUMBER;
+        hash = (53 * hash) + getBuffList().hashCode();
+      }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -677,6 +794,7 @@ public final class MonsterPt {
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessageV3
                 .alwaysUseFieldBuilders) {
+          getBuffFieldBuilder();
         }
       }
       @Override
@@ -704,6 +822,14 @@ public final class MonsterPt {
 
         attackSpeed_ = 0;
 
+        entityTypeId_ = 0L;
+
+        if (buffBuilder_ == null) {
+          buff_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+        } else {
+          buffBuilder_.clear();
+        }
         return this;
       }
 
@@ -730,6 +856,7 @@ public final class MonsterPt {
       @Override
       public Monster buildPartial() {
         Monster result = new Monster(this);
+        int from_bitField0_ = bitField0_;
         result.id_ = id_;
         result.name_ = name_;
         result.senceId_ = senceId_;
@@ -741,6 +868,16 @@ public final class MonsterPt {
         result.refreshTime_ = refreshTime_;
         result.npcWord_ = npcWord_;
         result.attackSpeed_ = attackSpeed_;
+        result.entityTypeId_ = entityTypeId_;
+        if (buffBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) != 0)) {
+            buff_ = java.util.Collections.unmodifiableList(buff_);
+            bitField0_ = (bitField0_ & ~0x00000001);
+          }
+          result.buff_ = buff_;
+        } else {
+          result.buff_ = buffBuilder_.build();
+        }
         onBuilt();
         return result;
       }
@@ -824,6 +961,35 @@ public final class MonsterPt {
         if (other.getAttackSpeed() != 0) {
           setAttackSpeed(other.getAttackSpeed());
         }
+        if (other.getEntityTypeId() != 0L) {
+          setEntityTypeId(other.getEntityTypeId());
+        }
+        if (buffBuilder_ == null) {
+          if (!other.buff_.isEmpty()) {
+            if (buff_.isEmpty()) {
+              buff_ = other.buff_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+            } else {
+              ensureBuffIsMutable();
+              buff_.addAll(other.buff_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.buff_.isEmpty()) {
+            if (buffBuilder_.isEmpty()) {
+              buffBuilder_.dispose();
+              buffBuilder_ = null;
+              buff_ = other.buff_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+              buffBuilder_ = 
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                   getBuffFieldBuilder() : null;
+            } else {
+              buffBuilder_.addAllMessages(other.buff_);
+            }
+          }
+        }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
@@ -852,6 +1018,7 @@ public final class MonsterPt {
         }
         return this;
       }
+      private int bitField0_;
 
       private long id_ ;
       /**
@@ -1223,6 +1390,272 @@ public final class MonsterPt {
         attackSpeed_ = 0;
         onChanged();
         return this;
+      }
+
+      private long entityTypeId_ ;
+      /**
+       * <code>uint64 entityTypeId = 12;</code>
+       */
+      public long getEntityTypeId() {
+        return entityTypeId_;
+      }
+      /**
+       * <code>uint64 entityTypeId = 12;</code>
+       */
+      public Builder setEntityTypeId(long value) {
+        
+        entityTypeId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>uint64 entityTypeId = 12;</code>
+       */
+      public Builder clearEntityTypeId() {
+        
+        entityTypeId_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private java.util.List<BuffPt.Buff> buff_ =
+        java.util.Collections.emptyList();
+      private void ensureBuffIsMutable() {
+        if (!((bitField0_ & 0x00000001) != 0)) {
+          buff_ = new java.util.ArrayList<BuffPt.Buff>(buff_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          BuffPt.Buff, BuffPt.Buff.Builder, BuffPt.BuffOrBuilder> buffBuilder_;
+
+      /**
+       * <code>repeated .Buff buff = 13;</code>
+       */
+      public java.util.List<BuffPt.Buff> getBuffList() {
+        if (buffBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(buff_);
+        } else {
+          return buffBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .Buff buff = 13;</code>
+       */
+      public int getBuffCount() {
+        if (buffBuilder_ == null) {
+          return buff_.size();
+        } else {
+          return buffBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .Buff buff = 13;</code>
+       */
+      public BuffPt.Buff getBuff(int index) {
+        if (buffBuilder_ == null) {
+          return buff_.get(index);
+        } else {
+          return buffBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .Buff buff = 13;</code>
+       */
+      public Builder setBuff(
+          int index, BuffPt.Buff value) {
+        if (buffBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureBuffIsMutable();
+          buff_.set(index, value);
+          onChanged();
+        } else {
+          buffBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Buff buff = 13;</code>
+       */
+      public Builder setBuff(
+          int index, BuffPt.Buff.Builder builderForValue) {
+        if (buffBuilder_ == null) {
+          ensureBuffIsMutable();
+          buff_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          buffBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Buff buff = 13;</code>
+       */
+      public Builder addBuff(BuffPt.Buff value) {
+        if (buffBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureBuffIsMutable();
+          buff_.add(value);
+          onChanged();
+        } else {
+          buffBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Buff buff = 13;</code>
+       */
+      public Builder addBuff(
+          int index, BuffPt.Buff value) {
+        if (buffBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureBuffIsMutable();
+          buff_.add(index, value);
+          onChanged();
+        } else {
+          buffBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Buff buff = 13;</code>
+       */
+      public Builder addBuff(
+          BuffPt.Buff.Builder builderForValue) {
+        if (buffBuilder_ == null) {
+          ensureBuffIsMutable();
+          buff_.add(builderForValue.build());
+          onChanged();
+        } else {
+          buffBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Buff buff = 13;</code>
+       */
+      public Builder addBuff(
+          int index, BuffPt.Buff.Builder builderForValue) {
+        if (buffBuilder_ == null) {
+          ensureBuffIsMutable();
+          buff_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          buffBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Buff buff = 13;</code>
+       */
+      public Builder addAllBuff(
+          Iterable<? extends BuffPt.Buff> values) {
+        if (buffBuilder_ == null) {
+          ensureBuffIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, buff_);
+          onChanged();
+        } else {
+          buffBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Buff buff = 13;</code>
+       */
+      public Builder clearBuff() {
+        if (buffBuilder_ == null) {
+          buff_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          onChanged();
+        } else {
+          buffBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Buff buff = 13;</code>
+       */
+      public Builder removeBuff(int index) {
+        if (buffBuilder_ == null) {
+          ensureBuffIsMutable();
+          buff_.remove(index);
+          onChanged();
+        } else {
+          buffBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .Buff buff = 13;</code>
+       */
+      public BuffPt.Buff.Builder getBuffBuilder(
+          int index) {
+        return getBuffFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .Buff buff = 13;</code>
+       */
+      public BuffPt.BuffOrBuilder getBuffOrBuilder(
+          int index) {
+        if (buffBuilder_ == null) {
+          return buff_.get(index);  } else {
+          return buffBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .Buff buff = 13;</code>
+       */
+      public java.util.List<? extends BuffPt.BuffOrBuilder>
+           getBuffOrBuilderList() {
+        if (buffBuilder_ != null) {
+          return buffBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(buff_);
+        }
+      }
+      /**
+       * <code>repeated .Buff buff = 13;</code>
+       */
+      public BuffPt.Buff.Builder addBuffBuilder() {
+        return getBuffFieldBuilder().addBuilder(
+            BuffPt.Buff.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .Buff buff = 13;</code>
+       */
+      public BuffPt.Buff.Builder addBuffBuilder(
+          int index) {
+        return getBuffFieldBuilder().addBuilder(
+            index, BuffPt.Buff.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .Buff buff = 13;</code>
+       */
+      public java.util.List<BuffPt.Buff.Builder>
+           getBuffBuilderList() {
+        return getBuffFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          BuffPt.Buff, BuffPt.Buff.Builder, BuffPt.BuffOrBuilder>
+          getBuffFieldBuilder() {
+        if (buffBuilder_ == null) {
+          buffBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+              BuffPt.Buff, BuffPt.Buff.Builder, BuffPt.BuffOrBuilder>(
+                  buff_,
+                  ((bitField0_ & 0x00000001) != 0),
+                  getParentForChildren(),
+                  isClean());
+          buff_ = null;
+        }
+        return buffBuilder_;
       }
       @Override
       public final Builder setUnknownFields(
@@ -3607,31 +4040,33 @@ public final class MonsterPt {
       descriptor;
   static {
     String[] descriptorData = {
-      "\n\rMonster.proto\032\020EntityType.proto\"\266\001\n\007Mo" +
-      "nster\022\n\n\002id\030\001 \001(\004\022\014\n\004name\030\002 \001(\t\022\017\n\007sence" +
-      "Id\030\003 \001(\005\022\016\n\006typeId\030\004 \001(\005\022\r\n\005state\030\005 \001(\005\022" +
-      "\n\n\002hp\030\006 \001(\004\022\n\n\002mp\030\007 \001(\004\022\016\n\006attack\030\010 \001(\004\022" +
-      "\023\n\013refreshTime\030\t \001(\004\022\017\n\007npcWord\030\n \001(\t\022\023\n" +
-      "\013attackSpeed\030\013 \001(\005\"X\n\013RequestInfo\022\016\n\006msg" +
-      "_id\030\001 \001(\004\022\014\n\004time\030\002 \001(\004\022\n\n\002id\030\003 \001(\005\022\016\n\006t" +
-      "ypeId\030\004 \001(\005\022\017\n\007senceId\030\005 \001(\005\"\203\001\n\014Respons" +
-      "eInfo\022\016\n\006msg_id\030\001 \001(\004\022\016\n\006result\030\002 \001(\005\022\014\n" +
-      "\004time\030\003 \001(\004\022\017\n\007content\030\004 \001(\t\022\031\n\004type\030\005 \003" +
-      "(\0132\013.EntityType\022\031\n\007monster\030\006 \003(\0132\010.Monst" +
-      "erB)\n\034org.sq.gameDemo.common.protoB\tMons" +
-      "terPtb\006proto3"
+      "\n\rMonster.proto\032\020EntityType.proto\032\nBuff." +
+      "proto\"\341\001\n\007Monster\022\n\n\002id\030\001 \001(\004\022\014\n\004name\030\002 " +
+      "\001(\t\022\017\n\007senceId\030\003 \001(\005\022\016\n\006typeId\030\004 \001(\005\022\r\n\005" +
+      "state\030\005 \001(\005\022\n\n\002hp\030\006 \001(\004\022\n\n\002mp\030\007 \001(\004\022\016\n\006a" +
+      "ttack\030\010 \001(\004\022\023\n\013refreshTime\030\t \001(\004\022\017\n\007npcW" +
+      "ord\030\n \001(\t\022\023\n\013attackSpeed\030\013 \001(\005\022\024\n\014entity" +
+      "TypeId\030\014 \001(\004\022\023\n\004buff\030\r \003(\0132\005.Buff\"X\n\013Req" +
+      "uestInfo\022\016\n\006msg_id\030\001 \001(\004\022\014\n\004time\030\002 \001(\004\022\n" +
+      "\n\002id\030\003 \001(\005\022\016\n\006typeId\030\004 \001(\005\022\017\n\007senceId\030\005 " +
+      "\001(\005\"\203\001\n\014ResponseInfo\022\016\n\006msg_id\030\001 \001(\004\022\016\n\006" +
+      "result\030\002 \001(\005\022\014\n\004time\030\003 \001(\004\022\017\n\007content\030\004 " +
+      "\001(\t\022\031\n\004type\030\005 \003(\0132\013.EntityType\022\031\n\007monste" +
+      "r\030\006 \003(\0132\010.MonsterB)\n\034org.sq.gameDemo.com" +
+      "mon.protoB\tMonsterPtb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           EntityTypeProto.getDescriptor(),
+          BuffPt.getDescriptor(),
         });
     internal_static_Monster_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_Monster_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Monster_descriptor,
-        new String[] { "Id", "Name", "SenceId", "TypeId", "State", "Hp", "Mp", "Attack", "RefreshTime", "NpcWord", "AttackSpeed", });
+        new String[] { "Id", "Name", "SenceId", "TypeId", "State", "Hp", "Mp", "Attack", "RefreshTime", "NpcWord", "AttackSpeed", "EntityTypeId", "Buff", });
     internal_static_RequestInfo_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_RequestInfo_fieldAccessorTable = new
@@ -3645,6 +4080,7 @@ public final class MonsterPt {
         internal_static_ResponseInfo_descriptor,
         new String[] { "MsgId", "Result", "Time", "Content", "Type", "Monster", });
     EntityTypeProto.getDescriptor();
+    BuffPt.getDescriptor();
   }
 
   // @@protoc_insertion_point(outer_class_scope)

@@ -18,8 +18,15 @@ public enum OrderEnum {
     BroadCast("broadCast", 112),
     Exit("exit", 113),
     SkillAttack("skillAttack", 114),
-    showPlayer("showPlayer", 115)
-    ;
+    ShowPlayer("ShowPlayer", 115),
+    USE_ITEM("useitem", 116),
+    USE_BUFF("usebuff", 117),
+    REMONVE_ITEM("removeitem", 118),
+    ADD_EQUIP("addequip", 119),
+    REMOVE_EQUIP("removeequip", 120),
+    SHOW_EQUIP("showEquip", 121),
+    REPAIR_EQUIP("repairequip", 122),
+    SHOW_BAG("showbag", 123), SHOW_COPY_SENCE("showcopy", 124), ENTER_COPY("entercopy",125 );
 
     private String order;
     private short orderCode;
@@ -87,7 +94,7 @@ public enum OrderEnum {
 
     public static OrderEnum getOrderEnumByOrder(String order) {
         for (OrderEnum orderEnum : OrderEnum.values()) {
-            if(orderEnum.order.equals(order)) {
+            if(orderEnum.order.toLowerCase().equals(order)) {
                 return orderEnum;
             }
         }

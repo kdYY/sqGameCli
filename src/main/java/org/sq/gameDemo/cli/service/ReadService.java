@@ -7,6 +7,7 @@ import org.sq.gameDemo.cli.GameCli;
 import org.sq.gameDemo.common.OrderEnum;
 import org.sq.gameDemo.common.entity.MsgEntity;
 import org.sq.gameDemo.common.proto.*;
+import org.sq.gameDemo.svr.common.EquitmentPart;
 import org.sq.gameDemo.svr.common.OrderMapping;
 
 import java.io.*;
@@ -91,7 +92,7 @@ public class ReadService {
         }
     }
 
-    @OrderMapping(OrderEnum.showPlayer)
+    @OrderMapping(OrderEnum.ShowPlayer)
     public void showPlayerSkill(MsgEntity msgEntity) throws InvalidProtocolBufferException {
 
         PlayerPt.PlayerRespInfo msg = PlayerPt.PlayerRespInfo.parseFrom(msgEntity.getData());
@@ -134,6 +135,9 @@ public class ReadService {
         }
     }
 
+    @OrderMapping(OrderEnum.ENTER_COPY)
+    public void entercopy(MsgEntity msgEntity) throws InvalidProtocolBufferException {
+        aoi(msgEntity); }
 
     @OrderMapping(OrderEnum.Aoi)
     public void aoi(MsgEntity msgEntity) throws InvalidProtocolBufferException {
@@ -142,8 +146,13 @@ public class ReadService {
             System.out.println(msg.getContent());
         } else if(msg.getResult() != 500) {
             SenceProto.Sence sence = msg.getSence();
-            System.out.println("sence: " + sence.getName() + " .");
+            if(sence != null) {
+                System.out.println("sence: " + sence.getName() + " .");
+            }
             printSenceMsg(msg.getPlayerList(), msg.getNpcList(), msg.getMonsterList(), msg.getEntityTypeList());
+            if(msg.getBoss() != null) {
+                printMonster(msg.getBoss());
+            }
         } else {
             System.out.println("服务端异常");
         }
@@ -169,21 +178,10 @@ public class ReadService {
         }
         System.out.println("monster in sence:");
         for (MonsterPt.Monster monster : monsterList) {
-            System.out.println("--id: "
-                    + monster.getId()
-                    + ", name: "
-                    + monster.getName()
-                    + ", state:"
-                    + (monster.getState()==1?"live":monster.getState()==2?"attacking":"dead")
-                    + ", hp:"
-                    + monster.getHp()
-                    + ", mp:"
-                    + monster.getMp()
-                    + ", exp:"
-                    + 10
-                    + ", npcWord:"
-                    + monster.getNpcWord()
-            );
+            printMonster(monster);
+        }
+        if(npcList == null || npcList.size() == 0) {
+            return;
         }
         System.out.println("npc in sence:");
         for (NpcPt.Npc npc : npcList) {
@@ -193,6 +191,26 @@ public class ReadService {
                     + npc.getName()
             );
         }
+    }
+
+    private void printMonster(MonsterPt.Monster monster) {
+        System.out.println("--id: "
+                + monster.getId()
+                + ", name: "
+                + monster.getName()
+                + ", state:"
+                + (monster.getState()==1?"live":monster.getState()==2?"attacking":"dead")
+                + ", hp:"
+                + monster.getHp()
+                + ", mp:"
+                + monster.getMp()
+                + ", level:"
+                + monster.getLevel()
+                + ", exp:"
+                + monster.getLevel() * 10
+                + ", npcWord:"
+                + monster.getNpcWord()
+        );
     }
 
     @OrderMapping(OrderEnum.Move)
@@ -237,5 +255,42 @@ public class ReadService {
         MessageProto.Msg msg = MessageProto.Msg.parseFrom(msgEntity.getData());
         System.out.println("广播 -> " + msg.getContent());
     }
+
+
+    @OrderMapping(OrderEnum.SHOW_BAG)
+    public void showBag(MsgEntity msgEntity) throws InvalidProtocolBufferException {
+        BagPt.BagRespInfo msg = BagPt.BagRespInfo.parseFrom(msgEntity.getData());
+        if(msg.getResult() == 500) {
+            System.out.println(msg.getContent());
+        } else {
+            List<ItemPt.Item> itemList = msg.getBag().getItemList();
+            itemList.forEach(item -> {
+                ItemInfoPt.ItemInfo itemInfo = item.getItemInfo();
+                System.out.print("id: " + item.getId() + ", name: " + itemInfo.getName());
+
+                if(itemInfo.getType() == 1) {
+                    System.out.println(", level: " + item.getLevel() + " , durable: " + item.getDurable());
+                } else {
+                    System.out.println("  * " + item.getCount());
+                }
+            });
+        }
+    }
+
+    @OrderMapping(OrderEnum.SHOW_EQUIP)
+    public void showEquip(MsgEntity msgEntity) throws InvalidProtocolBufferException {
+        byte[] data = msgEntity.getData();
+        ItemPt.ItemResponseInfo itemResponseInfo = ItemPt.ItemResponseInfo.parseFrom(data);
+        List<ItemPt.Item> itemList = itemResponseInfo.getItemList();
+        if(itemList.size() == 0) {
+            System.out.println("身上暂时没有装备");
+        } else {
+            for (ItemPt.Item item : itemList) {
+                ItemInfoPt.ItemInfo itemInfo = item.getItemInfo();
+                System.out.println(EquitmentPart.getPartByCode(itemInfo.getPart().getNumber()) + ": id:" + item.getId() + "| 装备名称: " + itemInfo.getName() + "| 等级: " + item.getLevel() + "| 耐力点: " + item.getDurable());
+            }
+        }
+    }
+
 
 }

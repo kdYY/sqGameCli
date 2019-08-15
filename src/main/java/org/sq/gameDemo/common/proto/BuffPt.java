@@ -59,10 +59,6 @@ public final class BuffPt {
     int getEffect();
 
     /**
-     * <pre>
-     *技能等级
-     * </pre>
-     *
      * <code>uint64 duration = 8;</code>
      */
     long getDuration();
@@ -71,10 +67,15 @@ public final class BuffPt {
      * <code>uint64 startTime = 9;</code>
      */
     long getStartTime();
+
+    /**
+     * <code>uint64 intervalTime = 10;</code>
+     */
+    long getIntervalTime();
   }
   /**
    * <pre>
-   *技能
+   *buff
    * </pre>
    *
    * Protobuf type {@code Buff}
@@ -166,6 +167,11 @@ public final class BuffPt {
             case 72: {
 
               startTime_ = input.readUInt64();
+              break;
+            }
+            case 80: {
+
+              intervalTime_ = input.readUInt64();
               break;
             }
             default: {
@@ -291,10 +297,6 @@ public final class BuffPt {
     public static final int DURATION_FIELD_NUMBER = 8;
     private long duration_;
     /**
-     * <pre>
-     *技能等级
-     * </pre>
-     *
      * <code>uint64 duration = 8;</code>
      */
     public long getDuration() {
@@ -308,6 +310,15 @@ public final class BuffPt {
      */
     public long getStartTime() {
       return startTime_;
+    }
+
+    public static final int INTERVALTIME_FIELD_NUMBER = 10;
+    private long intervalTime_;
+    /**
+     * <code>uint64 intervalTime = 10;</code>
+     */
+    public long getIntervalTime() {
+      return intervalTime_;
     }
 
     private byte memoizedIsInitialized = -1;
@@ -350,6 +361,9 @@ public final class BuffPt {
       }
       if (startTime_ != 0L) {
         output.writeUInt64(9, startTime_);
+      }
+      if (intervalTime_ != 0L) {
+        output.writeUInt64(10, intervalTime_);
       }
       unknownFields.writeTo(output);
     }
@@ -395,6 +409,10 @@ public final class BuffPt {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt64Size(9, startTime_);
       }
+      if (intervalTime_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt64Size(10, intervalTime_);
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -428,6 +446,8 @@ public final class BuffPt {
           != other.getDuration()) return false;
       if (getStartTime()
           != other.getStartTime()) return false;
+      if (getIntervalTime()
+          != other.getIntervalTime()) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -462,6 +482,9 @@ public final class BuffPt {
       hash = (37 * hash) + STARTTIME_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           getStartTime());
+      hash = (37 * hash) + INTERVALTIME_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getIntervalTime());
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -559,7 +582,7 @@ public final class BuffPt {
     }
     /**
      * <pre>
-     *技能
+     *buff
      * </pre>
      *
      * Protobuf type {@code Buff}
@@ -617,6 +640,8 @@ public final class BuffPt {
 
         startTime_ = 0L;
 
+        intervalTime_ = 0L;
+
         return this;
       }
 
@@ -652,6 +677,7 @@ public final class BuffPt {
         result.effect_ = effect_;
         result.duration_ = duration_;
         result.startTime_ = startTime_;
+        result.intervalTime_ = intervalTime_;
         onBuilt();
         return result;
       }
@@ -727,6 +753,9 @@ public final class BuffPt {
         }
         if (other.getStartTime() != 0L) {
           setStartTime(other.getStartTime());
+        }
+        if (other.getIntervalTime() != 0L) {
+          setIntervalTime(other.getIntervalTime());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -984,20 +1013,12 @@ public final class BuffPt {
 
       private long duration_ ;
       /**
-       * <pre>
-       *技能等级
-       * </pre>
-       *
        * <code>uint64 duration = 8;</code>
        */
       public long getDuration() {
         return duration_;
       }
       /**
-       * <pre>
-       *技能等级
-       * </pre>
-       *
        * <code>uint64 duration = 8;</code>
        */
       public Builder setDuration(long value) {
@@ -1007,10 +1028,6 @@ public final class BuffPt {
         return this;
       }
       /**
-       * <pre>
-       *技能等级
-       * </pre>
-       *
        * <code>uint64 duration = 8;</code>
        */
       public Builder clearDuration() {
@@ -1042,6 +1059,32 @@ public final class BuffPt {
       public Builder clearStartTime() {
         
         startTime_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private long intervalTime_ ;
+      /**
+       * <code>uint64 intervalTime = 10;</code>
+       */
+      public long getIntervalTime() {
+        return intervalTime_;
+      }
+      /**
+       * <code>uint64 intervalTime = 10;</code>
+       */
+      public Builder setIntervalTime(long value) {
+        
+        intervalTime_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>uint64 intervalTime = 10;</code>
+       */
+      public Builder clearIntervalTime() {
+        
+        intervalTime_ = 0L;
         onChanged();
         return this;
       }
@@ -1121,21 +1164,16 @@ public final class BuffPt {
     long getTime();
 
     /**
-     * <code>uint64 player_id = 3;</code>
-     */
-    long getPlayerId();
-
-    /**
      * <pre>
      *获取全部写-1
      * </pre>
      *
-     * <code>int32 skillId = 4;</code>
+     * <code>int32 buffId = 3;</code>
      */
-    int getSkillId();
+    int getBuffId();
 
     /**
-     * <code>uint64 target_id = 5;</code>
+     * <code>uint64 target_id = 4;</code>
      */
     long getTargetId();
   }
@@ -1200,15 +1238,10 @@ public final class BuffPt {
             }
             case 24: {
 
-              playerId_ = input.readUInt64();
+              buffId_ = input.readInt32();
               break;
             }
             case 32: {
-
-              skillId_ = input.readInt32();
-              break;
-            }
-            case 40: {
 
               targetId_ = input.readUInt64();
               break;
@@ -1271,32 +1304,23 @@ public final class BuffPt {
       return time_;
     }
 
-    public static final int PLAYER_ID_FIELD_NUMBER = 3;
-    private long playerId_;
-    /**
-     * <code>uint64 player_id = 3;</code>
-     */
-    public long getPlayerId() {
-      return playerId_;
-    }
-
-    public static final int SKILLID_FIELD_NUMBER = 4;
-    private int skillId_;
+    public static final int BUFFID_FIELD_NUMBER = 3;
+    private int buffId_;
     /**
      * <pre>
      *获取全部写-1
      * </pre>
      *
-     * <code>int32 skillId = 4;</code>
+     * <code>int32 buffId = 3;</code>
      */
-    public int getSkillId() {
-      return skillId_;
+    public int getBuffId() {
+      return buffId_;
     }
 
-    public static final int TARGET_ID_FIELD_NUMBER = 5;
+    public static final int TARGET_ID_FIELD_NUMBER = 4;
     private long targetId_;
     /**
-     * <code>uint64 target_id = 5;</code>
+     * <code>uint64 target_id = 4;</code>
      */
     public long getTargetId() {
       return targetId_;
@@ -1322,14 +1346,11 @@ public final class BuffPt {
       if (time_ != 0L) {
         output.writeUInt64(2, time_);
       }
-      if (playerId_ != 0L) {
-        output.writeUInt64(3, playerId_);
-      }
-      if (skillId_ != 0) {
-        output.writeInt32(4, skillId_);
+      if (buffId_ != 0) {
+        output.writeInt32(3, buffId_);
       }
       if (targetId_ != 0L) {
-        output.writeUInt64(5, targetId_);
+        output.writeUInt64(4, targetId_);
       }
       unknownFields.writeTo(output);
     }
@@ -1348,17 +1369,13 @@ public final class BuffPt {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt64Size(2, time_);
       }
-      if (playerId_ != 0L) {
+      if (buffId_ != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeUInt64Size(3, playerId_);
-      }
-      if (skillId_ != 0) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(4, skillId_);
+          .computeInt32Size(3, buffId_);
       }
       if (targetId_ != 0L) {
         size += com.google.protobuf.CodedOutputStream
-          .computeUInt64Size(5, targetId_);
+          .computeUInt64Size(4, targetId_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -1379,10 +1396,8 @@ public final class BuffPt {
           != other.getMsgId()) return false;
       if (getTime()
           != other.getTime()) return false;
-      if (getPlayerId()
-          != other.getPlayerId()) return false;
-      if (getSkillId()
-          != other.getSkillId()) return false;
+      if (getBuffId()
+          != other.getBuffId()) return false;
       if (getTargetId()
           != other.getTargetId()) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
@@ -1402,11 +1417,8 @@ public final class BuffPt {
       hash = (37 * hash) + TIME_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           getTime());
-      hash = (37 * hash) + PLAYER_ID_FIELD_NUMBER;
-      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-          getPlayerId());
-      hash = (37 * hash) + SKILLID_FIELD_NUMBER;
-      hash = (53 * hash) + getSkillId();
+      hash = (37 * hash) + BUFFID_FIELD_NUMBER;
+      hash = (53 * hash) + getBuffId();
       hash = (37 * hash) + TARGET_ID_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           getTargetId());
@@ -1551,9 +1563,7 @@ public final class BuffPt {
 
         time_ = 0L;
 
-        playerId_ = 0L;
-
-        skillId_ = 0;
+        buffId_ = 0;
 
         targetId_ = 0L;
 
@@ -1585,8 +1595,7 @@ public final class BuffPt {
         BuffReqInfo result = new BuffReqInfo(this);
         result.msgId_ = msgId_;
         result.time_ = time_;
-        result.playerId_ = playerId_;
-        result.skillId_ = skillId_;
+        result.buffId_ = buffId_;
         result.targetId_ = targetId_;
         onBuilt();
         return result;
@@ -1642,11 +1651,8 @@ public final class BuffPt {
         if (other.getTime() != 0L) {
           setTime(other.getTime());
         }
-        if (other.getPlayerId() != 0L) {
-          setPlayerId(other.getPlayerId());
-        }
-        if (other.getSkillId() != 0) {
-          setSkillId(other.getSkillId());
+        if (other.getBuffId() != 0) {
+          setBuffId(other.getBuffId());
         }
         if (other.getTargetId() != 0L) {
           setTargetId(other.getTargetId());
@@ -1756,53 +1762,27 @@ public final class BuffPt {
         return this;
       }
 
-      private long playerId_ ;
-      /**
-       * <code>uint64 player_id = 3;</code>
-       */
-      public long getPlayerId() {
-        return playerId_;
-      }
-      /**
-       * <code>uint64 player_id = 3;</code>
-       */
-      public Builder setPlayerId(long value) {
-        
-        playerId_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>uint64 player_id = 3;</code>
-       */
-      public Builder clearPlayerId() {
-        
-        playerId_ = 0L;
-        onChanged();
-        return this;
-      }
-
-      private int skillId_ ;
+      private int buffId_ ;
       /**
        * <pre>
        *获取全部写-1
        * </pre>
        *
-       * <code>int32 skillId = 4;</code>
+       * <code>int32 buffId = 3;</code>
        */
-      public int getSkillId() {
-        return skillId_;
+      public int getBuffId() {
+        return buffId_;
       }
       /**
        * <pre>
        *获取全部写-1
        * </pre>
        *
-       * <code>int32 skillId = 4;</code>
+       * <code>int32 buffId = 3;</code>
        */
-      public Builder setSkillId(int value) {
+      public Builder setBuffId(int value) {
         
-        skillId_ = value;
+        buffId_ = value;
         onChanged();
         return this;
       }
@@ -1811,24 +1791,24 @@ public final class BuffPt {
        *获取全部写-1
        * </pre>
        *
-       * <code>int32 skillId = 4;</code>
+       * <code>int32 buffId = 3;</code>
        */
-      public Builder clearSkillId() {
+      public Builder clearBuffId() {
         
-        skillId_ = 0;
+        buffId_ = 0;
         onChanged();
         return this;
       }
 
       private long targetId_ ;
       /**
-       * <code>uint64 target_id = 5;</code>
+       * <code>uint64 target_id = 4;</code>
        */
       public long getTargetId() {
         return targetId_;
       }
       /**
-       * <code>uint64 target_id = 5;</code>
+       * <code>uint64 target_id = 4;</code>
        */
       public Builder setTargetId(long value) {
         
@@ -1837,7 +1817,7 @@ public final class BuffPt {
         return this;
       }
       /**
-       * <code>uint64 target_id = 5;</code>
+       * <code>uint64 target_id = 4;</code>
        */
       public Builder clearTargetId() {
         
@@ -3083,16 +3063,16 @@ public final class BuffPt {
       descriptor;
   static {
     String[] descriptorData = {
-      "\n\nBuff.proto\"\207\001\n\004Buff\022\n\n\002id\030\001 \001(\005\022\014\n\004nam" +
+      "\n\nBuff.proto\"\235\001\n\004Buff\022\n\n\002id\030\001 \001(\005\022\014\n\004nam" +
       "e\030\002 \001(\t\022\014\n\004type\030\003 \001(\005\022\n\n\002cd\030\004 \001(\004\022\n\n\002mp\030" +
       "\005 \001(\004\022\n\n\002hp\030\006 \001(\004\022\016\n\006effect\030\007 \001(\005\022\020\n\010dur" +
-      "ation\030\010 \001(\004\022\021\n\tstartTime\030\t \001(\004\"b\n\013BuffRe" +
-      "qInfo\022\016\n\006msg_id\030\001 \001(\004\022\014\n\004time\030\002 \001(\004\022\021\n\tp" +
-      "layer_id\030\003 \001(\004\022\017\n\007skillId\030\004 \001(\005\022\021\n\ttarge" +
-      "t_id\030\005 \001(\004\"b\n\014BuffRespInfo\022\016\n\006msg_id\030\001 \001" +
-      "(\004\022\016\n\006result\030\002 \001(\005\022\014\n\004time\030\003 \001(\004\022\017\n\007cont" +
-      "ent\030\004 \001(\t\022\023\n\004buff\030\005 \003(\0132\005.BuffB&\n\034org.sq" +
-      ".gameDemo.common.protoB\006BuffPtb\006proto3"
+      "ation\030\010 \001(\004\022\021\n\tstartTime\030\t \001(\004\022\024\n\014interv" +
+      "alTime\030\n \001(\004\"N\n\013BuffReqInfo\022\016\n\006msg_id\030\001 " +
+      "\001(\004\022\014\n\004time\030\002 \001(\004\022\016\n\006buffId\030\003 \001(\005\022\021\n\ttar" +
+      "get_id\030\004 \001(\004\"b\n\014BuffRespInfo\022\016\n\006msg_id\030\001" +
+      " \001(\004\022\016\n\006result\030\002 \001(\005\022\014\n\004time\030\003 \001(\004\022\017\n\007co" +
+      "ntent\030\004 \001(\t\022\023\n\004buff\030\005 \003(\0132\005.BuffB&\n\034org." +
+      "sq.gameDemo.common.protoB\006BuffPtb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -3103,13 +3083,13 @@ public final class BuffPt {
     internal_static_Buff_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Buff_descriptor,
-        new String[] { "Id", "Name", "Type", "Cd", "Mp", "Hp", "Effect", "Duration", "StartTime", });
+        new String[] { "Id", "Name", "Type", "Cd", "Mp", "Hp", "Effect", "Duration", "StartTime", "IntervalTime", });
     internal_static_BuffReqInfo_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_BuffReqInfo_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_BuffReqInfo_descriptor,
-        new String[] { "MsgId", "Time", "PlayerId", "SkillId", "TargetId", });
+        new String[] { "MsgId", "Time", "BuffId", "TargetId", });
     internal_static_BuffRespInfo_descriptor =
       getDescriptor().getMessageTypes().get(2);
     internal_static_BuffRespInfo_fieldAccessorTable = new

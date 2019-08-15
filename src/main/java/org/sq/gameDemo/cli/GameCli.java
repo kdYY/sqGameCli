@@ -126,7 +126,7 @@ public class GameCli {
         if(input == null || input.length == 0) {
             return null;
         }
-        OrderEnum orderEnum = OrderEnum.getOrderEnumByOrder(input[0]);
+        OrderEnum orderEnum = OrderEnum.getOrderEnumByOrder(input[0].toLowerCase());
         msgEntity.setCmdCode(orderEnum.getOrderCode());
         switch (orderEnum) {
             case Register:
@@ -163,6 +163,31 @@ public class GameCli {
                 break;
             case SkillAttack:
                 sendOrderService.skillAttack(msgEntity, input);
+                break;
+            case SHOW_BAG:
+                sendOrderService.showBag(msgEntity);
+                break;
+            case SHOW_EQUIP:
+                sendOrderService.showEquip(msgEntity);
+                break;
+            case USE_ITEM:
+                sendOrderService.useItem(msgEntity, input);
+                break;
+            case ADD_EQUIP:
+                sendOrderService.addEquip(msgEntity, input);
+                break;
+            case REMOVE_EQUIP:
+                sendOrderService.removeEquip(msgEntity, input);
+                break;
+            case REPAIR_EQUIP:
+                sendOrderService.requirEquip(msgEntity, input);
+                break;
+            case REMONVE_ITEM:
+                sendOrderService.removeItem(msgEntity, input);
+                break;
+            case ENTER_COPY:
+                sendOrderService.enterCopy(msgEntity, input);
+                break;
             default:
                 break;
         }

@@ -26,7 +26,43 @@ public enum OrderEnum {
     REMOVE_EQUIP("removeequip", 120),
     SHOW_EQUIP("showEquip", 121),
     REPAIR_EQUIP("repairequip", 122),
-    SHOW_BAG("showbag", 123), SHOW_COPY_SENCE("showcopy", 124), ENTER_COPY("entercopy",125 );
+    SHOW_BAG("showbag", 123),
+    SHOW_COPY_SENCE("showcopy", 124),
+    ENTER_NEW_COPY("enternewcopy",125),
+    CHAT("chat", 126),
+    TALK_TO_WORD("talktoword", 127),
+    SEND_MAIL("sendMail", 128),
+    SHOW_ALL_MAIL("showAllMail", 129),
+    RECEIVE_ALL_MAIL("receiveAllMail", 130),
+    GET_MAIL("getMail", 131),
+    SHOW_STORE("showStore", 132),
+    BUY_SHOP_ITEM("buyshopItem", 133),
+    TIDY_BAG("tidybag", 134),
+    SHOW_EXIST_COPY_SENCE("showCopySenceExist", 135),
+    ENTER_COPY("entercopy", 136),
+    RECEIVE_MAIL("receiveMail", 137),
+    SHOW_ITEMINFO("showItemInfo", 138),
+    START_ONLINE_TRADE("startonlineTrade", 139),
+    ACCEPT_ONLINE_TRADE("acceptonlinetrade", 140),
+    GET_ONLINE_TRADE("getonlinetrade", 150),
+    START_DEAL_TRADE("startdealTrade", 151),
+    ACCEPT_DEAL_TRADE("acceptDealTrade",152 ),
+    GET_DEAL("getDeal", 153),
+    GET_DEAL_CAN_BUY("canbuyDeal", 154 ),
+    GET_DEAL_HISTORY("getDealHistory", 155),
+    GET_ONLINE_TRADE_CAN_RECEIVE("getOnlineTradeCnReceive", 156),
+    GET_ONLINE_TRADE_HISTORY("getOnlineTradeHistory", 157),
+
+    CREATE_GUILD("createGuild", 158),
+    SHOW_GUILD_CAN_ATTEND("showGuildCanAttend", 159),
+    APPLY_ATTEND_GUILD("applyAttendGuild", 160),
+    SHOW_GUILD_REQUEST("showGuildReq", 161),
+    AGREE_ATTEND_REQUEST("agreeAttendRequest", 162),
+    EXIT_GUILD("exitGuild", 163),
+    DONATE_ITEM("donateItem", 164),
+    GET_GUILD_ITEM("getGuildItem", 165),
+    SHOW_CHAIRMAN_GUILD("showChairManGuild", 166),
+    SHOW_GUILDLIST("showGuildList", 167);
 
     private String order;
     private short orderCode;
@@ -101,3 +137,4 @@ public enum OrderEnum {
         return ErrOrder;
     }
 }
+    //skillAttack skillId=1&targetId=6888674558526754818 move id=1

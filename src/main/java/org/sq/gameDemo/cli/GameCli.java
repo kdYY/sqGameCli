@@ -167,6 +167,9 @@ public class GameCli {
             case SHOW_BAG:
                 sendOrderService.showBag(msgEntity);
                 break;
+            case TIDY_BAG:
+                sendOrderService.tidyBag(msgEntity);
+                break;
             case SHOW_EQUIP:
                 sendOrderService.showEquip(msgEntity);
                 break;
@@ -185,8 +188,56 @@ public class GameCli {
             case REMONVE_ITEM:
                 sendOrderService.removeItem(msgEntity, input);
                 break;
+            case ENTER_NEW_COPY:
+                sendOrderService.enterNewCopy(msgEntity, input);
+                break;
             case ENTER_COPY:
                 sendOrderService.enterCopy(msgEntity, input);
+                break;
+            case BUY_SHOP_ITEM:
+                sendOrderService.buyGood(msgEntity, input);
+                break;
+            case SEND_MAIL:
+                sendOrderService.sendMail(msgEntity, input);
+                break;
+            case GET_MAIL:
+                sendOrderService.getMail(msgEntity, input);
+                break;
+            case RECEIVE_MAIL:
+                sendOrderService.receieveMail(msgEntity, input);
+                break;
+            case START_ONLINE_TRADE:
+                sendOrderService.startOnlineTrade(msgEntity, input);
+                break;
+            case ACCEPT_ONLINE_TRADE:
+                sendOrderService.accpetOnlineTrade(msgEntity, input);
+                break;
+            case START_DEAL_TRADE:
+                sendOrderService.startDealTrade(msgEntity, input);
+                break;
+            case ACCEPT_DEAL_TRADE:
+                sendOrderService.accpetDealTrade(msgEntity, input);
+                break;
+            case CREATE_GUILD:
+                sendOrderService.createGuild(msgEntity, input);
+                break;
+            case GET_GUILD_ITEM:
+                sendOrderService.getGuildItem(msgEntity, input);
+                break;
+            case APPLY_ATTEND_GUILD:
+                sendOrderService.applyAttendGuild(msgEntity, input);
+                break;
+            case SHOW_GUILD_REQUEST:
+                sendOrderService.showGuildReq(msgEntity, input);
+                break;
+            case EXIT_GUILD:
+                sendOrderService.exitGuild(msgEntity, input);
+                break;
+            case DONATE_ITEM:
+                sendOrderService.donateGuildItem(msgEntity, input);
+                break;
+            case AGREE_ATTEND_REQUEST:
+                sendOrderService.agreeGuildReq(msgEntity, input);
                 break;
             default:
                 break;

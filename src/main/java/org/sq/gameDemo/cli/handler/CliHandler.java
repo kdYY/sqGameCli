@@ -40,7 +40,7 @@ public class CliHandler extends SimpleChannelInboundHandler<MsgEntity> {
     }
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        System.out.println("激活时间是："+new Date());
+        //System.out.println("激活时间是："+new Date());
         //System.out.println("HeartBeatClientHandler channelActive");
         ctx.fireChannelActive();
 

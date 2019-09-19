@@ -88,15 +88,19 @@ public class SendOrderService {
                 + "玩家一键收取邮件 "+ OrderEnum.RECEIVE_ALL_MAIL.getOrder() +" \r\n\n"
 
                 + "玩家发起面对面交易 "+ OrderEnum.START_ONLINE_TRADE.getOrder() +
-                        " accpeterId=#{目标玩家id}&auctionItemId=#{背包中交易物品的id}&autionCount=#{要交易的数量}&itemInfoId=#{期望获得的物品种类id}&accpetCount" +
-                        "=#{期望获得的物品数量}\r\n"
+                        " accpeterId=#{目标玩家id}" +
+                        "&auctionItemId=#{背包中交易物品的id}" +
+                        "&autionCount=#{要交易的数量}" +
+                        "&itemInfoId=#{期望获得的物品种类id}" +
+                        "&accpetCount=#{期望获得的物品数量}\r\n"
                 + "玩家接受面对面交易 "+ OrderEnum.ACCEPT_ONLINE_TRADE.getOrder() +" id=#{交易号}\r\n"
                 + "玩家获取自己发起的正在进行中的面对面交易 "+ OrderEnum.GET_ONLINE_TRADE.getOrder() +" \r\n"
                 + "玩家获取自己还未处理的面对面交易 "+ OrderEnum.GET_ONLINE_TRADE_CAN_RECEIVE.getOrder() +" \r\n\n"
                 + "玩家获取历史面对面交易记录 "+ OrderEnum.GET_ONLINE_TRADE_HISTORY.getOrder() +" \r\n\n"
-                + "查看交易栏上的拍卖品 "+ OrderEnum.GET_DEAL.getOrder() +" \r\n"
+
+                + "查看交易栏上的拍卖品 "+ OrderEnum.SHOW_DEAL.getOrder() +" \r\n"
                 + "玩家把物品放入交易栏拍卖 "+ OrderEnum.START_DEAL_TRADE.getOrder() +
-                        " accpeterId=#{目标玩家id}&auctionItemId=#{背包中交易物品的id}&autionCount=#{要交易的数量}&price=#{竞拍价格}&\r\n"
+                        " auctionItemId=#{背包中交易物品的id}&autionCount=#{要交易的数量}&price=#{竞拍价格}&tradeModel=#{竞拍模式(2为一口价 3为竞拍)}\r\n"
                 + "玩家参与交易栏竞拍 "+ OrderEnum.ACCEPT_DEAL_TRADE.getOrder() +" id=#{交易号}&price=#{玩家给出的竞拍价格}\r\n"
                 + "玩家查看交易栏上可竞拍的拍卖品 "+ OrderEnum.GET_DEAL_CAN_BUY.getOrder() +" \r\n"
                 + "玩家查看参与交易的交易栏记录 "+ OrderEnum.GET_DEAL_HISTORY.getOrder() +" \r\n\n"
@@ -107,11 +111,27 @@ public class SendOrderService {
                 + "玩家查看可以加入的公会 "+ OrderEnum.SHOW_GUILD_CAN_ATTEND.getOrder() +"\r\n"
                 + "玩家发起参加公会的申请 "+ OrderEnum.APPLY_ATTEND_GUILD.getOrder() +" id=#{玩家想进入的公会id}\r\n"
                 + "会长玩家查看公会的入会申请 "+ OrderEnum.SHOW_GUILD_REQUEST.getOrder() +" id=#{公会id}\r\n"
-                + "会长玩家同意其他玩家入会申请 "+ OrderEnum.AGREE_ATTEND_REQUEST.getOrder() +" id=#{公会id}&reqId=#{申请号}\r\n"
+                + "会长玩家同意其他玩家入会申请 "+ OrderEnum.AGREE_ATTEND_REQUEST.getOrder() +" id=#{公会id}&reqId=#{申请号}&agree=#{同意为true， 不同意为false}\r\n"
                 + "会长玩家获取公会物品 "+ OrderEnum.GET_GUILD_ITEM.getOrder() +" id=#{公会id}&itemInfoId=#{公会中仓库的物品种类}&count=#{想获得的数量}\r\n"
+                + "查看公会仓库 "+ OrderEnum.SHOW_GUILD_BAG.getOrder() +" id=#{公会id}\r\n"
                 + "公会成员捐献物品到公会中 "+ OrderEnum.DONATE_ITEM.getOrder() +" id=#{公会id}&itemId=#{背包中物品id}&count=#{想捐献的数量}\r\n"
                 + "公会成员退出公会 "+ OrderEnum.EXIT_GUILD.getOrder() +" id=#{公会id}\r\n\n"
 
+                + "查看可领取任务 "+ OrderEnum.SHOW_TASK_CAN_ACCEPT.getOrder() +" \r\n"
+                + "查看正在进行的任务 "+ OrderEnum.SHOW_TASK.getOrder() +" \r\n"
+                + "接受任务 "+ OrderEnum.ACCEPT_TASK.getOrder() +" id=#{任务id}\r\n\n"
+
+                + "创建队伍 "+ OrderEnum.CREATE_TEAM.getOrder() +" \r\n"
+                + "查看队伍 "+ OrderEnum.SHOW_TEAM.getOrder() +" \r\n"
+                + "邀请玩家 "+ OrderEnum.INVITE_TEAM.getOrder() +" id=#{邀请玩家id} \r\n"
+                + "接受邀请，进入队伍 "+ OrderEnum.ENTER_TEAM.getOrder() +" \r\n"
+                + "离开队伍 "+ OrderEnum.EXIT_TEAM.getOrder() +" \r\n\n"
+
+                + "私聊 "+ OrderEnum.CHAT.getOrder() +" id=#{玩家id}&word=#{私聊内容} \r\n"
+                + "世界喊话 "+ OrderEnum.TALK_TO_WORD.getOrder() +" word=#{喊话内容}\r\n\n"
+
+                + "加好友 "+ OrderEnum.ADD_FRIEND.getOrder() +" unId=#{玩家unId} \r\n"
+                + "查看好友列表 "+ OrderEnum.SHOW_FRIEND.getOrder() +" \r\n\n"
 
         );
     }
@@ -492,7 +512,6 @@ public class SendOrderService {
         MsgEntity msgEntity = new MsgEntity();
         msgEntity.setCmdCode(OrderEnum.CheckToken.getOrderCode());
         UserProto.RequestUserInfo.Builder builder = UserProto.RequestUserInfo.newBuilder();
-        InputStream resourceAsStream = SendOrderService.class.getClassLoader().getResourceAsStream(tokenFileName);
         //
         String token = readFileByChars();
         builder.setToken(token)
@@ -638,6 +657,9 @@ public class SendOrderService {
             GuildPt.GuildRequestInfo.Builder builder = GuildPt.GuildRequestInfo.newBuilder();
             builder.setGuildId(Integer.valueOf((String)map.get("id")));
             msgEntity.setData(builder.build().toByteArray());
+        } else {
+            System.out.println("参数不能为空");
+            throw new RuntimeException("args is null");
         }
     }
 
@@ -651,7 +673,17 @@ public class SendOrderService {
 
 
     public void agreeGuildReq(MsgEntity msgEntity, String[] input) throws Exception{
-        applyAttendGuild(msgEntity, input);
+        if(input.length >= 2) {
+            Map<String, Object> map = splitCmdString(input);
+            GuildPt.GuildRequestInfo.Builder builder = GuildPt.GuildRequestInfo.newBuilder();
+            builder.setGuildId(Integer.valueOf((String)map.get("id")));
+            builder.setUnId(Integer.valueOf((String)map.get("reqId")));
+            builder.setAgree(((String)map.get("agree")).equals("true"));
+            msgEntity.setData(builder.build().toByteArray());
+        } else {
+            System.out.println("参数不能为空");
+            throw new RuntimeException("args is null");
+        }
     }
 
 
@@ -660,6 +692,9 @@ public class SendOrderService {
         applyAttendGuild(msgEntity, input);
     }
 
+    public void showGuildBag(MsgEntity msgEntity, String[] input) throws Exception{
+        applyAttendGuild(msgEntity, input);
+    }
     /**
      *+ "会长玩家获取公会物品 "+ OrderEnum.GET_GUILD_ITEM.getOrder() +" id=#{公会id}&itemInfoId=#{公会中仓库的物品种类}&count=#{想获得的数量}\r\n"
      *+ "公会成员捐献物品到公会中 "+ OrderEnum.DONATE_ITEM.getOrder() +" id=#{公会id}&itemId=#{背包中物品id}&count=#{想捐献的数量}\r\n"
@@ -694,4 +729,70 @@ public class SendOrderService {
         }
     }
 
+
+
+    public void accpetTask(MsgEntity msgEntity, String[] input)  throws Exception {
+        if(input.length >= 2) {
+            Map<String, Object> map = splitCmdString(input);
+
+            TaskPt.TaskRequestInfo.Builder builder = TaskPt.TaskRequestInfo.newBuilder();
+            builder.setMsgId(UUID.randomUUID().hashCode())
+                    .setTime(System.currentTimeMillis())
+                    .setTaskId(Integer.valueOf((String) map.get("id")))
+                    .build();
+            msgEntity.setData(builder.build().toByteArray());
+        }
+    }
+
+
+    public void inviteTeam(MsgEntity msgEntity, String[] input)  throws Exception {
+        if(input.length >= 2) {
+            Map<String, Object> map = splitCmdString(input);
+
+            TeamPt.TeamRequestInfo.Builder builder = TeamPt.TeamRequestInfo.newBuilder();
+            builder.setMsgId(UUID.randomUUID().hashCode())
+                    .setTime(System.currentTimeMillis())
+                    .setInvitedId(Long.valueOf((String) map.get("id")))
+                    .build();
+            msgEntity.setData(builder.build().toByteArray());
+        }
+    }
+
+    public void chat(MsgEntity msgEntity, String[] input) throws Exception {
+        if(input.length >= 2) {
+            Map<String, Object> map = splitCmdString(input);
+
+            MessageProto.MsgRequestInfo.Builder builder = MessageProto.MsgRequestInfo.newBuilder();
+            builder.setMsgId(UUID.randomUUID().hashCode())
+                    .setTime(System.currentTimeMillis())
+                    .setTargetId(Long.valueOf((String) map.get("id")))
+                    .setContent((String) map.get("word"))
+                    .build();
+            msgEntity.setData(builder.build().toByteArray());
+        }
+    }
+    public void talkToWord(MsgEntity msgEntity, String[] input) throws Exception {
+        if(input.length >= 2) {
+            Map<String, Object> map = splitCmdString(input);
+
+            MessageProto.MsgRequestInfo.Builder builder = MessageProto.MsgRequestInfo.newBuilder();
+            builder.setMsgId(UUID.randomUUID().hashCode())
+                    .setTime(System.currentTimeMillis())
+                    .setContent((String) map.get("word"))
+                    .build();
+            msgEntity.setData(builder.build().toByteArray());
+        }
+    }
+    public void addFriend(MsgEntity msgEntity, String[] input) throws Exception {
+        if(input.length >= 2) {
+            Map<String, Object> map = splitCmdString(input);
+
+            FriendPt.FriendRequestInfo.Builder builder = FriendPt.FriendRequestInfo.newBuilder();
+            builder.setMsgId(UUID.randomUUID().hashCode())
+                    .setTime(System.currentTimeMillis())
+                    .setUnId(Integer.valueOf((String) map.get("unId")))
+                    .build();
+            msgEntity.setData(builder.build().toByteArray());
+        }
+    }
 }

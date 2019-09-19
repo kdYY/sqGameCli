@@ -239,6 +239,24 @@ public class GameCli {
             case AGREE_ATTEND_REQUEST:
                 sendOrderService.agreeGuildReq(msgEntity, input);
                 break;
+            case SHOW_GUILD_BAG:
+                sendOrderService.showGuildBag(msgEntity, input);
+                break;
+            case ACCEPT_TASK:
+                sendOrderService.accpetTask(msgEntity, input);
+                break;
+            case INVITE_TEAM:
+                sendOrderService.inviteTeam(msgEntity, input);
+                break;
+            case CHAT:
+                sendOrderService.chat(msgEntity, input);
+                break;
+            case TALK_TO_WORD:
+                sendOrderService.talkToWord(msgEntity, input);
+                break;
+            case ADD_FRIEND:
+                sendOrderService.addFriend(msgEntity,input);
+                break;
             default:
                 break;
         }

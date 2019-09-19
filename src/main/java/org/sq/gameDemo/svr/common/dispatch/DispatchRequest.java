@@ -81,7 +81,9 @@ public class DispatchRequest{
         if(data != null && data.length != 0) {
             method.invoke(bean, msgEntity);
         } else {
-            method.invoke(bean);
+           // method.invoke(bean);
+           method.invoke(bean);
+
         }
         System.out.println("-------------------------------------------------");
     }

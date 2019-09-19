@@ -47,7 +47,7 @@ public enum OrderEnum {
     GET_ONLINE_TRADE("getonlinetrade", 150),
     START_DEAL_TRADE("startdealTrade", 151),
     ACCEPT_DEAL_TRADE("acceptDealTrade",152 ),
-    GET_DEAL("getDeal", 153),
+    SHOW_DEAL("showDeal", 153),
     GET_DEAL_CAN_BUY("canbuyDeal", 154 ),
     GET_DEAL_HISTORY("getDealHistory", 155),
     GET_ONLINE_TRADE_CAN_RECEIVE("getOnlineTradeCnReceive", 156),
@@ -62,8 +62,18 @@ public enum OrderEnum {
     DONATE_ITEM("donateItem", 164),
     GET_GUILD_ITEM("getGuildItem", 165),
     SHOW_CHAIRMAN_GUILD("showChairManGuild", 166),
-    SHOW_GUILDLIST("showGuildList", 167);
-
+    SHOW_GUILDLIST("showGuildList", 167),
+    SHOW_GUILD_BAG("showGuildWareHouse", 168),
+    SHOW_TASK_CAN_ACCEPT("showTaskCanAccpet", 169),
+    SHOW_TASK("showtask", 170),
+    ACCEPT_TASK("acceptTask", 171),
+    CREATE_TEAM("createTeam", 172),
+    INVITE_TEAM("inviteTeam", 173),
+    EXIT_TEAM("exitTeam", 174),
+    SHOW_TEAM("showTeam", 175),
+    ENTER_TEAM("enterTeam", 176),
+    ADD_FRIEND("addFriend", 177),
+    SHOW_FRIEND("showFriend", 178);
     private String order;
     private short orderCode;
     OrderEnum(String order, int orderCode) {
